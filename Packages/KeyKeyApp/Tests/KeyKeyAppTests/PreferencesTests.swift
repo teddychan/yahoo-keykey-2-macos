@@ -13,8 +13,8 @@ final class PreferencesTests: XCTestCase {
         for key in ["candidateFontSize", "associatedPhrasesEnabled", "fullWidthPunctuationEnabled",
                     "outputSimplifiedEnabled", "cangjieVersion", "associationContinuationOnly",
                     "codeHintEnabled", "associationSelectionTrigger", "strokeConfirmationEnabled",
-                    "adaptiveCandidateOrderEnabled", "zhuyinLayout", "shiftSpaceFullWidthSpaceEnabled",
-                    "completionsEnabled"] {
+                    "adaptiveCandidateOrderEnabled", "zhuyinLayout", "zhuyinSmartEnabled",
+                    "shiftSpaceFullWidthSpaceEnabled", "completionsEnabled"] {
             defaults.removeObject(forKey: key)
         }
         super.tearDown()
@@ -193,8 +193,8 @@ final class PreferencesTests: XCTestCase {
         for key in ["candidateFontSize", "associatedPhrasesEnabled", "fullWidthPunctuationEnabled",
                     "outputSimplifiedEnabled", "cangjieVersion", "associationContinuationOnly",
                     "codeHintEnabled", "associationSelectionTrigger", "strokeConfirmationEnabled",
-                    "adaptiveCandidateOrderEnabled", "zhuyinLayout", "shiftSpaceFullWidthSpaceEnabled",
-                    "completionsEnabled"] {
+                    "adaptiveCandidateOrderEnabled", "zhuyinLayout", "zhuyinSmartEnabled",
+                    "shiftSpaceFullWidthSpaceEnabled", "completionsEnabled"] {
             defaults.removeObject(forKey: key)
         }
         Preferences.registerDefaults()
@@ -215,6 +215,8 @@ final class PreferencesTests: XCTestCase {
         XCTAssertEqual(Preferences.associationSelectionTrigger, .number)
         // 大千 by default: the layout on a Taiwanese keyboard, and the original Yahoo! KeyKey's.
         XCTAssertEqual(Preferences.zhuyinLayout, .dachen)
+        // 智慧選字 is off by default, so existing ㄅ半 users keep one character at a time until they opt in.
+        XCTAssertFalse(Preferences.zhuyinSmartEnabled)
         XCTAssertEqual(Preferences.candidateFontSize, 18)    // defaultFontSize
     }
 
@@ -260,5 +262,13 @@ final class PreferencesTests: XCTestCase {
         XCTAssertEqual(ZhuyinLayout(rawValue: "eten"), .eten)
         XCTAssertEqual(ZhuyinLayout(rawValue: "hsu"), .hsu)
         XCTAssertNil(ZhuyinLayout(rawValue: "ibm"))   // a layout this app does not ship
+    }
+
+    func testZhuyinSmartRoundTripsThroughDefaults() {
+        Preferences.zhuyinSmartEnabled = false
+        XCTAssertFalse(Preferences.zhuyinSmartEnabled)
+        XCTAssertEqual(defaults.object(forKey: "zhuyinSmartEnabled") as? Bool, false)
+        Preferences.zhuyinSmartEnabled = true
+        XCTAssertTrue(Preferences.zhuyinSmartEnabled)
     }
 }

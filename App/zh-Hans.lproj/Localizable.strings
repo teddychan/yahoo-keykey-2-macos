@@ -30,6 +30,8 @@
 "keykey.general.zhuyinLayoutDachen" = "标准（大千）";
 "keykey.general.zhuyinLayoutEten" = "倚天";
 "keykey.general.zhuyinLayoutHsu" = "许氏";
+"keykey.general.zhuyinSmart" = "注音智能选字（整句）";
+"keykey.general.zhuyinSmartHint" = "整句输入注音，由语言模型挑选用字，就像原版 Yahoo! KeyKey。声调键（一声按空格）结束一个音节，方向键在词之间移动，1–9 换成其他候选，空格或 Return 送出整句。关闭后，注音一次只打一个字。";
 "keykey.general.zhuyinLayoutHint" = "注音（ㄅ半）符号在键盘上的位置，立即生效。「标准（大千）」就是台湾键盘上印的那一套，也是原版 Yahoo! KeyKey 的默认设置。空格键是一声；候选字出现后按 1–9 选字。在注音中，联想字词固定以 Shift + 数字选取（不受「联想选字键」影响），因为数字键要用来打注音。";
 "keykey.general.completions" = "显示字根开头相同的字";
 "keykey.general.completionsHint" = "在仓颉和速成中，输入“竹”也会列出“我”（竹手戈），就像输入“竹*”一样。字根完全相同的字仍排在最前面，空格键照样输入它们；其余的字可用方向键或 Page Down 翻页查看。";

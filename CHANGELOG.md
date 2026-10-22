@@ -4,6 +4,7 @@ A plain-language list of changes in each version, newest first.
 
 ## Unreleased
 
+- Added optional 智慧選字 for whole-sentence 注音 input. It stays off until you enable it.
 - Added the 許氏 (Hsu) keyboard for 注音. Choose it in the input menu or Settings.
 - Local builds made without a Developer ID now launch successfully.
 

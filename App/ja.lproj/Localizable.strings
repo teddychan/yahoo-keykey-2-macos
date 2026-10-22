@@ -30,6 +30,8 @@
 "keykey.general.zhuyinLayoutDachen" = "標準（大千）";
 "keykey.general.zhuyinLayoutEten" = "倚天（ETen）";
 "keykey.general.zhuyinLayoutHsu" = "許氏（Hsu）";
+"keykey.general.zhuyinSmart" = "注音のスマート変換（文単位）";
+"keykey.general.zhuyinSmartHint" = "注音を文単位で入力すると、言語モデルが漢字を選びます（オリジナルの Yahoo! KeyKey と同じ）。声調キー（第1声はスペース）で音節が確定し、矢印キーで語を移動、1–9 で別の候補に替え、スペースまたは Return で文を確定します。オフにすると 1 文字ずつの入力になります。";
 "keykey.general.zhuyinLayoutHint" = "注音（ㄅ半）記号のキー配置です。すぐに反映されます。「標準（大千）」は台湾のキーボードに印字されている配置で、オリジナルの Yahoo! KeyKey の初期設定でもあります。スペースキーが第1声、候補が出たら 1–9 で選びます。注音では数字キーが注音の入力に使われるため、連想語句の選択は上の設定にかかわらず常に Shift + 数字です。";
 "keykey.general.completions" = "入力した字根で始まる文字も表示";
 "keykey.general.completionsHint" = "倉頡と速成で「竹」と打つと、「我」（竹手戈）も候補に出ます。「竹*」と打ったときと同じです。コードが入力どおりの文字は先頭のままなので、スペースキーでこれまでどおり入力できます。それ以外の文字は矢印キーか Page Down で表示します。";
