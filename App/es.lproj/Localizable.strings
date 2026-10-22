@@ -30,6 +30,8 @@
 "keykey.general.zhuyinLayoutDachen" = "Estándar (大千)";
 "keykey.general.zhuyinLayoutEten" = "倚天 (ETen)";
 "keykey.general.zhuyinLayoutHsu" = "許氏 (Hsu)";
+"keykey.general.zhuyinSmart" = "Selección inteligente en 注音 (frases enteras)";
+"keykey.general.zhuyinSmartHint" = "Escribe una frase entera en 注音 y el modelo de lenguaje elige los caracteres, como en el Yahoo! KeyKey original. Una tecla de tono (o Espacio para el primer tono) cierra cada sílaba; las flechas se mueven entre palabras y 1–9 cambian una palabra por otro candidato; Espacio o Return confirma la frase. Desactivado, 注音 escribe un carácter cada vez.";
 "keykey.general.zhuyinLayoutHint" = "Dónde están los símbolos de 注音 (ㄅ半) en el teclado; surte efecto de inmediato. «Estándar (大千)» es la distribución impresa en los teclados taiwaneses y la que traía el Yahoo! KeyKey original. Espacio es el primer tono y las teclas 1–9 eligen candidato cuando aparece la ventana. En 注音, las palabras asociadas se eligen siempre con Mayúsculas + un número, diga lo que diga el ajuste anterior, porque ahí las teclas numéricas escriben 注音.";
 "keykey.general.completions" = "Mostrar también los caracteres que empiezan por los radicales escritos";
 "keykey.general.completionsHint" = "En 倉頡 y 速成, al escribir 竹 también aparece 我 (竹手戈), como si hubieras escrito 竹*. Los caracteres cuyo código es exactamente el que has escrito siguen primero, así que Espacio los sigue escribiendo. Usa las flechas o Av Pág para ver el resto.";

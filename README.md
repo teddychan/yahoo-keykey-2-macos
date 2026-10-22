@@ -115,8 +115,9 @@ rm -rf ~/Library/HTTPStorages/com.dragonapp.inputmethod.yahoo-keykey
   - **倉頡 (Cangjie)** — the classic radical method, with `*` as a wildcard for when you cannot
     remember every radical.
   - **速成 (Simplex)** — 倉頡's shorthand: just the first and last radical.
-  - **注音 (Zhuyin, ㄅ半)** — the classic phonetic method, one character at a time. 標準 (大千),
-    倚天 and 許氏 (Hsu) keyboards.
+  - **注音 (Zhuyin)** — the classic phonetic method, one character at a time (ㄅ半). 標準 (大千),
+    倚天 and 許氏 (Hsu) keyboards. **智慧選字** types a whole sentence and lets the language model
+    pick the characters; it is off until you turn it on.
   - **拼音 (Pinyin)** — builds whole phrases from pinyin without tones.
 - **Candidates that learn, or stay put** — by default the characters you pick move up the list.
   Turn **依選字習慣調整候選字順序** off in Settings and the built-in order stands, in all four
@@ -154,7 +155,7 @@ Sources** (Chinese, Traditional), so add only the ones you use and switch betwee
 |---|---|---|
 | **倉頡** (Cangjie) | 倉頡 radicals on the letter keys; `*` is a wildcard | **倉頡版本** — 五代 or 三代 |
 | **速成** (Simplex) | the first and last radical of a character's 倉頡 code | follows **倉頡版本** |
-| **注音** (Zhuyin, ㄅ半) | 注音 symbols, then a tone — one character at a time | **注音鍵盤** — 大千, 倚天 or 許氏 |
+| **注音** (Zhuyin) | 注音 symbols, then a tone — one character at a time (ㄅ半), or a whole sentence when **智慧選字** is on | **注音鍵盤** — 大千, 倚天 or 許氏 · **智慧選字** (off by default) |
 | **拼音** (Pinyin) | pinyin without tones — whole phrases at once | — |
 
 繁 → 簡, full-width punctuation, 反查提示 and **依選字習慣調整候選字順序** apply to all four.
@@ -213,10 +214,23 @@ you pick is then learned per reading, the same way 倉頡 learns per code.
 
 **許氏** is the 26-letter 注音 keyboard: one key stands for several symbols (`m` is ㄇ or ㄢ, `j` is
 ㄐ, ㄓ or the fourth tone) and the symbol is decided by the keys around it. Space is the first tone;
-the other tones are `d` ˊ · `f` ˇ · `j` ˋ · `s` ˙. It still types one character at a time, the same
-ㄅ半 as 大千 and 倚天 — `nef` is ㄋㄧˇ (你), `hwf` is ㄏㄠˇ (好). The number keys and the punctuation
+the other tones are `d` ˊ · `f` ˇ · `j` ˋ · `s` ˙. With 智慧選字 off (the default) it still types one
+character at a time, the same ㄅ半 as 大千 and 倚天 — `nef` is ㄋㄧˇ (你), `hwf` is ㄏㄠˇ (好). The number keys and the punctuation
 keys are not 注音 keys here, so `1–9` pick a candidate directly and ， and 。 stay on `,` and `.`.
 The reading rules are a port of McBopomofo's Hsu table (`Mandarin.h` / `Mandarin.cpp`, MIT).
+
+### 智慧選字
+
+**智慧選字** is off by default, in 設定… ▸ 一般 and in the input menu while 注音 is active. Turn it
+on and a tone ends each syllable, so you can type a whole sentence — on 許氏, `jen tem tem vej hnf
+hwf` (Space is the first tone) becomes 今天天氣很好 — and the language model chooses the characters.
+It works on 大千, 倚天 and 許氏. ← → move one character at a time (the one under the cursor is
+underlined). The list offers the word the model chose, then every single character for that
+syllable, then longer words, so one character of a word can be changed on its own (太長 → 太常).
+`1–9` swaps it for another candidate, and Space or Return commits the sentence. Characters you
+pick or accept are remembered and lead next time. A syllable without a tone stays as 注音. On 大千
+and 倚天 the number keys are 注音 keys, so candidates there are picked with the arrows and Space
+instead. Off, 注音 stays the one-character-at-a-time ㄅ半.
 
 ### 拼音 (Pinyin)
 

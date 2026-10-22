@@ -130,7 +130,8 @@ Install from this zip by copying the app into your Input Methods folder:
        倉頡 (Cangjie)   速成 (Simplex)   注音 (Zhuyin)   拼音 (Pinyin)
 
    In 注音, pick the keyboard (大千 / 倚天 / 許氏) from the input-method menu
-   or 設定… > 一般.
+   or 設定… > 一般. 智慧選字 (whole-sentence input) is off by default; turn it
+   on there to let the language model pick the characters.
 
 4. Switch input source with Ctrl-Space and start typing.
 

@@ -75,6 +75,8 @@ private struct GeneralPaneView: View {
                     Text(L("keykey.general.zhuyinLayoutHsu")).tag(ZhuyinLayout.hsu)
                 }
                 .dragonAnnotation(LocalizedStringKey(L("keykey.general.zhuyinLayoutHint")))
+                Toggle(L("keykey.general.zhuyinSmart"), isOn: $model.zhuyinSmart)
+                    .dragonAnnotation(LocalizedStringKey(L("keykey.general.zhuyinSmartHint")))
                 Toggle(L("keykey.general.completions"), isOn: $model.completions)
                     .dragonAnnotation(LocalizedStringKey(L("keykey.general.completionsHint")))
                 Toggle(L("keykey.general.strokeConfirmation"), isOn: $model.strokeConfirmation)
