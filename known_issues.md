@@ -1,7 +1,7 @@
 # Known issues
 
 Common problems and what to do about them. If yours is not here, please
-[open an issue](https://github.com/teddychan/yahoo-keykey-2/issues) — say which macOS version
+[open an issue](https://github.com/teddychan/yahoo-keykey-2-macos/issues) — say which macOS version
 you are on and which mode you were typing in.
 
 1. [Yahoo! KeyKey 2 does not show up after installing](#1-yahoo-keykey-2-does-not-show-up-after-installing)

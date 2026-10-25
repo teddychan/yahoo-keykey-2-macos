@@ -4,7 +4,7 @@
 
 ### Issue tracker
 
-Issues are tracked in GitHub Issues on `teddychan/yahoo-keykey-2`, via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+Issues are tracked in GitHub Issues on `teddychan/yahoo-keykey-2-macos`, via the `gh` CLI. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 

@@ -13,7 +13,7 @@ OUT="${3:?missing output appcast path}"
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 GENERATE_APPCAST="$ROOT/build/sparkle/bin/generate_appcast"
-REPO="teddychan/yahoo-keykey-2"
+REPO="teddychan/yahoo-keykey-2-macos"
 DL_BASE="https://github.com/$REPO/releases/download"
 
 test -x "$GENERATE_APPCAST" || { echo "ERROR: run tools/fetch-sparkle.sh first" >&2; exit 1; }
