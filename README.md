@@ -10,7 +10,7 @@ loved. It brings that typing experience back to modern macOS with four input met
 (Cangjie), **速成** (Simplex), **注音** (Zhuyin, ㄅ半) and **拼音** (Pinyin) — native, fast, and
 free.
 
-[![Download](https://img.shields.io/badge/download-latest-brightgreen?style=flat-square)](https://github.com/teddychan/yahoo-keykey-2/releases/latest)
+[![Download](https://img.shields.io/badge/download-latest-brightgreen?style=flat-square)](https://github.com/teddychan/yahoo-keykey-2-macos/releases/latest)
 ![Platform](https://img.shields.io/badge/platform-macOS-blue?style=flat-square)
 ![Requirements](https://img.shields.io/badge/requirements-macOS%2026%2B-fa4e49?style=flat-square)
 [![Website](https://img.shields.io/badge/Website-dragonapp.com-015FBA?style=flat-square)](https://www.dragonapp.com/yahoo-keykey-2/)
@@ -55,7 +55,7 @@ on secure input (see [known issue #2](known_issues.md#2-倉頡-is-greyed-out-and
 ### Manual
 
 1. Download the `.zip` from the
-   [latest release](https://github.com/teddychan/yahoo-keykey-2/releases/latest) and unzip it.
+   [latest release](https://github.com/teddychan/yahoo-keykey-2-macos/releases/latest) and unzip it.
    There is no installer, so no admin password is needed to get started.
 2. Move `YahooKeyKey2.app` into `~/Library/Input Methods/` — create the folder if it is not
    there.
@@ -229,7 +229,7 @@ Common problems, and what each one turns out to be, are collected in
 
 That file also lists what has **[already been fixed](known_issues.md#8-already-fixed-in-earlier-versions)**,
 so check your version before reporting a bug. Anything else —
-[open an issue](https://github.com/teddychan/yahoo-keykey-2/issues).
+[open an issue](https://github.com/teddychan/yahoo-keykey-2-macos/issues).
 
 ## Building from source
 
@@ -237,7 +237,7 @@ There is no Xcode project: the app is assembled by shell scripts around `swiftc`
 suites are SwiftPM packages. Requires the **Xcode 26 toolchain** on Apple Silicon.
 
 ```sh
-git clone https://github.com/teddychan/yahoo-keykey-2.git
+git clone https://github.com/teddychan/yahoo-keykey-2-macos.git
 cd yahoo-keykey-2
 ./tools/build-lm.sh    # build the language model into Resources/data.txt (first time only)
 ./tools/build-app.sh   # assemble + ad-hoc sign build/YahooKeyKey2.app
@@ -260,7 +260,7 @@ segmentation, and 繁 → 簡 conversion. **KeyKeyApp** covers preferences, key-
 input-engine conformance across all four modes. CI runs both
 on every push and pull request to `main`.
 
-[![Tests](https://github.com/teddychan/yahoo-keykey-2/actions/workflows/tests.yml/badge.svg)](https://github.com/teddychan/yahoo-keykey-2/actions/workflows/tests.yml)
+[![Tests](https://github.com/teddychan/yahoo-keykey-2-macos/actions/workflows/tests.yml/badge.svg)](https://github.com/teddychan/yahoo-keykey-2-macos/actions/workflows/tests.yml)
 
 ```bash
 swift test --package-path Packages/KeyKeyEngine
@@ -281,7 +281,7 @@ dependency.
 ## Contributing
 
 Bug reports and pull requests are welcome on the
-[issue tracker](https://github.com/teddychan/yahoo-keykey-2/issues). Before opening a pull
+[issue tracker](https://github.com/teddychan/yahoo-keykey-2-macos/issues). Before opening a pull
 request, run both test suites (see [Building from source](#building-from-source)) and add a
 plain-language entry to [CHANGELOG.md](CHANGELOG.md) describing the user-visible change.
 Release mechanics are documented in [docs/RELEASE.md](docs/RELEASE.md).

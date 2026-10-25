@@ -181,7 +181,7 @@ who installed directly (not via Homebrew) get updates automatically.
 ### Per release (automated)
 
 The recommended path is CI: bump the version (step 1 below), commit, then push a
-`v<version>` tag to `teddychan/yahoo-keykey-2`. `.github/workflows/release.yml`
+`v<version>` tag to `teddychan/yahoo-keykey-2-macos`. `.github/workflows/release.yml`
 (GitHub-hosted macOS runner) builds, Developer ID-signs, notarizes, staples, zips,
 uploads the `.zip` to the GitHub release, publishes the EdDSA-signed appcast to
 `docs/yahoo-keykey-2/appcast.xml` **in this repo**, and bumps the Homebrew cask.
@@ -198,7 +198,7 @@ teddychan/homebrew-tap before the tag is pushed**, or that release ships the old
 [known issue #2](../known_issues.md#2-倉頡-is-greyed-out-and-will-not-turn-on).)
 
 The appcast became app-owned across 2.11.3 and 2.11.4 — the caller passes `appcast_repo:
-teddychan/yahoo-keykey-2`, where it used to take the default of the marketing-site repo. A
+teddychan/yahoo-keykey-2-macos`, where it used to take the default of the marketing-site repo. A
 Sparkle appcast is update infrastructure, not marketing content, so it belongs in the app's
 own repository: an outage, a permission problem, or a rejected change on the marketing site
 then cannot interfere with update delivery.
