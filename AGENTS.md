@@ -28,3 +28,4 @@ Single-context: one `GLOSSARY.md` and `docs/adr/` at the repo root, created lazi
   does not. Before running it or trusting a failure, resolve the pin:
   `./tools/resolve-dragon-kit.sh vendor/dragon-kit "$(sed -n 's/^DRAGONKIT_TAG="\(.*\)"/\1/p' tools/build-app.sh)" https://github.com/teddychan/dragon-kit`.
   A KeyKeyApp compile error about DragonKit argument labels means a stale kit checkout, not broken app code.
+- `SUFeedURL` in `App/Info.plist` and the support link in `App/AboutConfig.swift` name the pre-rename repo `teddychan/yahoo-keykey-2` on purpose. DragonKit CONFORMANCE §R15 requires the support repo to equal the page slug, and GitHub redirects the old URLs, so leave both until DragonKit accepts the `-macos` suffix.
