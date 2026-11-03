@@ -216,6 +216,11 @@ final class KeyRoutingPolicyTests: XCTestCase {
         XCTAssertNil(KeyEventPolicy.spacePage(page: 0, lastPage: 0))
     }
 
+    func testSpaceCommitsOnAPageOfCompletionsPastTheExactMatches() {
+        // The caller passes the last page of exact matches; the arrows went further.
+        XCTAssertNil(KeyEventPolicy.spacePage(page: 3, lastPage: 1))
+    }
+
     // MARK: associationSuffix — insert only the continuation
 
     func testSuffixDropsTheAlreadyCommittedFirstCharacter() {

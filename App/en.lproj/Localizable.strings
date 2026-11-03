@@ -30,8 +30,10 @@
 "keykey.general.zhuyinLayoutDachen" = "Standard (大千)";
 "keykey.general.zhuyinLayoutEten" = "倚天 (ETen)";
 "keykey.general.zhuyinLayoutHint" = "Where the 注音 symbols sit on the keyboard, effective immediately. Standard (大千) is the layout printed on Taiwanese keyboards and the one the original Yahoo! KeyKey shipped. Space is the first tone; 1–9 pick a candidate once the window is up. In 注音, associated phrases are always picked with Shift + a number — whatever the setting above says — because the number keys type 注音 there.";
+"keykey.general.completions" = "Show characters that start with the typed radicals";
+"keykey.general.completionsHint" = "In 倉頡 and 速成, typing 竹 also lists 我 (竹手戈), as if you had typed 竹*. Characters whose code is exactly what you typed stay first, so Space still types them. Use the arrow keys or Page Down to reach the rest.";
 "keykey.general.strokeConfirmation" = "Press Space to confirm the code";
-"keykey.general.strokeConfirmationHint" = "In 速成, and in 倉頡 with the * wildcard, candidates appear before the code is finished, so Space flips to the next page instead of confirming what you typed. With this on, the first Space only confirms the code and keeps page 1 — press Space again to page, or 1–9 to pick. Plain 倉頡 is unaffected.";
+"keykey.general.strokeConfirmationHint" = "In 速成, and in 倉頡 with the * wildcard, candidates appear before the code is finished, so Space flips to the next page instead of confirming what you typed. With this on, the first Space only confirms the code and keeps page 1 — press Space again to page, or 1–9 to pick. Plain 倉頡 is affected only while “Show characters that start with the typed radicals” is on.";
 "keykey.general.adaptiveCandidateOrder" = "Adapt candidate order based on your selections";
 "keykey.general.adaptiveCandidateOrderHint" = "Applies to 倉頡, 速成, 注音 and associated phrases. Every candidate list is learned on its own: within a list, the candidates you have committed more often come first, and candidates you have committed equally often keep their built-in order. A 倉頡 code with a wildcard is learned separately from a complete code, and what is learned about 聯想字詞 is shared by 倉頡, 速成 and 注音. 拼音 keeps ranking candidates exactly as it did before. Turn it off for the built-in order — 五代 and 拼音 use their built-in rankings, 三代 and 注音 the original Yahoo! KeyKey order — which also pauses counting everywhere, without erasing what you have already learned.";
 "keykey.general.language" = "Language";
@@ -55,8 +57,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 could not confirm its own signature. Reinstall it from the latest release and try again.";
 
 /* What's New pane (2.16.3) */
-"app.whatsNew.summary" = "A key that Yahoo! KeyKey 2 has no use for no longer lands on top of the character you are still typing in 倉頡, 速成 and 注音. The character is finished first, then the key does its normal job. 拼音 already worked this way.";
-"app.whatsNew.fixed1" = "In 倉頡, 速成 and 注音, pressing a comma, Tab, Shift+1 or a similar key while a character was still being composed put that key in place of the marked character, and the next Space then added the character after it. The character you were typing is now finished first, using the first candidate on screen, and then the key does its normal job. A comma comes out in its full-width form when Full-width punctuation is on, and Tab and the arrow keys go to the app.";
+"app.whatsNew.summary" = "倉頡 and 速成 can now also list the characters whose code starts with what you have typed, so typing 竹 offers 我 too. The setting is off by default.";
+"app.whatsNew.added1" = "New setting under General ▸ Input Method: Show characters that start with the typed radicals. It is off by default. Turn it on and typing 竹 in 倉頡 or 速成 also lists 我 (竹手戈), as if you had typed 竹*. Characters whose code is exactly what you typed stay first, so Space still types 竹, and the arrow keys or Page Down reach the rest.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Disable Yahoo! KeyKey 2's input methods from Input Sources";

@@ -22,6 +22,11 @@ public enum CandidateListKey: Hashable, Sendable {
     case cangjieWildcard(tableVersion: String, pattern: String)
     /// A 速成 code — one or two radicals, e.g. `("5", "a")` for 日/曰.
     case simplex(tableVersion: String, code: String)
+    /// The completions of a one-radical 速成 code: the characters of every two-radical code it
+    /// starts, e.g. `("5", "h")` for 我 (`hi`). A separate list from `.simplex` of the same code,
+    /// which holds only its exact matches. 倉頡 needs no such case: its completions of `h` are the
+    /// `h*` wildcard list.
+    case simplexCompletion(tableVersion: String, code: String)
     /// A 注音 (ㄅ半) reading — one finished syllable including its tone, e.g. `ㄕˋ`. The reading
     /// is the list, and it carries no keyboard layout: 大千 and 倚天 are two ways to type the same
     /// ㄕˋ and must share what they learn about it, exactly as they share the character table.
@@ -41,6 +46,7 @@ extension CandidateListKey {
         case .cangjie: return "cangjie"
         case .cangjieWildcard: return "cangjieWildcard"
         case .simplex: return "simplex"
+        case .simplexCompletion: return "simplexCompletion"
         case .zhuyin: return "zhuyin"
         case .association: return "association"
         }
@@ -48,7 +54,8 @@ extension CandidateListKey {
 
     var tableVersionField: String? {
         switch self {
-        case .cangjie(let v, _), .cangjieWildcard(let v, _), .simplex(let v, _): return v
+        case .cangjie(let v, _), .cangjieWildcard(let v, _), .simplex(let v, _),
+             .simplexCompletion(let v, _): return v
         // 注音 has no table version to carry: one ㄅ半 table ships, and the layout is not part of
         // the list identity (see the case above).
         case .zhuyin, .association: return nil
@@ -57,7 +64,8 @@ extension CandidateListKey {
 
     var codeField: String? {
         switch self {
-        case .cangjie(_, let c), .cangjieWildcard(_, let c), .simplex(_, let c): return c
+        case .cangjie(_, let c), .cangjieWildcard(_, let c), .simplex(_, let c),
+             .simplexCompletion(_, let c): return c
         case .zhuyin(let reading): return reading
         case .association: return nil
         }
@@ -66,7 +74,7 @@ extension CandidateListKey {
     var triggerField: String? {
         switch self {
         case .association(let t): return String(t)
-        case .cangjie, .cangjieWildcard, .simplex, .zhuyin: return nil
+        case .cangjie, .cangjieWildcard, .simplex, .simplexCompletion, .zhuyin: return nil
         }
     }
 
@@ -84,6 +92,9 @@ extension CandidateListKey {
         case "simplex":
             guard let tableVersion, let code else { return nil }
             return .simplex(tableVersion: tableVersion, code: code)
+        case "simplexCompletion":
+            guard let tableVersion, let code else { return nil }
+            return .simplexCompletion(tableVersion: tableVersion, code: code)
         case "zhuyin":
             // No tableVersion required, and none accepted into the identity: a record written by
             // a build that stored one still rebuilds as the same reading's list.

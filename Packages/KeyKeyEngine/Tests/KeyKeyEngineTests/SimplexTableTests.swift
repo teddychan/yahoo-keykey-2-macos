@@ -28,6 +28,11 @@ final class SimplexTableTests: XCTestCase {
         XCTAssertEqual(make().characters(forCode: "a"), ["日"])   // "a" -> "a"
     }
 
+    func testCharactersExtendingACodeLeaveOutTheCodeItself() {
+        XCTAssertEqual(make().characters(extending: "a"), ["明", "昌", "冒", "韻"])
+        XCTAssertEqual(make().characters(extending: "ab"), [])
+    }
+
     func testMultipleCharsGroupedUnderSameSimplexCode() {
         // "ab" -> "ab" (明), "amb" -> "ab" (昌)
         XCTAssertEqual(make().characters(forCode: "ab"), ["明", "昌"])

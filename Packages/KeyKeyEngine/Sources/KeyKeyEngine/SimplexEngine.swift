@@ -15,20 +15,24 @@ public final class SimplexEngine {
     // How many times a candidate has been committed in a given list. Consulted on every sort, so
     // a freshly-committed candidate leads next time without rebuilding the engine.
     private let usageCount: (CandidateListKey, String) -> Int
+    // Whether completions follow the exact matches; read live, as on `CangjieEngine`.
+    private let showsCompletions: () -> Bool
     private var code: String = ""
     private var selected: String?
-    // Cached result of the `candidates` computation; invalidated (nil) on any state
+    // Cached result of the candidate computation; invalidated (nil) on any state
     // change to the code. `candidates` is read multiple times per keydown.
-    private var cachedCandidates: [String]?
+    private var cachedTiers: TieredCandidates?
 
     /// `tableVersion` has no default, for the reason on `CangjieEngine.init`.
     public init(table: SimplexTable, characterRank: [Character: Double] = [:],
                 tableVersion: String,
-                usageCount: @escaping (CandidateListKey, String) -> Int = { _, _ in 0 }) {
+                usageCount: @escaping (CandidateListKey, String) -> Int = { _, _ in 0 },
+                showsCompletions: @escaping () -> Bool = { false }) {
         self.table = table
         self.characterRank = characterRank
         self.tableVersion = tableVersion
         self.usageCount = usageCount
+        self.showsCompletions = showsCompletions
     }
 
     /// Returns true if the key was consumed by the engine. Accepts a–z radical keys.
@@ -37,7 +41,7 @@ public final class SimplexEngine {
         guard CangjieEngine.radicals[key] != nil else { return false }
         code.append(key)
         selected = nil
-        cachedCandidates = nil
+        cachedTiers = nil
         return true
     }
 
@@ -62,25 +66,39 @@ public final class SimplexEngine {
         return String(code.map { CangjieEngine.radicals[$0] ?? $0 })
     }
 
-    /// Characters whose Simplex code matches the current radical sequence, ordered
-    /// frequency-first over the built-in order (see `CandidateOrdering`). With no committed
-    /// usage the table/rank order is preserved unchanged.
-    public var candidates: [String] {
-        if let cachedCandidates { return cachedCandidates }
-        let result = computeCandidates()
-        cachedCandidates = result
+    /// Characters whose Simplex code matches the current radical sequence, then, with
+    /// completions on, those of every longer code it starts. Each tier is ordered frequency-first
+    /// over the built-in order (see `CandidateOrdering`); with no committed usage the table/rank
+    /// order is preserved unchanged.
+    public var candidates: [String] { tiers.all }
+
+    /// How many leading `candidates` match the code exactly; the rest are completions.
+    public var exactCandidateCount: Int { tiers.exactCount }
+
+    private var tiers: TieredCandidates {
+        if let cachedTiers { return cachedTiers }
+        let result = computeTiers()
+        cachedTiers = result
         return result
     }
 
-    private func computeCandidates() -> [String] {
-        guard !code.isEmpty, let list = candidateListKey else { return [] }
-        let matches = table.characters(forCode: code)
-        return CandidateOrdering.ordered(matches, rank: characterRank) { usageCount(list, $0) }
+    private func computeTiers() -> TieredCandidates {
+        guard let list = candidateListKey else { return .none }
+        let exact = ordered(table.characters(forCode: code), in: list)
+        guard showsCompletions() else { return TieredCandidates(exact: exact, in: list) }
+        let completionList = CandidateListKey.simplexCompletion(tableVersion: tableVersion, code: code)
+        return TieredCandidates(exact: exact, in: list,
+                                completions: ordered(table.characters(extending: code), in: completionList),
+                                in: completionList)
     }
 
-    /// Which candidate list the current code addresses, or nil when nothing is being composed.
-    /// 速成 has no wildcard, so this is always the exact code's own list — separate from the
-    /// 倉頡 list of the same code, which offers a different set of characters.
+    private func ordered(_ matches: [String], in list: CandidateListKey) -> [String] {
+        CandidateOrdering.ordered(matches, rank: characterRank) { usageCount(list, $0) }
+    }
+
+    /// Which candidate list the current code's exact matches form, or nil when nothing is being
+    /// composed. Separate from the 倉頡 list of the same code, which offers a different set of
+    /// characters, and from this code's completions (`.simplexCompletion`).
     public var candidateListKey: CandidateListKey? {
         code.isEmpty ? nil : .simplex(tableVersion: tableVersion, code: code)
     }
@@ -88,10 +106,8 @@ public final class SimplexEngine {
     /// What a commit right now would credit; empty after `commit()` has cleared the code, so a
     /// caller MUST read this first. See `CangjieEngine.pendingUsage`.
     public var pendingUsage: [CandidateUsage] {
-        let cands = candidates
-        guard cands.count > 1, let list = candidateListKey,
-              let candidate = selected ?? cands.first else { return [] }
-        return [CandidateUsage(list: list, candidate: candidate)]
+        guard let candidate = selected ?? candidates.first else { return [] }
+        return tiers.usage(of: candidate)
     }
 
     public func selectCandidate(_ index: Int) {
@@ -103,7 +119,7 @@ public final class SimplexEngine {
     public func backspace() {
         selected = nil
         if !code.isEmpty { code.removeLast() }
-        cachedCandidates = nil
+        cachedTiers = nil
     }
 
     @discardableResult
@@ -111,7 +127,7 @@ public final class SimplexEngine {
         let text = selected ?? candidates.first ?? ""
         code = ""
         selected = nil
-        cachedCandidates = nil
+        cachedTiers = nil
         return text
     }
 }

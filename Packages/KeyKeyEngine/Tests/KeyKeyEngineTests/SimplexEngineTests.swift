@@ -159,6 +159,32 @@ final class SimplexEngineTests: XCTestCase {
         XCTAssertNil(e.candidateListKey)
     }
 
+    // MARK: completions (顯示字根開頭相同的字)
+
+    func testCompletionsListEveryTwoRadicalCodeAfterTheExactMatches() {
+        let e = SimplexEngine(table: Self.table, tableVersion: "5", showsCompletions: { true })
+        _ = e.handleKey("a")
+        XCTAssertEqual(e.candidates, ["日", "明", "昌", "冒", "韻"])
+        XCTAssertEqual(e.exactCandidateCount, 1)
+        e.selectCandidate(2)   // 昌
+        XCTAssertEqual(e.pendingUsage,
+                       [CandidateUsage(list: .simplexCompletion(tableVersion: "5", code: "a"),
+                                       candidate: "昌")])
+    }
+
+    func testAFullCodeHasNoCompletions() {
+        let e = SimplexEngine(table: Self.table, tableVersion: "5", showsCompletions: { true })
+        _ = e.handleKey("a"); _ = e.handleKey("b")
+        XCTAssertEqual(e.candidates, ["明", "昌"])
+        XCTAssertEqual(e.exactCandidateCount, 2)
+    }
+
+    func testCompletionsAreOffByDefault() {
+        let e = make()
+        _ = e.handleKey("a")
+        XCTAssertEqual(e.candidates, ["日"])
+    }
+
     func testNonLetterIgnored() {
         let e = make()
         _ = e.handleKey("a")

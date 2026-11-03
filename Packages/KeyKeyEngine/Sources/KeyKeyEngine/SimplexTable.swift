@@ -64,6 +64,14 @@ public struct SimplexTable {
 
     public func characters(forCode code: String) -> [String] { table[code] ?? [] }
 
+    /// Characters whose code starts with `code` and goes on past it (`h` gives `hi`'s 我), ordered
+    /// by code, then the table's order within each code.
+    public func characters(extending code: String) -> [String] {
+        table.keys.filter { $0.count > code.count && $0.hasPrefix(code) }
+            .sorted()
+            .flatMap { table[$0] ?? [] }
+    }
+
     private mutating func add(_ char: String, to simplex: String) {
         if seen[simplex, default: []].insert(char).inserted {
             table[simplex, default: []].append(char)

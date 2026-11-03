@@ -30,8 +30,10 @@
 "keykey.general.zhuyinLayoutDachen" = "标准（大千）";
 "keykey.general.zhuyinLayoutEten" = "倚天";
 "keykey.general.zhuyinLayoutHint" = "注音（ㄅ半）符号在键盘上的位置，立即生效。「标准（大千）」就是台湾键盘上印的那一套，也是原版 Yahoo! KeyKey 的默认设置。空格键是一声；候选字出现后按 1–9 选字。在注音中，联想字词固定以 Shift + 数字选取（不受「联想选字键」影响），因为数字键要用来打注音。";
+"keykey.general.completions" = "显示字根开头相同的字";
+"keykey.general.completionsHint" = "在仓颉和速成中，输入“竹”也会列出“我”（竹手戈），就像输入“竹*”一样。字根完全相同的字仍排在最前面，空格键照样输入它们；其余的字可用方向键或 Page Down 翻页查看。";
 "keykey.general.strokeConfirmation" = "以空格键确认字根";
-"keykey.general.strokeConfirmationHint" = "在速成、以及使用通配符（*）的仓颉中，字根还没输完就会出现候选字，此时空格键会直接翻到下一页，而不是确认你输入的字根。开启后，第一次按空格键只确认字根并停留在第 1 页；再按一次空格键才翻页，或直接按 1–9 选字。普通仓颉不受影响。";
+"keykey.general.strokeConfirmationHint" = "在速成、以及使用通配符（*）的仓颉中，字根还没输完就会出现候选字，此时空格键会直接翻到下一页，而不是确认你输入的字根。开启后，第一次按空格键只确认字根并停留在第 1 页；再按一次空格键才翻页，或直接按 1–9 选字。普通仓颉只在开启“显示字根开头相同的字”时受影响。";
 "keykey.general.adaptiveCandidateOrder" = "依选字习惯调整候选字顺序";
 "keykey.general.adaptiveCandidateOrderHint" = "适用于仓颉、速成、注音与联想词。每个候选字列表各自独立学习：在同一个列表内，你确认次数较多的候选字排在前面；确认次数相同时，保持原本的顺序。含万用字元的仓颉码与完整的码分开学习；联想词学到的内容由仓颉、速成与注音共用。拼音的候选字顺序与以往完全相同，没有改变。关闭后会显示原本的顺序（五代与拼音使用内建排序，三代与注音使用原本的 Yahoo! KeyKey 顺序），同时全部暂停计次，但不会清除已经学到的内容。";
 "keykey.general.language" = "语言";
@@ -55,8 +57,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 无法确认自己的签名。请从最新版本重新安装后再试一次。";
 
 /* What's New pane (2.16.3) */
-"app.whatsNew.summary" = "在仓颉、速成与注音中，Yahoo! KeyKey 2 用不到的按键，不会再盖在你正在组字的字上。现在会先确认正在组的字，再让这个按键照常作用。拼音原本就是这样。";
-"app.whatsNew.fixed1" = "修正在仓颉、速成与注音中，组字途中按下逗号、Tab、Shift+1 等按键时，该按键会取代已标记的字，接着按空格键又会把字加在它后面的问题。现在会先用屏幕上的第一个候选字确认正在组的字，再让按键照常作用：开启「全角标点」时逗号会以全角输出，Tab 与方向键则交给应用程序。";
+"app.whatsNew.summary" = "仓颉和速成现在也可以列出字根开头与你输入相同的字，输入“竹”也会出现“我”。此设置默认关闭。";
+"app.whatsNew.added1" = "通用 ▸ 输入方式新增“显示字根开头相同的字”设置，默认关闭。开启后，在仓颉或速成中输入“竹”也会列出“我”（竹手戈），就像输入“竹*”一样。字根完全相同的字仍排在最前面，所以空格键照样输入“竹”，其余的字可用方向键或 Page Down 翻页查看。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "从输入源中停用 Yahoo! KeyKey 2 的输入方式";

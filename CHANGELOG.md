@@ -2,6 +2,18 @@
 
 A plain-language list of changes in each version, newest first.
 
+## 2.17.0
+
+- **New: 顯示字根開頭相同的字 (設定… ▸ 一般 ▸ 輸入方式), off by default.** Turn it on and 倉頡
+  and 速成 also list the characters whose code starts with what you have typed. Typing 竹 now
+  offers 我 (竹手戈) as well, as if you had typed 竹*. Characters whose code is exactly what you
+  typed still come first, so 竹 and Space types 竹 as before, and Space still pages only through
+  them. The arrow keys and Page Down reach the rest. Each part of the list learns its own order,
+  so turning the setting on or off leaves what Yahoo! KeyKey 2 has learned alone.
+- **以空白鍵確認字根 now covers 倉頡 when the new setting is on.** Every 倉頡 code then shows
+  candidates before you finish it, so the first Space confirms the code there too, as it already
+  did in 速成 and with `*`.
+
 ## 2.16.3
 
 - **Fixed: a key Yahoo! KeyKey 2 has no use for no longer lands on top of the character you are

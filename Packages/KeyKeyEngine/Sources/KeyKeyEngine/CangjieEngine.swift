@@ -22,22 +22,27 @@ public final class CangjieEngine {
     // How many times a candidate has been committed in a given list. Consulted on every sort, so
     // a freshly-committed candidate leads next time without rebuilding the engine.
     private let usageCount: (CandidateListKey, String) -> Int
+    // Whether completions follow the exact matches. Read live, like `usageCount`, so the setting
+    // applies to the next code typed without rebuilding the engine.
+    private let showsCompletions: () -> Bool
     private var code: String = ""
     private var selected: String?
-    // Cached result of the `candidates` computation; invalidated (nil) on any state
+    // Cached result of the candidate computation; invalidated (nil) on any state
     // change to the code. `candidates` is read multiple times per keydown.
-    private var cachedCandidates: [String]?
+    private var cachedTiers: TieredCandidates?
 
     /// `tableVersion` has no default on purpose: a defaulted one would let a call site put
     /// 三代 and 五代 counts in the same list by omitting an argument. `usageCount` does default,
     /// to the no-learning answer — zero everywhere leaves the built-in order untouched.
     public init(table: CangjieTable, characterRank: [Character: Double] = [:],
                 tableVersion: String,
-                usageCount: @escaping (CandidateListKey, String) -> Int = { _, _ in 0 }) {
+                usageCount: @escaping (CandidateListKey, String) -> Int = { _, _ in 0 },
+                showsCompletions: @escaping () -> Bool = { false }) {
         self.table = table
         self.characterRank = characterRank
         self.tableVersion = tableVersion
         self.usageCount = usageCount
+        self.showsCompletions = showsCompletions
     }
 
     /// Returns true if the key was consumed by the engine.
@@ -48,7 +53,7 @@ public final class CangjieEngine {
         guard code.count < Self.maxRadicals else { return true }
         code.append(key)
         selected = nil
-        cachedCandidates = nil
+        cachedTiers = nil
         return true
     }
 
@@ -58,23 +63,42 @@ public final class CangjieEngine {
         return String(code.map { Self.radicals[$0] ?? $0 })
     }
 
-    /// Characters whose code matches the current radical sequence (supports `*`), ordered
-    /// frequency-first over the built-in order (see `CandidateOrdering`). With no committed
-    /// usage the table/rank order is preserved unchanged.
-    public var candidates: [String] {
-        if let cachedCandidates { return cachedCandidates }
-        let result = computeCandidates()
-        cachedCandidates = result
+    /// Characters whose code matches the current radical sequence (supports `*`), then, with
+    /// completions on, the characters `code*` matches. Each tier is ordered frequency-first over
+    /// the built-in order (see `CandidateOrdering`); with no committed usage the table/rank order
+    /// is preserved unchanged.
+    public var candidates: [String] { tiers.all }
+
+    /// How many leading `candidates` match the code exactly; the rest are completions.
+    public var exactCandidateCount: Int { tiers.exactCount }
+
+    private var tiers: TieredCandidates {
+        if let cachedTiers { return cachedTiers }
+        let result = computeTiers()
+        cachedTiers = result
         return result
     }
 
-    private func computeCandidates() -> [String] {
-        guard !code.isEmpty, let list = candidateListKey else { return [] }
-        let matches = table.characters(matching: code)
-        return CandidateOrdering.ordered(matches, rank: characterRank) { usageCount(list, $0) }
+    private func computeTiers() -> TieredCandidates {
+        guard let list = candidateListKey else { return .none }
+        let exact = ordered(table.characters(matching: code), in: list)
+        // A code that already carries `*` asked for its own wildcard, so it gets no completions.
+        guard showsCompletions(), !code.contains("*") else {
+            return TieredCandidates(exact: exact, in: list)
+        }
+        let pattern = code + "*"
+        let completionList = CandidateListKey.cangjieWildcard(tableVersion: tableVersion, pattern: pattern)
+        return TieredCandidates(exact: exact, in: list,
+                                completions: ordered(table.characters(matching: pattern), in: completionList),
+                                in: completionList)
     }
 
-    /// Which candidate list the current code addresses, or nil when nothing is being composed.
+    private func ordered(_ matches: [String], in list: CandidateListKey) -> [String] {
+        CandidateOrdering.ordered(matches, rank: characterRank) { usageCount(list, $0) }
+    }
+
+    /// Which candidate list the current code's exact matches form, or nil when nothing is being
+    /// composed. Completions form the `code*` wildcard list.
     ///
     /// A code carrying `*` is its OWN list, keyed by the pattern as typed: `h*i` matches a
     /// different set of characters than the exact code `hi` does, and than `h*e` does, so usage
@@ -90,13 +114,12 @@ public final class CangjieEngine {
     /// list it is being picked from. Empty once `commit()` has run, because the code that
     /// identifies the list is gone by then — so a caller MUST read this before committing.
     ///
-    /// Empty too for a single-candidate list: with nothing to reorder there is no order to learn,
-    /// and counting it would fill the store with records that can never change an outcome.
+    /// Empty too for a list of one (the exact matches and the completions are two lists): with
+    /// nothing to reorder there is no order to learn, and counting it would fill the store with
+    /// records that can never change an outcome.
     public var pendingUsage: [CandidateUsage] {
-        let cands = candidates
-        guard cands.count > 1, let list = candidateListKey,
-              let candidate = selected ?? cands.first else { return [] }
-        return [CandidateUsage(list: list, candidate: candidate)]
+        guard let candidate = selected ?? candidates.first else { return [] }
+        return tiers.usage(of: candidate)
     }
 
     public func selectCandidate(_ index: Int) {
@@ -108,7 +131,7 @@ public final class CangjieEngine {
     public func backspace() {
         selected = nil
         if !code.isEmpty { code.removeLast() }
-        cachedCandidates = nil
+        cachedTiers = nil
     }
 
     @discardableResult
@@ -116,7 +139,7 @@ public final class CangjieEngine {
         let text = selected ?? candidates.first ?? ""
         code = ""
         selected = nil
-        cachedCandidates = nil
+        cachedTiers = nil
         return text
     }
 }

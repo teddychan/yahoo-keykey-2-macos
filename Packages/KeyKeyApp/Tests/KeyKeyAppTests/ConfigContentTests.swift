@@ -91,10 +91,9 @@ final class ConfigContentTests: XCTestCase {
         XCTAssertEqual(content.date, "2026-11-03")
     }
 
-    // 2.16.3 is [.fixed] with one entry (issue #160): a key the engine does not take, pressed while
-    // a character is composing, no longer lands over the marked text in the app.
+    // 2.17.0 is [.added] with one entry: the 顯示字根開頭相同的字 setting.
     //
-    // 2.16.2's `.changed1` is gone from all seven .strings files rather than left stranded with no
+    // 2.16.3's `.fixed1` is gone from all seven .strings files rather than left stranded with no
     // section to render it — see WhatsNewConfig.
     //
     // Entry KEYS are pinned, not just kinds and counts, because kinds and counts had stopped
@@ -106,12 +105,12 @@ final class ConfigContentTests: XCTestCase {
     // text SAYS is the release gate's job — it diffs every locale's .strings file — so between
     // them a stale pane cannot ship.
     @MainActor
-    func testWhatsNewAnnouncesTheKeyLeakFix() {
+    func testWhatsNewAnnouncesCompletions() {
         let content = WhatsNewConfig.content
-        XCTAssertEqual(content.sections.map(\.kind), [.fixed])
+        XCTAssertEqual(content.sections.map(\.kind), [.added])
         XCTAssertEqual(content.sections.map(\.entries.count), [1])
         XCTAssertEqual(content.sections.flatMap(\.entries), [
-            L("app.whatsNew.fixed1"),
+            L("app.whatsNew.added1"),
         ])
     }
 

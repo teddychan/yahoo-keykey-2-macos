@@ -37,6 +37,7 @@ enum Preferences {
         static let codeHintEnabled = "codeHintEnabled"
         static let associationSelectionTrigger = "associationSelectionTrigger"
         static let strokeConfirmationEnabled = "strokeConfirmationEnabled"
+        static let completionsEnabled = "completionsEnabled"
         static let adaptiveCandidateOrderEnabled = "adaptiveCandidateOrderEnabled"
         static let zhuyinLayout = "zhuyinLayout"
         static let shiftSpaceFullWidthSpaceEnabled = "shiftSpaceFullWidthSpaceEnabled"
@@ -58,6 +59,7 @@ enum Preferences {
             Key.codeHintEnabled: false,
             Key.associationSelectionTrigger: AssociationTrigger.number.rawValue,
             Key.strokeConfirmationEnabled: false,
+            Key.completionsEnabled: false,
             Key.adaptiveCandidateOrderEnabled: true,
             Key.zhuyinLayout: ZhuyinLayout.dachen.rawValue,
             Key.shiftSpaceFullWidthSpaceEnabled: false,
@@ -123,6 +125,13 @@ enum Preferences {
     static var strokeConfirmationEnabled: Bool {
         get { UserDefaults.standard.bool(forKey: Key.strokeConfirmationEnabled) }
         set { UserDefaults.standard.set(newValue, forKey: Key.strokeConfirmationEnabled) }
+    }
+
+    // When true, 倉頡 and 速成 list completions after the exact matches: typing 竹 also offers 我
+    // (竹手戈), as 竹* would. Off by default, so each code offers only its own characters.
+    static var completionsEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: Key.completionsEnabled) }
+        set { UserDefaults.standard.set(newValue, forKey: Key.completionsEnabled) }
     }
 
     // The 注音 keyboard layout; unknown/absent falls back to 大千 (the registered default), which

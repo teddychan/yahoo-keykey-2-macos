@@ -167,6 +167,7 @@ final class CandidateUsageStoreTests: XCTestCase {
         s.record("曰", in: .simplex(tableVersion: "5", code: "a"))
         s.record("日", in: .cangjie(tableVersion: "3", code: "a"))
         s.record("龍", in: .cangjieWildcard(tableVersion: "5", pattern: "h*i"))
+        s.record("我", in: .simplexCompletion(tableVersion: "5", code: "h"))
         s.record("關係", in: .association(trigger: "關"))
         s.flush()   // the save is debounced; force it before reading the file back
 
@@ -174,7 +175,9 @@ final class CandidateUsageStoreTests: XCTestCase {
         XCTAssertEqual(r.count(of: "曰", in: .simplex(tableVersion: "5", code: "a")), 2)
         XCTAssertEqual(r.count(of: "日", in: .cangjie(tableVersion: "3", code: "a")), 1)
         XCTAssertEqual(r.count(of: "龍", in: .cangjieWildcard(tableVersion: "5", pattern: "h*i")), 1)
+        XCTAssertEqual(r.count(of: "我", in: .simplexCompletion(tableVersion: "5", code: "h")), 1)
         XCTAssertEqual(r.count(of: "關係", in: .association(trigger: "關")), 1)
+        XCTAssertEqual(r.count(of: "我", in: .simplex(tableVersion: "5", code: "h")), 0)
         // The identities survive too — a reloaded store still isolates every list.
         XCTAssertEqual(r.count(of: "曰", in: .simplex(tableVersion: "3", code: "a")), 0)
         XCTAssertEqual(r.count(of: "日", in: .cangjie(tableVersion: "5", code: "a")), 0)

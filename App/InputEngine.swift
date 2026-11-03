@@ -12,6 +12,8 @@ import KeyKeyEngine
 //   - backspace: edit/delete within the current composition.
 //   - commit: finalize the composition, returning the text to insert, and reset.
 //   - pendingUsage: the candidate-list usage a commit would credit, valid only BEFORE commit().
+//   - exactCandidateCount: how many leading candidates match the code exactly. Less than
+//     candidates.count only when 倉頡/速成 completions follow them.
 protocol InputEngine: AnyObject {
     func handleKey(_ key: Character) -> Bool
     var composingText: String { get }
@@ -27,6 +29,7 @@ protocol InputEngine: AnyObject {
     /// clears the code/nodes this is derived from, so afterwards it is empty. Empty is also the
     /// honest answer for a list with nothing to reorder.
     var pendingUsage: [CandidateUsage] { get }
+    var exactCandidateCount: Int { get }
 }
 
 // CangjieEngine matches the protocol surface: selectCandidate sets the chosen glyph and
@@ -42,7 +45,9 @@ extension SimplexEngine: InputEngine {}
 // next character) are methods the controller reaches through a cast, exactly as it does for
 // SimplexEngine.keyStartsNewComposition, because both must commit into the client and only the
 // controller can do that.
-extension ZhuyinEngine: InputEngine {}
+extension ZhuyinEngine: InputEngine {
+    var exactCandidateCount: Int { candidates.count }
+}
 
 // Richer surface for phrase-composition engines (Pinyin): an editable multi-node buffer
 // with a node cursor. The IMK controller detects this protocol to route cursor movement
@@ -61,5 +66,6 @@ protocol PhraseComposingEngine: InputEngine {
 // not a stub — and it keeps the single commit call site uniform across every engine.
 extension PinyinEngine: InputEngine {
     var pendingUsage: [CandidateUsage] { [] }
+    var exactCandidateCount: Int { candidates.count }
 }
 extension PinyinEngine: PhraseComposingEngine {}

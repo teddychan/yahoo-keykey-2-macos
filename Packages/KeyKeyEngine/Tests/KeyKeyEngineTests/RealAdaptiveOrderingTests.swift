@@ -153,6 +153,24 @@ final class RealAdaptiveOrderingTests: XCTestCase {
         return e.candidates
     }
 
+    // MARK: - Completions on the real tables (竹 also offers 我)
+
+    func testRealCompletionsOfBambooKeepItFirstAndPut我OnPageOne() throws {
+        let f = try load()
+        let cangjie = CangjieEngine(table: f.cangjie, characterRank: f.rank, tableVersion: "5",
+                                    showsCompletions: { true })
+        _ = cangjie.handleKey("h")
+        XCTAssertEqual(Array(cangjie.candidates.prefix(2)), ["竹", "丿"])
+        XCTAssertEqual(cangjie.exactCandidateCount, 2)
+        XCTAssertTrue(cangjie.candidates.prefix(9).contains("我"))
+
+        let simplex = SimplexEngine(table: f.simplex, characterRank: f.rank, tableVersion: "5",
+                                    showsCompletions: { true })
+        _ = simplex.handleKey("h")
+        XCTAssertEqual(simplex.exactCandidateCount, f.simplex.characters(forCode: "h").count)
+        XCTAssertTrue(simplex.candidates.prefix(9).contains("我"))
+    }
+
     // MARK: - 聯想字詞 on the real language model
 
     func testRealAssociationListRespondsToWholePhraseCounts() throws {
