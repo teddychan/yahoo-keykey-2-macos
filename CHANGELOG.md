@@ -7,7 +7,7 @@ A plain-language list of changes in each version, newest first.
 - **New: Russian (Русский).** Choose Русский under Settings… ▸ General ▸ Language and Settings
   switches to Russian right away, without a restart. Every Yahoo! KeyKey 2 setting, hint and
   What's New note is translated, and so are the About, What's New, Updates, Backup & Restore and
-  Uninstall panes, which come from DragonKit 4.2.0. With Language set to Automatic, a Mac that
+  Uninstall panes, which come from DragonKit 4.3.0. With Language set to Automatic, a Mac that
   uses Russian shows Yahoo! KeyKey 2 in Russian on its own. The wording follows the terms Apple
   uses in Russian macOS and [@shendrykau](https://github.com/shendrykau)'s Russian translation
   of Ice 2 ([teddychan/ice-2-macos#132](https://github.com/teddychan/ice-2-macos/issues/132)).
