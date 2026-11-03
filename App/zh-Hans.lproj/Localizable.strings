@@ -1,5 +1,5 @@
 /* App-specific strings for Yahoo! KeyKey 2. DragonKit's own UI strings live in its own
-   bundle (7 languages) and are not duplicated here. */
+   bundle (8 languages) and are not duplicated here. */
 
 /* Sidebar pane title (General). Other panes use DragonKit's built-in titles. */
 "keykey.pane.general" = "通用";
@@ -56,9 +56,9 @@
 "keykey.general.installOldCopyMessage" = "无法移除位于 %@ 的旧副本。请自行将它移到废纸篓，然后注销并重新登录。";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 无法确认自己的签名。请从最新版本重新安装后再试一次。";
 
-/* What's New pane (2.16.3) */
-"app.whatsNew.summary" = "仓颉和速成现在也可以列出字根开头与你输入相同的字，输入“竹”也会出现“我”。此设置默认关闭。";
-"app.whatsNew.added1" = "通用 ▸ 输入方式新增“显示字根开头相同的字”设置，默认关闭。开启后，在仓颉或速成中输入“竹”也会列出“我”（竹手戈），就像输入“竹*”一样。字根完全相同的字仍排在最前面，所以空格键照样输入“竹”，其余的字可用方向键或 Page Down 翻页查看。";
+/* What's New pane (2.18.0) */
+"app.whatsNew.summary" = "Yahoo! KeyKey 2 现已支持俄语。在“设置… ▸ 通用 ▸ 语言”中选择“Русский”，无需重新启动即可立即切换。";
+"app.whatsNew.added1" = "新增俄语。Yahoo! KeyKey 2 的所有设置和说明，以及“关于”“新功能”“更新”“备份与恢复”“卸载”面板都已翻译。如果“语言”设为“自动”，而你的 Mac 使用俄语，Yahoo! KeyKey 2 会自动以俄语显示。仓颉、速成、注音、拼音的模式名称和其他语言一样保持中文。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "从输入源中停用 Yahoo! KeyKey 2 的输入方式";

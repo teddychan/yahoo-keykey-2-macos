@@ -1,0 +1,66 @@
+/* App-specific strings for Yahoo! KeyKey 2. DragonKit's own UI strings live in its own
+   bundle (8 languages) and are not duplicated here. */
+
+/* Sidebar pane title (General). Other panes use DragonKit's built-in titles. */
+"keykey.pane.general" = "Основные";
+
+/* General pane */
+"keykey.general.input" = "Ввод";
+"keykey.general.outputSimplified" = "Выводить упрощённые иероглифы";
+"keykey.general.fullWidthPunctuation" = "Полноширинная пунктуация";
+"keykey.general.shiftSpaceFullWidthSpace" = "Shift + Пробел вводит полноширинный пробел";
+"keykey.general.shiftSpaceFullWidthSpaceHint" = "Для 倉頡, 速成, 注音 и 拼音: Shift + Пробел вводит полноширинный пробел (　) шириной в один китайский иероглиф, а не действует как обычный Пробел. Всё, что вы набираете в этот момент, сначала подтверждается.";
+"keykey.general.associatedPhrases" = "Ассоциативные фразы (聯想)";
+"keykey.general.associationContinuationOnly" = "Показывать в ассоциативных фразах только продолжение";
+"keykey.general.associationContinuationOnlyHint" = "Показывать 係／心／於 вместо 關係, как в оригинальном Yahoo! KeyKey. Вводимый текст не меняется.";
+"keykey.general.associationTrigger" = "Клавиша выбора ассоциативной фразы";
+"keykey.general.associationTriggerNumber" = "Цифровая клавиша";
+"keykey.general.associationTriggerShift" = "Shift + цифра";
+"keykey.general.associationTriggerHint" = "В режиме «Shift + цифра» обычная цифровая клавиша вводит цифру, а не выбирает ассоциативную фразу, — удобно, чтобы набрать число сразу после иероглифа (например, 這周有7天).";
+"keykey.general.codeHint" = "Показывать подсказку с кодом Цанцзе";
+"keykey.general.codeHintHint" = "Показывать рядом с вариантом код Цанцзе каждого иероглифа (например, 倉 → 人口竹口), чтобы запоминать и проверять его разложение.";
+"keykey.general.appearance" = "Оформление";
+"keykey.general.candidateFontSize" = "Размер текста вариантов";
+"keykey.general.inputMethod" = "Метод ввода";
+"keykey.general.cangjieVersion" = "Версия Цанцзе";
+"keykey.general.cangjieV5" = "Цанцзе 5-го поколения";
+"keykey.general.cangjieV3" = "Цанцзе 3-го поколения (совместимо с Yahoo! KeyKey)";
+"keykey.general.cangjieVersionHint" = "«Цанцзе 3-го поколения» использует таблицу кодов и порядок вариантов оригинального Yahoo! KeyKey (и для 倉頡, и для 速成); изменение действует сразу.";
+"keykey.general.zhuyinLayout" = "Клавиатура 注音";
+"keykey.general.zhuyinLayoutDachen" = "Стандартная (大千)";
+"keykey.general.zhuyinLayoutEten" = "倚天 (ETen)";
+"keykey.general.zhuyinLayoutHint" = "Расположение символов 注音 на клавиатуре; изменение действует сразу. Стандартная (大千) — раскладка, напечатанная на тайваньских клавиатурах, и та, с которой поставлялся оригинальный Yahoo! KeyKey. Пробел — первый тон; когда окно вариантов открыто, клавиши 1–9 выбирают вариант. В 注音 ассоциативные фразы всегда выбираются сочетанием Shift + цифра — что бы ни было выбрано выше, — потому что цифровые клавиши там вводят 注音.";
+"keykey.general.completions" = "Показывать иероглифы, чей код начинается с набранного";
+"keykey.general.completionsHint" = "В 倉頡 и 速成 при наборе 竹 в списке появляется и 我 (竹手戈), как если бы вы набрали 竹*. Иероглифы, код которых в точности совпадает с набранным, остаются первыми, поэтому Пробел по-прежнему вводит их. Остальные доступны клавишами со стрелками или Page Down.";
+"keykey.general.strokeConfirmation" = "Подтверждать код клавишей Пробел";
+"keykey.general.strokeConfirmationHint" = "В 速成, а также в 倉頡 с подстановочным знаком * варианты появляются до того, как код набран полностью, поэтому Пробел листает на следующую страницу, а не подтверждает набранное. Если этот параметр включён, первое нажатие Пробела только подтверждает код и оставляет страницу 1 — нажмите Пробел ещё раз, чтобы листать, или 1–9, чтобы выбрать вариант. Обычный 倉頡 это затрагивает, только пока включён параметр «Показывать иероглифы, чей код начинается с набранного».";
+"keykey.general.adaptiveCandidateOrder" = "Менять порядок вариантов с учётом вашего выбора";
+"keykey.general.adaptiveCandidateOrderHint" = "Для 倉頡, 速成, 注音 и ассоциативных фраз. Каждый список вариантов обучается отдельно: внутри списка чаще выбираемые варианты идут первыми, а выбранные одинаково часто сохраняют встроенный порядок. Код 倉頡 с подстановочным знаком обучается отдельно от полного кода, а то, что выучено о 聯想字詞, общее для 倉頡, 速成 и 注音. 拼音 упорядочивает варианты точно так же, как раньше. Выключите параметр, чтобы вернуть встроенный порядок — 五代 и 拼音 используют свои встроенные рейтинги, 三代 и 注音 — порядок оригинального Yahoo! KeyKey; при этом подсчёт везде приостанавливается, а уже выученное не стирается.";
+"keykey.general.language" = "Язык";
+
+/* General pane ▸ Installation (2.16.0): moving to /Library/Input Methods */
+"keykey.general.installation" = "Установка";
+"keykey.general.installForAllUsers" = "Установить для всех пользователей…";
+"keykey.general.installForAllUsersHint" = "Yahoo! KeyKey 2 продолжит работать, когда другое приложение, например 1Password, включает защищённый ввод, — macOS в этом случае делает недоступными методы ввода, установленные только для одного пользователя. Приложение переместится в /Library/Input Methods и запросит пароль администратора; каждое следующее обновление тоже будет его запрашивать.";
+"keykey.general.installedForAllUsers" = "Установлено для всех пользователей";
+"keykey.general.installedForAllUsersHint" = "Находится в /Library/Input Methods, поэтому Yahoo! KeyKey 2 продолжает работать, когда другое приложение включает защищённый ввод. Обновления запрашивают пароль администратора.";
+"keykey.general.installedWithHomebrew" = "Установлено через Homebrew";
+"keykey.general.installedWithHomebrewHint" = "Чтобы установить для всех пользователей и Yahoo! KeyKey 2 продолжал работать, когда другое приложение включает защищённый ввод, выполните в Терминале `brew reinstall --cask yahoo-keykey-2`.";
+"keykey.general.installConfirmTitle" = "Установить для всех пользователей?";
+"keykey.general.installConfirmMessage" = "Yahoo! KeyKey 2 запросит пароль администратора, переместится в /Library/Input Methods и перезапустится. Ваши настройки и всё, что он выучил, сохранятся.";
+"keykey.general.installConfirm" = "Установить";
+"keykey.general.installPrompt" = "Yahoo! KeyKey 2 хочет установиться для всех пользователей.";
+"keykey.general.installFailedTitle" = "Не удалось установить для всех пользователей";
+"keykey.general.installFailedMessage" = "Ничего не изменено. %@";
+"keykey.general.installOldCopyTitle" = "Установлено для всех пользователей";
+"keykey.general.installOldCopyMessage" = "Не удалось удалить старую копию в %@. Переместите её в Корзину вручную, затем выйдите из системы и войдите снова.";
+"keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 не удалось подтвердить собственную подпись. Переустановите его из последнего выпуска и повторите попытку.";
+
+/* What's New pane (2.18.0) */
+"app.whatsNew.summary" = "Yahoo! KeyKey 2 теперь доступен на русском языке. Выберите «Русский» в разделе «Настройки… ▸ Основные ▸ Язык», и настройки сразу переключатся на русский, без перезапуска.";
+"app.whatsNew.added1" = "Русский язык. Переведены все настройки и подсказки Yahoo! KeyKey 2, а также панели «О программе», «Что нового», «Обновления», «Резервное копирование» и «Удаление». Если в поле «Язык» выбрано «Автоматически», а на Mac используется русский язык, Yahoo! KeyKey 2 сам откроется на русском. Названия режимов 倉頡, 速成, 注音 и 拼音 остаются на китайском, как и во всех других языках.";
+
+/* Uninstall pane checklist */
+"keykey.uninstall.item.inputSources" = "Отключить методы ввода Yahoo! KeyKey 2 в источниках ввода";
+"keykey.uninstall.item.learningAndSettings" = "Удалить данные обучения и настройки";
+"keykey.uninstall.item.trash" = "Переместить Yahoo! KeyKey 2 в Корзину";

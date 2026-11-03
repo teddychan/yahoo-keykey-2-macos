@@ -91,10 +91,9 @@ final class ConfigContentTests: XCTestCase {
         XCTAssertEqual(content.date, "2026-11-03")
     }
 
-    // 2.17.0 is [.added] with one entry: the 顯示字根開頭相同的字 setting.
-    //
-    // 2.16.3's `.fixed1` is gone from all seven .strings files rather than left stranded with no
-    // section to render it — see WhatsNewConfig.
+    // 2.18.0 is [.added] with one entry: the Russian translation. 2.17.0 had the same shape, so
+    // the keys below did not change; the release gate's diff of every locale's .strings file is
+    // what shows the text moved on — see WhatsNewConfig.
     //
     // Entry KEYS are pinned, not just kinds and counts, because kinds and counts had stopped
     // catching anything: 2.11.3, 2.11.4 and the 2.11.5 draft were all [.changed] with one entry —
@@ -105,7 +104,7 @@ final class ConfigContentTests: XCTestCase {
     // text SAYS is the release gate's job — it diffs every locale's .strings file — so between
     // them a stale pane cannot ship.
     @MainActor
-    func testWhatsNewAnnouncesCompletions() {
+    func testWhatsNewAnnouncesRussian() {
         let content = WhatsNewConfig.content
         XCTAssertEqual(content.sections.map(\.kind), [.added])
         XCTAssertEqual(content.sections.map(\.entries.count), [1])
@@ -183,7 +182,7 @@ final class ConfigContentTests: XCTestCase {
                            "a language in the picker's list matches no DragonLanguage case: \(tokens)")
         } else {
             // No argument means the kit's default. Read from DragonLanguage rather than written out
-            // as seven codes, so the day the kit adds an eighth this fails against App/*.lproj
+            // as a list of codes, so the day the kit adds a locale this fails against App/*.lproj
             // instead of comparing against a list that stopped describing the picker.
             offered = Set(DragonLanguage.selectable.map(\.rawValue))
         }
@@ -194,8 +193,8 @@ final class ConfigContentTests: XCTestCase {
 
     // Every locale must define the same keys. A key present in en.lproj and missing from ko.lproj
     // falls back to English silently — no crash, no warning, just one English row in an otherwise
-    // Korean pane — and going from two locales to seven multiplies the places that can happen.
-    // DragonKit pins its own seven the same way (LocalizationTests.allLanguagesDefineTheSameKeys);
+    // Korean pane — and going from two locales to eight multiplies the places that can happen.
+    // DragonKit pins its own locales the same way (LocalizationTests.allLanguagesDefineTheSameKeys);
     // nothing pinned KeyKey's until now, which was survivable at two files and is not at seven.
     func testEveryLocalizationDefinesTheSameKeys() throws {
         var dir = URL(fileURLWithPath: #filePath)

@@ -6,16 +6,14 @@ import DragonKit
 // binary isn't. That makes the entries and the date the only things to keep in sync with
 // CHANGELOG.md on release.
 //
-// 2.17.0 adds 顯示字根開頭相同的字, off by default: 倉頡 and 速成 list completions after the exact
-// matches, so typing 竹 also offers 我 (竹手戈), as 竹* would.
-//
-// Announced as a single `.added` entry naming where the setting is, the 竹 → 我 example, and that
-// Space still types the exact match.
+// 2.18.0 adds Russian: KeyKey's own ru.lproj, and DragonKit 4.2.0, which translates the shared
+// panes and puts Русский in Settings ▸ General ▸ Language. One `.added` entry, with no other change
+// a user can see, since DragonKit 4.2.0 adds Russian and nothing else.
 //
 // Keys are the fleet's stable set (app.whatsNew.summary, .added1, .changed1, …), not named after
-// this release's content — a release just overwrites the same keys' text in all seven .strings
-// files rather than adding new ones and stranding the last release's. This release has no `.fixed`
-// entry, so 2.16.3's `.fixed1` is retired from all seven files rather than left stranded.
+// this release's content — a release just overwrites the same keys' text in every locale's .strings
+// file rather than adding new ones and stranding the last release's. 2.17.0 was also one `.added`
+// entry, so the keys are unchanged and only their text moves on, in all eight files.
 enum WhatsNewConfig {
     @MainActor
     static var content: WhatsNewContent {
