@@ -2,6 +2,13 @@
 
 A plain-language list of changes in each version, newest first.
 
+## Unreleased
+
+- **Internal: a plain `tools/build-app.sh` build no longer crashes at launch.** It signed the app
+  with the hardened runtime, which then refused to load the bundled Sparkle because neither had a
+  Developer ID. Releases are signed again with the Developer ID before they ship. Nothing changes
+  in the app.
+
 ## 2.17.0
 
 - **New: 顯示字根開頭相同的字 (設定… ▸ 一般 ▸ 輸入方式), off by default.** Turn it on and 倉頡
