@@ -54,10 +54,9 @@
 "keykey.general.installOldCopyMessage" = "無法移除位於 %@ 的舊拷貝。請自行將它移到垃圾桶，然後登出再重新登入。";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 無法確認自己的簽署。請從最新版本重新安裝後再試一次。";
 
-/* What's New pane (2.16.2) */
-"app.whatsNew.summary" = "注音現在可以一路連續打下去了。數字鍵所在的那一列沒有候選字時，會照常打出注音符號，不會再被吃掉；只有一個字的讀音則直接送出，不再開啟選字視窗——兩者都與原版 Yahoo! KeyKey 相同。倉頡、速成與拼音沒有任何變化。";
-"app.whatsNew.changed1" = "在注音中，只有一個字的讀音沒有可選的，所以打完聲調就直接送出，不再開啟選字視窗。聯想字詞仍會接著出現。";
-"app.whatsNew.fixed1" = "修正在注音中，選字視窗那一列沒有候選字時，數字鍵會被吃掉的問題。在「標準（大千）」鍵盤上，1 2 5 8 9 是 ㄅ ㄉ ㄓ ㄚ ㄞ，所以在較短的候選字清單之後，它們現在會開始打下一個字（不、的、這），3 4 6 7 則會修正聲調。那一列有候選字的數字鍵，仍然會選取該字。";
+/* What's New pane (2.16.3) */
+"app.whatsNew.summary" = "在倉頡、速成與注音中，Yahoo! KeyKey 2 用不到的按鍵，不會再蓋在你正在組字的字上。現在會先確認正在組的字，再讓這個按鍵照常作用。拼音原本就是這樣。";
+"app.whatsNew.fixed1" = "修正在倉頡、速成與注音中，組字途中按下逗號、Tab、Shift+1 等按鍵時，該按鍵會取代已標記的字，接著按空白鍵又會把字加在它後面的問題。現在會先用螢幕上的第一個候選字確認正在組的字，再讓按鍵照常作用：開啟「全形標點」時逗號會以全形輸出，Tab 與方向鍵則交給應用程式。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "從輸入來源中停用 Yahoo! KeyKey 2 的輸入方式";

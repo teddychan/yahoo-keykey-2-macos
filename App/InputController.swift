@@ -703,6 +703,18 @@ final class InputController: IMKInputController {
             resetCompositionState()
             refresh(client)
         }
+        // A key the engine does not take, while something is composing (a comma, Tab, Shift+1, an
+        // arrow with no candidates, `*` in 速成/注音; issue #160): handing it straight to the app
+        // would insert it over the marked text while the engine still holds the code, and the next
+        // Space would then commit the character after it. Commit what is on screen first — no 聯想,
+        // the user is mid-typing — and run the key again from idle, so a comma takes its full-width
+        // form and Tab or an arrow reaches the app. The commit empties the composition, so the
+        // second pass cannot come back here. Same shape as the 拼音 branch above.
+        if !consumed && !engine.composingText.isEmpty {
+            selectFirstCandidateOnScreen()
+            _ = commitCurrent(to: client)
+            return handle(event, client: sender)
+        }
         return consumed
     }
 

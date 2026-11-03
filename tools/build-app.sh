@@ -41,7 +41,7 @@ SPARKLE_CACHE="$ROOT/build/sparkle"
 # Never copied into App/ sources.
 KIT_DIR="$ROOT/vendor/dragon-kit"
 
-SDK="$(xcrun --show-sdk-path)"
+SDK="$(xcrun --sdk macosx --show-sdk-path)"
 # Apple Silicon only: pin the target to arm64 regardless of the build host's
 # architecture. Yahoo! KeyKey 2 does not ship an Intel (x86_64) slice. macOS 26 minimum.
 TARGET="arm64-apple-macosx26.0"
