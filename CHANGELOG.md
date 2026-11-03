@@ -4,6 +4,7 @@ A plain-language list of changes in each version, newest first.
 
 ## Unreleased
 
+- Added the 許氏 (Hsu) keyboard for 注音. Choose it in the input menu or Settings.
 - Local builds made without a Developer ID now launch successfully.
 
 ## 2.19.1
