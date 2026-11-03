@@ -29,6 +29,7 @@
 "keykey.general.zhuyinLayout" = "Clavier 注音";
 "keykey.general.zhuyinLayoutDachen" = "Standard (大千)";
 "keykey.general.zhuyinLayoutEten" = "倚天 (ETen)";
+"keykey.general.zhuyinLayoutHsu" = "許氏 (Hsu)";
 "keykey.general.zhuyinLayoutHint" = "L’emplacement des symboles 注音 (ㄅ半) sur le clavier, avec effet immédiat. « Standard (大千) » est la disposition imprimée sur les claviers taïwanais, celle du Yahoo! KeyKey d’origine. Espace donne le premier ton ; les touches 1–9 choisissent un candidat une fois la fenêtre affichée. En 注音, les expressions associées se choisissent toujours avec Maj + un chiffre, quel que soit le réglage ci-dessus, car les chiffres y servent à saisir le 注音.";
 "keykey.general.completions" = "Afficher aussi les caractères qui commencent par les radicaux tapés";
 "keykey.general.completionsHint" = "En 倉頡 et 速成, taper 竹 propose aussi 我 (竹手戈), comme si vous aviez tapé 竹*. Les caractères dont le code est exactement celui que vous avez tapé restent en tête, donc Espace les tape toujours. Utilisez les flèches ou Page suivante pour voir les autres.";

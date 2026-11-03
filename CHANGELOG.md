@@ -2,6 +2,14 @@
 
 A plain-language list of changes in each version, newest first.
 
+## Unreleased
+
+- **New: 許氏 (Hsu) keyboard for 注音.** Pick it next to 標準（大千） and 倚天 in the input menu
+  or in 設定… ▸ 一般. It uses only the 26 letter keys, so one key stands for several symbols and
+  the keys around it decide which: `m` is ㄇ or ㄢ, and `j` is ㄐ, ㄓ or the fourth tone. Space is
+  the first tone, and `d`, `f`, `j` and `s` type ˊ, ˇ, ˋ and ˙. 注音 still types one character at
+  a time. The rules for reading the keys come from McBopomofo (MIT).
+
 ## 2.17.0
 
 - **New: 顯示字根開頭相同的字 (設定… ▸ 一般 ▸ 輸入方式), off by default.** Turn it on and 倉頡
