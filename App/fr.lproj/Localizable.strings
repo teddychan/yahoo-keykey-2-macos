@@ -54,10 +54,9 @@
 "keykey.general.installOldCopyMessage" = "L’ancienne copie située dans %@ n’a pas pu être supprimée. Placez-la vous-même dans la corbeille, puis fermez la session et rouvrez-la.";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 n’a pas pu vérifier sa propre signature. Réinstallez-le depuis la dernière version, puis réessayez.";
 
-/* What's New pane (2.16.2) */
-"app.whatsNew.summary" = "Le 注音 suit désormais votre rythme quand vous tapez sans vous arrêter. Une touche chiffre sans candidat sur sa ligne saisit de nouveau du 注音 au lieu de se perdre, et une lecture qui n’a qu’un seul caractère va directement dans votre texte sans ouvrir la fenêtre des candidats, comme dans le Yahoo! KeyKey d’origine. Rien ne change pour 倉頡, 速成 ni 拼音.";
-"app.whatsNew.changed1" = "En 注音, une lecture qui n’a qu’un seul caractère est saisie dès que vous terminez son ton, sans ouvrir la fenêtre des candidats, puisqu’il n’y a rien à choisir. Les 聯想字詞 suivent toujours.";
-"app.whatsNew.fixed1" = "En 注音, une touche chiffre ne disparaît plus quand la fenêtre des candidats n’a aucun candidat sur sa ligne. Sur le clavier 標準 (大千), 1 2 5 8 9 saisissent ㄅ ㄉ ㄓ ㄚ ㄞ : après une courte liste, ils commencent maintenant le caractère suivant (不, 的, 這), et 3 4 6 7 corrigent le ton. Un chiffre dont la ligne a un candidat le choisit toujours.";
+/* What's New pane (2.16.3) */
+"app.whatsNew.summary" = "Une touche que Yahoo! KeyKey 2 n’utilise pas ne se pose plus sur le caractère que vous êtes encore en train de composer en 倉頡, 速成 et 注音. Le caractère est d’abord terminé, puis la touche fait son travail habituel. 拼音 fonctionnait déjà ainsi.";
+"app.whatsNew.fixed1" = "En 倉頡, 速成 et 注音, appuyer sur une virgule, Tab, Maj+1 ou une touche semblable pendant la composition d’un caractère mettait cette touche à la place du caractère marqué, et l’Espace suivant ajoutait le caractère après elle. Le caractère en cours est maintenant terminé d’abord, avec le premier candidat affiché, puis la touche fait son travail habituel. La virgule apparaît en pleine largeur quand Ponctuation pleine largeur est activée, et Tab et les flèches passent à l’application.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Désactiver les méthodes de saisie de Yahoo! KeyKey 2 dans les sources de saisie";

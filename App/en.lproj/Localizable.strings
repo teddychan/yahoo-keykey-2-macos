@@ -54,10 +54,9 @@
 "keykey.general.installOldCopyMessage" = "The old copy at %@ could not be removed. Move it to the Trash yourself, then log out and back in.";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 could not confirm its own signature. Reinstall it from the latest release and try again.";
 
-/* What's New pane (2.16.2) */
-"app.whatsNew.summary" = "注音 now keeps up when you type without stopping. A number key that has no candidate on its row types 注音 again instead of disappearing, and a reading with only one character goes straight into your text without opening the candidate window — both the way the original Yahoo! KeyKey worked. Nothing changes in 倉頡, 速成 or 拼音.";
-"app.whatsNew.changed1" = "In 注音, a reading with only one character is typed as soon as you finish its tone, without opening the candidate window, since there is nothing to choose. 聯想字詞 still follow it.";
-"app.whatsNew.fixed1" = "In 注音, a number key no longer disappears when the candidate window has no candidate on its row. On the 標準（大千）keyboard 1 2 5 8 9 type ㄅ ㄉ ㄓ ㄚ ㄞ, so after a short list they now start your next character — 不, 的, 這 — and 3 4 6 7 correct the tone. A number with a candidate on its row still picks it.";
+/* What's New pane (2.16.3) */
+"app.whatsNew.summary" = "A key that Yahoo! KeyKey 2 has no use for no longer lands on top of the character you are still typing in 倉頡, 速成 and 注音. The character is finished first, then the key does its normal job. 拼音 already worked this way.";
+"app.whatsNew.fixed1" = "In 倉頡, 速成 and 注音, pressing a comma, Tab, Shift+1 or a similar key while a character was still being composed put that key in place of the marked character, and the next Space then added the character after it. The character you were typing is now finished first, using the first candidate on screen, and then the key does its normal job. A comma comes out in its full-width form when Full-width punctuation is on, and Tab and the arrow keys go to the app.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Disable Yahoo! KeyKey 2's input methods from Input Sources";

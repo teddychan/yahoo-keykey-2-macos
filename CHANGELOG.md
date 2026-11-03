@@ -2,6 +2,20 @@
 
 A plain-language list of changes in each version, newest first.
 
+## 2.16.3
+
+- **Fixed: a key Yahoo! KeyKey 2 has no use for no longer lands on top of the character you are
+  still typing** (issue #160). In 倉頡, 速成 and 注音, pressing a comma, `Tab`, Shift+`1` or a
+  similar key while a character was being composed put that key in place of the marked character,
+  and the next Space added the character after it. The arrow keys did the same when the candidate
+  window had nothing to offer, as did the number keys in 倉頡 and `*` in 速成 and 注音. The
+  character you were typing is now finished first, using the first candidate on screen, and then
+  the key does its normal job. A comma comes out in its full-width form when **全形標點** is on,
+  and `Tab` and the arrow keys go to the app. 拼音 already worked this way.
+- **Internal: the build script now asks for the macOS SDK by name.** It no longer picks up the
+  Command Line Tools SDK when Xcode's is the one the Swift build uses, which failed with "cannot
+  load module 'DragonKit'". Nothing changes in the app.
+
 ## 2.16.2
 
 - **Fixed: in 注音, a number key no longer disappears when the candidate window has nothing on its

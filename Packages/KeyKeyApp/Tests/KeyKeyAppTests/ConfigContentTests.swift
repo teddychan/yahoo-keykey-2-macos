@@ -88,15 +88,14 @@ final class ConfigContentTests: XCTestCase {
         let short = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         XCTAssertEqual(content.displayVersion, DragonVersion.display(short ?? "1.0.0"))
         XCTAssertTrue(content.displayVersion.hasPrefix("v"))
-        XCTAssertEqual(content.date, "2026-10-08")
+        XCTAssertEqual(content.date, "2026-11-03")
     }
 
-    // 2.16.2 is [.changed, .fixed], both about 注音 (issue #148): `.changed1` for a reading with one
-    // character committing without a window, `.fixed1` for a number with no candidate on its row
-    // typing 注音 instead of being swallowed.
+    // 2.16.3 is [.fixed] with one entry (issue #160): a key the engine does not take, pressed while
+    // a character is composing, no longer lands over the marked text in the app.
     //
-    // 2.16.x's `.added1` and `.changed2` are gone from all seven .strings files rather than left
-    // stranded with no section to render them — see WhatsNewConfig.
+    // 2.16.2's `.changed1` is gone from all seven .strings files rather than left stranded with no
+    // section to render it — see WhatsNewConfig.
     //
     // Entry KEYS are pinned, not just kinds and counts, because kinds and counts had stopped
     // catching anything: 2.11.3, 2.11.4 and the 2.11.5 draft were all [.changed] with one entry —
@@ -107,12 +106,11 @@ final class ConfigContentTests: XCTestCase {
     // text SAYS is the release gate's job — it diffs every locale's .strings file — so between
     // them a stale pane cannot ship.
     @MainActor
-    func testWhatsNewAnnouncesTheZhuyinRunOnFixes() {
+    func testWhatsNewAnnouncesTheKeyLeakFix() {
         let content = WhatsNewConfig.content
-        XCTAssertEqual(content.sections.map(\.kind), [.changed, .fixed])
-        XCTAssertEqual(content.sections.map(\.entries.count), [1, 1])
+        XCTAssertEqual(content.sections.map(\.kind), [.fixed])
+        XCTAssertEqual(content.sections.map(\.entries.count), [1])
         XCTAssertEqual(content.sections.flatMap(\.entries), [
-            L("app.whatsNew.changed1"),
             L("app.whatsNew.fixed1"),
         ])
     }
