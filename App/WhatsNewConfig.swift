@@ -6,9 +6,10 @@ import DragonKit
 // binary isn't. That makes the entries and the date the only things to keep in sync with
 // CHANGELOG.md on release.
 //
-// 2.18.0 adds Russian: KeyKey's own ru.lproj, and DragonKit 4.2.0, which translates the shared
-// panes and puts Русский in Settings ▸ General ▸ Language. One `.added` entry, with no other change
-// a user can see, since DragonKit 4.2.0 adds Russian and nothing else.
+// 2.18.0 adds Russian: KeyKey's own ru.lproj, and DragonKit 4.3.0, which translates the shared
+// panes and puts Русский in Settings ▸ General ▸ Language. One `.added` entry. 4.3.0's other
+// change, menu icons kept on macOS 27, is not announced: KeyKey's 關於 / 設定… items sit in the
+// input menu, which the system draws, and the fix is unconfirmed there.
 //
 // Keys are the fleet's stable set (app.whatsNew.summary, .added1, .changed1, …), not named after
 // this release's content — a release just overwrites the same keys' text in every locale's .strings
