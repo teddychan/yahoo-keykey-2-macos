@@ -1,5 +1,5 @@
 /* App-specific strings for Yahoo! KeyKey 2. DragonKit's own UI strings live in its own
-   bundle (7 languages) and are not duplicated here. */
+   bundle (8 languages) and are not duplicated here. */
 
 /* Sidebar pane title (General). Other panes use DragonKit's built-in titles. */
 "keykey.pane.general" = "一般";
@@ -56,9 +56,9 @@
 "keykey.general.installOldCopyMessage" = "%@ にある古いコピーを削除できませんでした。ご自分でゴミ箱に入れてから、ログアウトしてもう一度ログインしてください。";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 は自身の署名を確認できませんでした。最新のリリースから再インストールして、もう一度お試しください。";
 
-/* What's New pane (2.16.3) */
-"app.whatsNew.summary" = "倉頡と速成で、入力したコードで始まる文字も候補に出せるようになりました。「竹」と打つと「我」も出ます。初期設定はオフです。";
-"app.whatsNew.added1" = "一般 ▸ 入力方式 に新しい設定「入力した字根で始まる文字も表示」を追加しました。初期設定はオフです。オンにすると、倉頡や速成で「竹」と打ったときに「我」（竹手戈）も候補に出ます。「竹*」と打ったときと同じです。コードが入力どおりの文字は先頭のままなので、スペースキーでこれまでどおり「竹」が入り、それ以外の文字は矢印キーか Page Down で表示します。";
+/* What's New pane (2.18.0) */
+"app.whatsNew.summary" = "Yahoo! KeyKey 2 がロシア語に対応しました。設定… ▸ 一般 ▸ 言語 で「Русский」を選ぶと、再起動しなくてもすぐに切り替わります。";
+"app.whatsNew.added1" = "ロシア語に対応しました。Yahoo! KeyKey 2 の設定項目と説明のほか、情報、新機能、アップデート、バックアップと復元、アンインストールの各画面も翻訳されています。言語が「自動」で Mac の言語がロシア語の場合は、自動的にロシア語で表示されます。倉頡、速成、注音、拼音のモード名は、ほかの言語と同じく中国語のままです。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "入力ソースから Yahoo! KeyKey 2 の入力方式を無効にする";

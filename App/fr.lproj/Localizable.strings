@@ -1,5 +1,5 @@
 /* App-specific strings for Yahoo! KeyKey 2. DragonKit's own UI strings live in its own
-   bundle (7 languages) and are not duplicated here. */
+   bundle (8 languages) and are not duplicated here. */
 
 /* Sidebar pane title (General). Other panes use DragonKit's built-in titles. */
 "keykey.pane.general" = "Général";
@@ -56,9 +56,9 @@
 "keykey.general.installOldCopyMessage" = "L’ancienne copie située dans %@ n’a pas pu être supprimée. Placez-la vous-même dans la corbeille, puis fermez la session et rouvrez-la.";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 n’a pas pu vérifier sa propre signature. Réinstallez-le depuis la dernière version, puis réessayez.";
 
-/* What's New pane (2.16.3) */
-"app.whatsNew.summary" = "倉頡 et 速成 peuvent désormais proposer aussi les caractères dont le code commence par ce que vous avez tapé : taper 竹 propose aussi 我. L’option est désactivée par défaut.";
-"app.whatsNew.added1" = "Nouvelle option dans Général ▸ Méthode de saisie : Afficher aussi les caractères qui commencent par les radicaux tapés. Elle est désactivée par défaut. Une fois activée, taper 竹 en 倉頡 ou 速成 propose aussi 我 (竹手戈), comme si vous aviez tapé 竹*. Les caractères dont le code est exactement celui que vous avez tapé restent en tête, donc Espace tape toujours 竹, et les flèches ou Page suivante mènent aux autres.";
+/* What's New pane (2.18.0) */
+"app.whatsNew.summary" = "Yahoo! KeyKey 2 est désormais disponible en russe. Choisissez Русский dans Réglages… ▸ Général ▸ Langue : les réglages changent de langue aussitôt, sans redémarrage.";
+"app.whatsNew.added1" = "Russe. Tous les réglages et toutes les explications de Yahoo! KeyKey 2 sont traduits, de même que les sections À propos, Nouveautés, Mises à jour, Sauvegarde et Désinstaller. Si Langue est réglée sur Automatique et que votre Mac est en russe, Yahoo! KeyKey 2 s’affiche en russe de lui-même. Les noms des modes 倉頡, 速成, 注音 et 拼音 restent en chinois, comme dans toutes les autres langues.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Désactiver les méthodes de saisie de Yahoo! KeyKey 2 dans les sources de saisie";

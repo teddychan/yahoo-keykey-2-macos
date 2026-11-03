@@ -1,5 +1,5 @@
 /* App-specific strings for Yahoo! KeyKey 2. DragonKit's own UI strings live in its own
-   bundle (7 languages) and are not duplicated here. */
+   bundle (8 languages) and are not duplicated here. */
 
 /* Sidebar pane title (General). Other panes use DragonKit's built-in titles. */
 "keykey.pane.general" = "General";
@@ -56,9 +56,9 @@
 "keykey.general.installOldCopyMessage" = "No se ha podido eliminar la copia anterior en %@. Muévela tú a la Papelera y, después, cierra la sesión y vuelve a iniciarla.";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 no ha podido comprobar su propia firma. Vuelve a instalarlo desde la última versión e inténtalo de nuevo.";
 
-/* What's New pane (2.16.3) */
-"app.whatsNew.summary" = "倉頡 y 速成 ya pueden mostrar también los caracteres cuyo código empieza por lo que has escrito, así que al escribir 竹 también aparece 我. La opción viene desactivada.";
-"app.whatsNew.added1" = "Nueva opción en General ▸ Método de entrada: Mostrar también los caracteres que empiezan por los radicales escritos. Viene desactivada. Al activarla, escribir 竹 en 倉頡 o 速成 también muestra 我 (竹手戈), como si hubieras escrito 竹*. Los caracteres cuyo código es exactamente el que has escrito siguen primero, así que Espacio sigue escribiendo 竹, y las flechas o Av Pág llevan al resto.";
+/* What's New pane (2.18.0) */
+"app.whatsNew.summary" = "Yahoo! KeyKey 2 ya está disponible en ruso. Elige Русский en Ajustes… ▸ General ▸ Idioma y los ajustes cambian de idioma al momento, sin reiniciar.";
+"app.whatsNew.added1" = "Ruso. Todos los ajustes y explicaciones de Yahoo! KeyKey 2 están traducidos, igual que los paneles Acerca de, Novedades, Actualizaciones, Copia de seguridad y Desinstalar. Si Idioma está en Automático y tu Mac usa el ruso, Yahoo! KeyKey 2 aparece en ruso sin hacer nada más. Los nombres de los modos 倉頡, 速成, 注音 y 拼音 siguen en chino, como en los demás idiomas.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Desactivar los métodos de entrada de Yahoo! KeyKey 2 en Fuentes de entrada";
