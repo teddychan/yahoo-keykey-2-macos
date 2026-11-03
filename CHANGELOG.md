@@ -2,6 +2,10 @@
 
 A plain-language list of changes in each version, newest first.
 
+## Unreleased
+
+- Local builds made without a Developer ID now launch successfully.
+
 ## 2.19.1
 
 Restoring settings keeps the input method running, so you can keep typing in the same field.
