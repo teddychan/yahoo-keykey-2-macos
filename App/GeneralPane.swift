@@ -4,8 +4,8 @@ import KeyKeyEngine
 
 // KeyKey's General settings pane: the 安裝 section first (it moves this copy to /Library/Input
 // Methods — see SystemInstall), then the real input toggles (輸出簡體字 / 全形標點 / 聯想字詞 and the
-// 聯想只顯示接續字 option), the candidate font size, the 倉頡版本 picker and 以空白鍵確認字根
-// toggle, and the shared language picker. Everything but the 安裝 section binds to `SettingsModel`,
+// 聯想只顯示接續字 option), the candidate font size, the 倉頡版本 picker, the 顯示字根開頭相同的字
+// and 以空白鍵確認字根 toggles, and the shared language picker. Everything but the 安裝 section binds to `SettingsModel`,
 // which forwards to the live `Preferences` the engine reads — so changes apply on the next
 // composition, no restart.
 struct GeneralPane: SettingsPane {
@@ -74,6 +74,8 @@ private struct GeneralPaneView: View {
                     Text(L("keykey.general.zhuyinLayoutEten")).tag(ZhuyinLayout.eten)
                 }
                 .dragonAnnotation(LocalizedStringKey(L("keykey.general.zhuyinLayoutHint")))
+                Toggle(L("keykey.general.completions"), isOn: $model.completions)
+                    .dragonAnnotation(LocalizedStringKey(L("keykey.general.completionsHint")))
                 Toggle(L("keykey.general.strokeConfirmation"), isOn: $model.strokeConfirmation)
                     .dragonAnnotation(LocalizedStringKey(L("keykey.general.strokeConfirmationHint")))
                 // Governs every input method, not just the 倉頡版本 above it — hence the explicit

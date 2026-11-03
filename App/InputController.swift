@@ -81,11 +81,13 @@ final class InputController: IMKInputController {
         let modules = [
             InputMethodModule(modeSuffix: "Cangjie", displayName: "倉頡") {
                 CangjieEngine(table: shared.cangjieTable, characterRank: shared.cangjieRank,
-                              tableVersion: Preferences.cangjieVersion.rawValue, usageCount: usageCount)
+                              tableVersion: Preferences.cangjieVersion.rawValue, usageCount: usageCount,
+                              showsCompletions: { Preferences.completionsEnabled })
             },
             InputMethodModule(modeSuffix: "Simplex", displayName: "速成") {
                 SimplexEngine(table: shared.simplexTable, characterRank: shared.cangjieRank,
-                              tableVersion: Preferences.cangjieVersion.rawValue, usageCount: usageCount)
+                              tableVersion: Preferences.cangjieVersion.rawValue, usageCount: usageCount,
+                              showsCompletions: { Preferences.completionsEnabled })
             },
             // Written without a trailing closure, unlike its neighbours: the trailing closure
             // would bind to methodMenuItems (the last member), not makeEngine.
@@ -610,9 +612,12 @@ final class InputController: IMKInputController {
             }
             // SPACE pages to the next candidate page (wrapping last → first). On a
             // single page there is nothing to page, so fall through to the
-            // commit-first-candidate-on-space behaviour below.
+            // commit-first-candidate-on-space behaviour below. It pages only through the exact
+            // matches, so turning completions on leaves Space doing what it did: 竹 + Space still
+            // types 竹. The completions after them are reached with the arrows and Page Down.
+            let exactLastPage = (engine.exactCandidateCount - 1) / InputController.pageSize
             if event.keyCode == 49,
-               let page = KeyEventPolicy.spacePage(page: candidatePage, lastPage: lastPage) {
+               let page = KeyEventPolicy.spacePage(page: candidatePage, lastPage: exactLastPage) {
                 candidatePage = page
                 refresh(client)
                 return true
@@ -835,12 +840,13 @@ final class InputController: IMKInputController {
     }
 
     // Whether the active composition resolves to candidates before its code is complete: 速成
-    // (a first+last-radical shorthand) or a 倉頡 code carrying the `*` wildcard. `*` has no
-    // radical glyph, so composingText shows it literally and it is visible here. These are
-    // exactly the compositions where Space is not a stroke confirmation today (issue #61);
-    // plain 倉頡 types a determinate code, and 拼音 has its own key handling.
+    // (a first+last-radical shorthand), a 倉頡 code carrying the `*` wildcard, or one followed by
+    // completions. `*` has no radical glyph, so composingText shows it literally and it is
+    // visible here. These are exactly the compositions where Space is not a stroke confirmation
+    // (issue #61); plain 倉頡 types a determinate code, and 拼音 has its own key handling.
     private var isAutoCompletedComposition: Bool {
         engine is SimplexEngine || engine.composingText.contains("*")
+            || engine.exactCandidateCount < engine.candidates.count
     }
 
     // Pick the first candidate of the page on screen, so the commit that follows takes a character

@@ -130,6 +130,9 @@ rm -rf ~/Library/HTTPStorages/com.dragonapp.inputmethod.yahoo-keykey
   in 注音 you can look up how to type the same character in 倉頡.
 - **臨時英數** — hold **Shift** and press a letter to type that one English letter without
   switching input source.
+- **字根開頭相同的字** — turn on **顯示字根開頭相同的字** in Settings and typing 竹 in 倉頡 or
+  速成 also offers 我 (竹手戈), as `竹*` would. The characters whose code is exactly what you
+  typed stay first.
 - **全形空白** — turn on **Shift + 空白鍵輸入全形空白** in Settings and **Shift + Space** types a
   full-width space (　) in all four input methods.
 - **Backup and restore** — save your settings to a folder from **設定…** and bring them back

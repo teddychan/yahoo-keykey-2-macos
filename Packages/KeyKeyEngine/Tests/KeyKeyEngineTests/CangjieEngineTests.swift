@@ -242,6 +242,79 @@ final class CangjieEngineTests: XCTestCase {
         XCTAssertEqual(e.pendingUsage, [])
     }
 
+    // MARK: completions (顯示字根開頭相同的字)
+
+    private func makeWithCompletions(usageCount: @escaping (CandidateListKey, String) -> Int = { _, _ in 0 })
+        -> CangjieEngine {
+        CangjieEngine(table: Self.table, tableVersion: "5", usageCount: usageCount,
+                      showsCompletions: { true })
+    }
+
+    func testCompletionsAreOffByDefault() {
+        let e = make()
+        _ = e.handleKey("a")
+        XCTAssertEqual(e.candidates, ["日", "曰"])
+        XCTAssertEqual(e.exactCandidateCount, 2)
+    }
+
+    func testCompletionsFollowTheExactMatchesAsTheWildcardWould() {
+        let e = makeWithCompletions()
+        _ = e.handleKey("a")
+        XCTAssertEqual(e.candidates, ["日", "曰", "明", "冒", "韻", "漏"])
+        XCTAssertEqual(e.exactCandidateCount, 2)
+    }
+
+    func testACodeWithNoExactMatchStillOffersItsCompletions() {
+        let e = makeWithCompletions()
+        _ = e.handleKey("a"); _ = e.handleKey("b"); _ = e.handleKey("c"); _ = e.handleKey("d")
+        XCTAssertEqual(e.candidates, ["韻", "漏"])
+        XCTAssertEqual(e.exactCandidateCount, 0)
+    }
+
+    func testATypedWildcardGetsNoCompletions() {
+        let e = makeWithCompletions()
+        _ = e.handleKey("a"); _ = e.handleKey("*")
+        XCTAssertEqual(e.candidates, ["明", "冒", "韻", "漏"])
+        XCTAssertEqual(e.exactCandidateCount, 4)
+    }
+
+    func testAPickedCompletionNeverOvertakesAnExactMatch() {
+        // 漏 was picked often as a completion of `a`: it leads the completions, not the list.
+        let e = makeWithCompletions { list, c in
+            list == .cangjieWildcard(tableVersion: "5", pattern: "a*") && c == "漏" ? 5 : 0
+        }
+        _ = e.handleKey("a")
+        XCTAssertEqual(e.candidates, ["日", "曰", "漏", "明", "冒", "韻"])
+    }
+
+    func testEachTierCreditsItsOwnList() {
+        let e = makeWithCompletions()
+        _ = e.handleKey("a")
+        e.selectCandidate(1)   // 曰
+        XCTAssertEqual(e.pendingUsage,
+                       [CandidateUsage(list: .cangjie(tableVersion: "5", code: "a"), candidate: "曰")])
+        e.selectCandidate(3)   // 冒
+        XCTAssertEqual(e.pendingUsage,
+                       [CandidateUsage(list: .cangjieWildcard(tableVersion: "5", pattern: "a*"),
+                                       candidate: "冒")])
+    }
+
+    func testACompletionTierOfOneCreditsNothing() {
+        let e = makeWithCompletions()
+        "abcde".forEach { _ = e.handleKey($0) }
+        XCTAssertEqual(e.candidates, ["韻", "漏"])
+        e.selectCandidate(1)   // 漏, the only completion
+        XCTAssertEqual(e.pendingUsage, [])
+    }
+
+    func testACharacterUnderBothCodesIsShownOnceAsAnExactMatch() {
+        let table = CangjieTable(text: "a\t日\nab\t日\nab\t明")
+        let e = CangjieEngine(table: table, tableVersion: "5", showsCompletions: { true })
+        _ = e.handleKey("a")
+        XCTAssertEqual(e.candidates, ["日", "明"])
+        XCTAssertEqual(e.exactCandidateCount, 1)
+    }
+
     func testCandidatesCacheInvalidatedByBackspace() {
         // candidates is cached; mutating the code (backspace) must refresh it.
         let e = make()

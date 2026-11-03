@@ -153,11 +153,13 @@ enum KeyEventPolicy {
         }
     }
 
-    /// The page SPACE moves to, wrapping last → first — or nil on a single page, where there is
-    /// nothing to page and Space keeps its other meaning (dismiss the 聯想 suggestions and insert a
-    /// literal space; with candidates up, commit the first one).
+    /// The page SPACE moves to, wrapping `lastPage` → first — or nil on a single page, where there
+    /// is nothing to page and Space keeps its other meaning (dismiss the 聯想 suggestions and
+    /// insert a literal space; with candidates up, commit the first one). Nil too past `lastPage`:
+    /// the caller passes the last page of exact matches, and on a page of completions beyond it
+    /// Space commits.
     static func spacePage(page: Int, lastPage: Int) -> Int? {
-        guard lastPage > 0 else { return nil }
+        guard lastPage > 0, page <= lastPage else { return nil }
         return (page + 1) % (lastPage + 1)
     }
 

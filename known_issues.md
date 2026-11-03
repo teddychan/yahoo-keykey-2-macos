@@ -66,8 +66,9 @@ each candidate's code next to it, so you can see what the current table expects.
 
 ## 4. Space pages instead of accepting my code
 
-In **速成**, and in **倉頡** when you use the `*` wildcard, candidates appear before you have
-finished typing the code — so Space pages through them instead of confirming.
+In **速成**, and in **倉頡** when you use the `*` wildcard or have **顯示字根開頭相同的字** on,
+candidates appear before you have finished typing the code — so Space pages through them instead
+of confirming.
 
 **Fix:** turn on **設定… ▸ 一般 ▸ 輸入方式 ▸ 以空白鍵確認字根**. The first Space then confirms
 the code and stays on page 1, a second Space pages, and `1–9` picks.

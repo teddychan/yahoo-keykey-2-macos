@@ -62,6 +62,13 @@ final class SettingsModel {
         set { Preferences.strokeConfirmationEnabled = newValue }
     }
 
+    // 顯示字根開頭相同的字: list 倉頡/速成 completions after the exact matches. A plain toggle; the
+    // engines read Preferences live, so the next code typed picks it up.
+    var completions: Bool {
+        get { Preferences.completionsEnabled }
+        set { Preferences.completionsEnabled = newValue }
+    }
+
     // 依選字習慣調整候選字順序 (issue #85): whether user learning ranks candidates and 聯想, or the
     // built-in order stands. Another plain toggle, so a computed forwarder is right — InputController
     // reads Preferences live on every sort and every commit, so nothing needs rebuilding here.

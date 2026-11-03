@@ -13,7 +13,8 @@ final class PreferencesTests: XCTestCase {
         for key in ["candidateFontSize", "associatedPhrasesEnabled", "fullWidthPunctuationEnabled",
                     "outputSimplifiedEnabled", "cangjieVersion", "associationContinuationOnly",
                     "codeHintEnabled", "associationSelectionTrigger", "strokeConfirmationEnabled",
-                    "adaptiveCandidateOrderEnabled", "zhuyinLayout", "shiftSpaceFullWidthSpaceEnabled"] {
+                    "adaptiveCandidateOrderEnabled", "zhuyinLayout", "shiftSpaceFullWidthSpaceEnabled",
+                    "completionsEnabled"] {
             defaults.removeObject(forKey: key)
         }
         super.tearDown()
@@ -82,6 +83,11 @@ final class PreferencesTests: XCTestCase {
         Preferences.strokeConfirmationEnabled = false
         XCTAssertFalse(Preferences.strokeConfirmationEnabled)
 
+        Preferences.completionsEnabled = true
+        XCTAssertTrue(Preferences.completionsEnabled)
+        Preferences.completionsEnabled = false
+        XCTAssertFalse(Preferences.completionsEnabled)
+
         Preferences.adaptiveCandidateOrderEnabled = false
         XCTAssertFalse(Preferences.adaptiveCandidateOrderEnabled)
         Preferences.adaptiveCandidateOrderEnabled = true
@@ -98,6 +104,13 @@ final class PreferencesTests: XCTestCase {
     func testStrokeConfirmationDefaultsOffWhenAbsent() {
         defaults.removeObject(forKey: "strokeConfirmationEnabled")
         XCTAssertFalse(Preferences.strokeConfirmationEnabled)
+    }
+
+    // Absent (never set) must read false, so each code keeps offering only its own characters
+    // until the user turns completions on.
+    func testCompletionsDefaultOffWhenAbsent() {
+        defaults.removeObject(forKey: "completionsEnabled")
+        XCTAssertFalse(Preferences.completionsEnabled)
     }
 
     // Issue #135: absent (never set) must read false, so Shift + Space keeps behaving like Space
@@ -180,7 +193,8 @@ final class PreferencesTests: XCTestCase {
         for key in ["candidateFontSize", "associatedPhrasesEnabled", "fullWidthPunctuationEnabled",
                     "outputSimplifiedEnabled", "cangjieVersion", "associationContinuationOnly",
                     "codeHintEnabled", "associationSelectionTrigger", "strokeConfirmationEnabled",
-                    "adaptiveCandidateOrderEnabled", "zhuyinLayout", "shiftSpaceFullWidthSpaceEnabled"] {
+                    "adaptiveCandidateOrderEnabled", "zhuyinLayout", "shiftSpaceFullWidthSpaceEnabled",
+                    "completionsEnabled"] {
             defaults.removeObject(forKey: key)
         }
         Preferences.registerDefaults()
@@ -196,6 +210,7 @@ final class PreferencesTests: XCTestCase {
         // on a value some earlier test left behind.
         XCTAssertTrue(Preferences.adaptiveCandidateOrderEnabled)
         XCTAssertFalse(Preferences.shiftSpaceFullWidthSpaceEnabled)
+        XCTAssertFalse(Preferences.completionsEnabled)
         XCTAssertEqual(Preferences.cangjieVersion, .v5)
         XCTAssertEqual(Preferences.associationSelectionTrigger, .number)
         // 大千 by default: the layout on a Taiwanese keyboard, and the original Yahoo! KeyKey's.
