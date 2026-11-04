@@ -56,9 +56,9 @@
 "keykey.general.installOldCopyMessage" = "No se ha podido eliminar la copia anterior en %@. Muévela tú a la Papelera y, después, cierra la sesión y vuelve a iniciarla.";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 no ha podido comprobar su propia firma. Vuelve a instalarlo desde la última versión e inténtalo de nuevo.";
 
-/* What's New pane (2.18.0) */
-"app.whatsNew.summary" = "Yahoo! KeyKey 2 ya está disponible en ruso. Elige Русский en Ajustes… ▸ General ▸ Idioma y los ajustes cambian de idioma al momento, sin reiniciar.";
-"app.whatsNew.added1" = "Ruso. Todos los ajustes y explicaciones de Yahoo! KeyKey 2 están traducidos, igual que los paneles Acerca de, Novedades, Actualizaciones, Copia de seguridad y Desinstalar. Si Idioma está en Automático y tu Mac usa el ruso, Yahoo! KeyKey 2 aparece en ruso sin hacer nada más. Los nombres de los modos 倉頡, 速成, 注音 y 拼音 siguen en chino, como en los demás idiomas.";
+/* What's New pane (2.18.1) */
+"app.whatsNew.summary" = "Las comprobaciones de actualizaciones ahora usan la dirección web actual de la app. Nada más ha cambiado en Yahoo! KeyKey 2.";
+"app.whatsNew.changed1" = "Yahoo! KeyKey 2 ahora busca actualizaciones en la dirección web actual de la app. Nada más ha cambiado. La escritura, la lista de candidatos, tus ajustes y lo que ha aprendido funcionan exactamente igual que en la 2.18.0.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Desactivar los métodos de entrada de Yahoo! KeyKey 2 en Fuentes de entrada";

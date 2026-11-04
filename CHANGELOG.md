@@ -2,6 +2,12 @@
 
 A plain-language list of changes in each version, newest first.
 
+## 2.18.1
+
+- **Update checks now use the app's current web address.** Yahoo! KeyKey 2 looks for new versions
+  at the address of its renamed home on GitHub. Nothing else in the app changed: typing, the
+  candidate list, your settings and your learning data behave exactly as they did in 2.18.0.
+
 ## 2.18.0
 
 - **New: Russian (Русский).** Choose Русский under Settings… ▸ General ▸ Language and Settings

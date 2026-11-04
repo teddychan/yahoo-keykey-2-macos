@@ -56,9 +56,9 @@
 "keykey.general.installOldCopyMessage" = "无法移除位于 %@ 的旧副本。请自行将它移到废纸篓，然后注销并重新登录。";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 无法确认自己的签名。请从最新版本重新安装后再试一次。";
 
-/* What's New pane (2.18.0) */
-"app.whatsNew.summary" = "Yahoo! KeyKey 2 现已支持俄语。在“设置… ▸ 通用 ▸ 语言”中选择“Русский”，无需重新启动即可立即切换。";
-"app.whatsNew.added1" = "新增俄语。Yahoo! KeyKey 2 的所有设置和说明，以及“关于”“新功能”“更新”“备份与恢复”“卸载”面板都已翻译。如果“语言”设为“自动”，而你的 Mac 使用俄语，Yahoo! KeyKey 2 会自动以俄语显示。仓颉、速成、注音、拼音的模式名称和其他语言一样保持中文。";
+/* What's New pane (2.18.1) */
+"app.whatsNew.summary" = "检查更新现在使用应用当前的网址。Yahoo! KeyKey 2 的其他部分没有变化。";
+"app.whatsNew.changed1" = "Yahoo! KeyKey 2 现在通过应用当前的网址检查更新。其他方面没有变化。输入、候选字列表、设置和学习数据的表现与 2.18.0 完全相同。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "从输入源中停用 Yahoo! KeyKey 2 的输入方式";

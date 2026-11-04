@@ -56,9 +56,9 @@
 "keykey.general.installOldCopyMessage" = "The old copy at %@ could not be removed. Move it to the Trash yourself, then log out and back in.";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 could not confirm its own signature. Reinstall it from the latest release and try again.";
 
-/* What's New pane (2.18.0) */
-"app.whatsNew.summary" = "Yahoo! KeyKey 2 is now available in Russian. Choose Русский under Settings… ▸ General ▸ Language and Settings switches right away, without a restart.";
-"app.whatsNew.added1" = "Russian. Every Yahoo! KeyKey 2 setting and hint is translated, and so are the About, What's New, Updates, Backup & Restore and Uninstall panes. With Language set to Automatic, a Mac that uses Russian shows Yahoo! KeyKey 2 in Russian on its own. The mode names 倉頡, 速成, 注音 and 拼音 stay in Chinese, as in every other language.";
+/* What's New pane (2.18.1) */
+"app.whatsNew.summary" = "Update checks now use the app's current web address. Nothing else in Yahoo! KeyKey 2 has changed.";
+"app.whatsNew.changed1" = "Yahoo! KeyKey 2 now checks for updates at the app's current web address. Nothing else changed. Typing, the candidate list, your settings and your learning data behave exactly as they did in 2.18.0.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Disable Yahoo! KeyKey 2's input methods from Input Sources";

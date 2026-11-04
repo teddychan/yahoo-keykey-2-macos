@@ -6,24 +6,24 @@ import DragonKit
 // binary isn't. That makes the entries and the date the only things to keep in sync with
 // CHANGELOG.md on release.
 //
-// 2.18.0 adds Russian: KeyKey's own ru.lproj, and DragonKit 4.3.0, which translates the shared
-// panes and puts Русский in Settings ▸ General ▸ Language. One `.added` entry. 4.3.0's other
-// change, menu icons kept on macOS 27, is not announced: KeyKey's 關於 / 設定… items sit in the
-// input menu, which the system draws, and the fix is unconfirmed there.
+// 2.18.1 is a maintenance release: the only change is that update checks use the app's current web
+// address (SUFeedURL points at teddychan/yahoo-keykey-2-macos). One `.changed` entry says exactly
+// that, the same treatment 2.13.2 got. There is no kind for "nothing you can see", and inventing a
+// user-facing change to fill the slot is the one thing this pane must never do.
 //
 // Keys are the fleet's stable set (app.whatsNew.summary, .added1, .changed1, …), not named after
 // this release's content — a release just overwrites the same keys' text in every locale's .strings
-// file rather than adding new ones and stranding the last release's. 2.17.0 was also one `.added`
-// entry, so the keys are unchanged and only their text moves on, in all eight files.
+// file rather than adding new ones and stranding the last release's. 2.18.0's `.added1` is retired
+// from all eight files, replaced by `.changed1`, so no superseded sentence is left stranded.
 enum WhatsNewConfig {
     @MainActor
     static var content: WhatsNewContent {
         WhatsNewContent(
-            date: "2026-11-03",
+            date: "2026-11-04",
             summary: L("app.whatsNew.summary"),
             sections: [
-                ChangeSection(kind: .added, entries: [
-                    L("app.whatsNew.added1"),
+                ChangeSection(kind: .changed, entries: [
+                    L("app.whatsNew.changed1"),
                 ]),
             ]
         )
