@@ -128,7 +128,7 @@
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://raw.githubusercontent.com/teddychan/yahoo-keykey-2/main/docs/yahoo-keykey-2/appcast.xml</string>
+	<string>https://raw.githubusercontent.com/teddychan/yahoo-keykey-2-macos/main/docs/yahoo-keykey-2/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>p+F/ivF5bAYcmuNuCMNHcRv123A6LHFpCBagFm7Adu8=</string>
 	<key>SUScheduledCheckInterval</key>

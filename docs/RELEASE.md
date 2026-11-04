@@ -237,7 +237,7 @@ If running locally instead of CI:
 4. **Publish the appcast:** copy `build/appcast.xml` over `docs/yahoo-keykey-2/appcast.xml`
    **in this repo**, commit, and push. That is the file the app reads — `App/Info.plist`'s
    `SUFeedURL` is
-   `https://raw.githubusercontent.com/teddychan/yahoo-keykey-2/main/docs/yahoo-keykey-2/appcast.xml`.
+   `https://raw.githubusercontent.com/teddychan/yahoo-keykey-2-macos/main/docs/yahoo-keykey-2/appcast.xml`.
    This repo is the only destination: do **not** also copy it into the website repo. That
    mirror was retired in 2.12.0 ([above](#per-release-automated)).
 5. Bump the Homebrew cask `Casks/yahoo-keykey-2.rb` in `teddychan/homebrew-tap`
