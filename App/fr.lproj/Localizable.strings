@@ -56,9 +56,9 @@
 "keykey.general.installOldCopyMessage" = "L’ancienne copie située dans %@ n’a pas pu être supprimée. Placez-la vous-même dans la corbeille, puis fermez la session et rouvrez-la.";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 n’a pas pu vérifier sa propre signature. Réinstallez-le depuis la dernière version, puis réessayez.";
 
-/* What's New pane (2.18.0) */
-"app.whatsNew.summary" = "Yahoo! KeyKey 2 est désormais disponible en russe. Choisissez Русский dans Réglages… ▸ Général ▸ Langue : les réglages changent de langue aussitôt, sans redémarrage.";
-"app.whatsNew.added1" = "Russe. Tous les réglages et toutes les explications de Yahoo! KeyKey 2 sont traduits, de même que les sections À propos, Nouveautés, Mises à jour, Sauvegarde et Désinstaller. Si Langue est réglée sur Automatique et que votre Mac est en russe, Yahoo! KeyKey 2 s’affiche en russe de lui-même. Les noms des modes 倉頡, 速成, 注音 et 拼音 restent en chinois, comme dans toutes les autres langues.";
+/* What's New pane (2.18.1) */
+"app.whatsNew.summary" = "La recherche de mises à jour utilise désormais l'adresse web actuelle de l'app. Rien d'autre n'a changé dans Yahoo! KeyKey 2.";
+"app.whatsNew.changed1" = "Yahoo! KeyKey 2 recherche désormais les mises à jour à l'adresse web actuelle de l'app. Rien d'autre n'a changé. La saisie, la liste de candidats, vos réglages et ce que l'app a appris fonctionnent exactement comme dans la version 2.18.0.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Désactiver les méthodes de saisie de Yahoo! KeyKey 2 dans les sources de saisie";
