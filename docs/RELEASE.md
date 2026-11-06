@@ -255,7 +255,8 @@ If running locally instead of CI:
 
 ## End-user install instructions
 
-(Put these in the release notes / download page.)
+(These belong on the download page. The GitHub Release notes are the version's CHANGELOG entry
+and nothing else.)
 
 1. Download `YahooKeyKey2-<version>.zip` from the release and unzip it.
 2. **Copy `YahooKeyKey2.app`** (from the zip) into `~/Library/Input Methods/`
