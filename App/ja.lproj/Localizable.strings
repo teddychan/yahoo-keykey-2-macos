@@ -57,8 +57,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 は自身の署名を確認できませんでした。最新のリリースから再インストールして、もう一度お試しください。";
 
 /* What's New pane (2.18.1) */
-"app.whatsNew.summary" = "アップデートの確認が、アプリの現在のWebアドレスを使うようになりました。Yahoo! KeyKey 2 のそれ以外の部分は変わっていません。";
-"app.whatsNew.changed1" = "Yahoo! KeyKey 2 は、アプリの現在のWebアドレスでアップデートを確認するようになりました。それ以外は変わっていません。入力、候補リスト、設定、学習データは 2.18.0 とまったく同じように動作します。";
+"app.whatsNew.summary" = "Yahoo! KeyKey 2 は、共通ツールキットの最新版を使うようになりました。お使いの機能に変更はありません。";
+"app.whatsNew.changed1" = "Yahoo! KeyKey 2 は、設定ウインドウを提供する共通ツールキット DragonKit 4.4.0 でビルドされるようになりました。入力、候補リスト、設定、学習データは 2.18.1 とまったく同じように動作します。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "入力ソースから Yahoo! KeyKey 2 の入力方式を無効にする";

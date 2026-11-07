@@ -2,6 +2,12 @@
 
 A plain-language list of changes in each version, newest first.
 
+## 2.19.0
+
+- **Internal: built with DragonKit 4.4.0.** DragonKit is the shared toolkit behind the Settings
+  window. The About pane now reads "Built with · DragonKit v4.4.0". Typing, the candidate list,
+  your settings and your learning data work exactly as they did in 2.18.1.
+
 ## 2.18.1
 
 - **Update checks now use the app's current web address.** Yahoo! KeyKey 2 looks for new versions

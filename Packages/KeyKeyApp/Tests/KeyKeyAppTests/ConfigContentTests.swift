@@ -88,12 +88,12 @@ final class ConfigContentTests: XCTestCase {
         let short = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         XCTAssertEqual(content.displayVersion, DragonVersion.display(short ?? "1.0.0"))
         XCTAssertTrue(content.displayVersion.hasPrefix("v"))
-        XCTAssertEqual(content.date, "2026-11-04")
+        XCTAssertEqual(content.date, "2026-11-07")
     }
 
-    // 2.18.1 is [.changed] with one entry: the maintenance note (update checks use the app's current
-    // web address, nothing else changed). 2.18.0's `.added1` key is retired; the release gate's diff
-    // of every locale's .strings file is what shows the text moved on — see WhatsNewConfig.
+    // 2.19.0 is [.changed] with one entry: the maintenance note (built with DragonKit 4.4.0, nothing
+    // else changed), the same keys as 2.18.1; the release gate's diff of every locale's .strings file
+    // is what shows the text moved on — see WhatsNewConfig.
     //
     // Entry KEYS are pinned, not just kinds and counts, because kinds and counts had stopped
     // catching anything: 2.11.3, 2.11.4 and the 2.11.5 draft were all [.changed] with one entry —

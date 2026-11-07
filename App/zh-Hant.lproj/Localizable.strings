@@ -57,8 +57,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 無法確認自己的簽署。請從最新版本重新安裝後再試一次。";
 
 /* What's New pane (2.18.1) */
-"app.whatsNew.summary" = "檢查更新現在使用 App 目前的網址。Yahoo! KeyKey 2 的其他部分沒有變動。";
-"app.whatsNew.changed1" = "Yahoo! KeyKey 2 現在透過 App 目前的網址檢查更新。其他方面沒有變動。輸入、候選字清單、設定和學習資料的表現與 2.18.0 完全相同。";
+"app.whatsNew.summary" = "Yahoo! KeyKey 2 現在使用最新版的共用工具組。你使用的功能沒有變動。";
+"app.whatsNew.changed1" = "Yahoo! KeyKey 2 現在使用 DragonKit 4.4.0 建置，它是提供設定視窗的共用工具組。輸入、候選字清單、設定和學習資料的表現與 2.18.1 完全相同。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "從輸入來源中停用 Yahoo! KeyKey 2 的輸入方式";
