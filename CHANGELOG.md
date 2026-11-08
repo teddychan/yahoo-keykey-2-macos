@@ -2,6 +2,12 @@
 
 A plain-language list of changes in each version, newest first.
 
+## 2.19.1
+
+Restoring settings keeps the input method running, so you can keep typing in the same field.
+Settings backups keep each app's files separate in a shared folder. Saving twice in one second
+preserves both backups, and deletion errors are shown. Updated to DragonKit 4.5.1.
+
 ## 2.19.0
 
 - **Internal: built with DragonKit 4.4.0.** DragonKit is the shared toolkit behind the Settings

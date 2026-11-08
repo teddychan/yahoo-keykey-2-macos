@@ -276,12 +276,3 @@ final class SharedResources {
         NotificationCenter.default.post(name: .cangjieVersionChanged, object: nil)
     }
 }
-
-extension Notification.Name {
-    // Posted after SharedResources rebuilds its Cangjie/Simplex tables for a new version.
-    static let cangjieVersionChanged = Notification.Name("YahooKeyKeyCangjieVersionChanged")
-    // Posted after the 注音鍵盤 setting changes, from Settings or the input menu. Nothing is
-    // rebuilt in SharedResources for it — the ㄅ半 table is the same whichever keyboard types it,
-    // so only the live engines need swapping (see InputController.rebuildActiveEngine).
-    static let zhuyinLayoutChanged = Notification.Name("YahooKeyKeyZhuyinLayoutChanged")
-}
