@@ -19,38 +19,58 @@ final class SettingsModel {
     // name is the app's bundle id. Backup snapshots this whole domain.
     static var suiteName: String { Bundle.main.bundleIdentifier ?? "com.dragonapp.inputmethod.yahoo-keykey" }
 
+    private var preferencesRevision: UInt = 0
+
     var outputSimplified: Bool {
-        get { Preferences.outputSimplifiedEnabled }
+        get {
+            _ = preferencesRevision
+            return Preferences.outputSimplifiedEnabled
+        }
         set { Preferences.outputSimplifiedEnabled = newValue }
     }
 
     var fullWidthPunctuation: Bool {
-        get { Preferences.fullWidthPunctuationEnabled }
+        get {
+            _ = preferencesRevision
+            return Preferences.fullWidthPunctuationEnabled
+        }
         set { Preferences.fullWidthPunctuationEnabled = newValue }
     }
 
     // Shift + 空白鍵輸入全形空白 (issue #135). A plain toggle, so a computed forwarder is fine;
     // InputController reads Preferences live on every key press.
     var shiftSpaceFullWidthSpace: Bool {
-        get { Preferences.shiftSpaceFullWidthSpaceEnabled }
+        get {
+            _ = preferencesRevision
+            return Preferences.shiftSpaceFullWidthSpaceEnabled
+        }
         set { Preferences.shiftSpaceFullWidthSpaceEnabled = newValue }
     }
 
     var associatedPhrases: Bool {
-        get { Preferences.associatedPhrasesEnabled }
+        get {
+            _ = preferencesRevision
+            return Preferences.associatedPhrasesEnabled
+        }
         set { Preferences.associatedPhrasesEnabled = newValue }
     }
 
     // 聯想只顯示接續字 (v2.2.0 feature): show only the continuation after the committed character
     // in the 聯想 window. Forwards to the pre-existing Preferences key (not redefined here).
     var associationContinuationOnly: Bool {
-        get { Preferences.associationContinuationOnly }
+        get {
+            _ = preferencesRevision
+            return Preferences.associationContinuationOnly
+        }
         set { Preferences.associationContinuationOnly = newValue }
     }
 
     // 反查/拆碼提示: show each single character's 倉頡 code in the candidate window.
     var codeHint: Bool {
-        get { Preferences.codeHintEnabled }
+        get {
+            _ = preferencesRevision
+            return Preferences.codeHintEnabled
+        }
         set { Preferences.codeHintEnabled = newValue }
     }
 
@@ -58,14 +78,20 @@ final class SettingsModel {
     // typed strokes before Space resumes paging or committing. A plain toggle, so a computed
     // forwarder is fine here — only Picker/Slider need the stored-property treatment below.
     var strokeConfirmation: Bool {
-        get { Preferences.strokeConfirmationEnabled }
+        get {
+            _ = preferencesRevision
+            return Preferences.strokeConfirmationEnabled
+        }
         set { Preferences.strokeConfirmationEnabled = newValue }
     }
 
     // 顯示字根開頭相同的字: list 倉頡/速成 completions after the exact matches. A plain toggle; the
     // engines read Preferences live, so the next code typed picks it up.
     var completions: Bool {
-        get { Preferences.completionsEnabled }
+        get {
+            _ = preferencesRevision
+            return Preferences.completionsEnabled
+        }
         set { Preferences.completionsEnabled = newValue }
     }
 
@@ -73,7 +99,10 @@ final class SettingsModel {
     // built-in order stands. Another plain toggle, so a computed forwarder is right — InputController
     // reads Preferences live on every sort and every commit, so nothing needs rebuilding here.
     var adaptiveCandidateOrder: Bool {
-        get { Preferences.adaptiveCandidateOrderEnabled }
+        get {
+            _ = preferencesRevision
+            return Preferences.adaptiveCandidateOrderEnabled
+        }
         set { Preferences.adaptiveCandidateOrderEnabled = newValue }
     }
 
@@ -85,7 +114,7 @@ final class SettingsModel {
     // to Preferences, which the candidate window reads directly on the next composition.
     var candidateFontSize: Double = Double(Preferences.candidateFontSize) {
         didSet {
-            guard candidateFontSize != oldValue else { return }
+            guard CGFloat(candidateFontSize) != Preferences.candidateFontSize else { return }
             Preferences.candidateFontSize = CGFloat(candidateFontSize)
         }
     }
@@ -98,9 +127,9 @@ final class SettingsModel {
     // engine reads that directly) and reloads the shared tables + live engines.
     var cangjieVersion: CangjieVersion = Preferences.cangjieVersion {
         didSet {
-            guard cangjieVersion != oldValue else { return }
+            guard cangjieVersion != Preferences.cangjieVersion else { return }
             Preferences.cangjieVersion = cangjieVersion
-            SharedResources.shared.reloadCangjieTables()
+            onCangjieVersionChange()
         }
     }
 
@@ -130,7 +159,10 @@ final class SettingsModel {
     // and the block holds it weakly.
     @ObservationIgnored private var zhuyinLayoutObserver: NSObjectProtocol?
 
-    init() {
+    @ObservationIgnored private let onCangjieVersionChange: () -> Void
+
+    init(onCangjieVersionChange: @escaping () -> Void) {
+        self.onCangjieVersionChange = onCangjieVersionChange
         zhuyinLayoutObserver = NotificationCenter.default.addObserver(
             forName: .zhuyinLayoutChanged, object: nil, queue: .main
         ) { [weak self] _ in
@@ -149,7 +181,7 @@ final class SettingsModel {
     // writes through to Preferences, which InputController reads live on the next composition.
     var associationTrigger: AssociationTrigger = Preferences.associationSelectionTrigger {
         didSet {
-            guard associationTrigger != oldValue else { return }
+            guard associationTrigger != Preferences.associationSelectionTrigger else { return }
             Preferences.associationSelectionTrigger = associationTrigger
         }
     }
@@ -157,13 +189,13 @@ final class SettingsModel {
     var minFontSize: Double { Double(Preferences.minFontSize) }
     var maxFontSize: Double { Double(Preferences.maxFontSize) }
 
-    // Re-seed the observation-tracked mirror properties (candidateFontSize, zhuyinLayout) from
-    // the live Preferences. The computed forwarders above re-read Preferences on every access, so
-    // they always reflect changes made elsewhere; a stored property does not. Call this before
-    // showing the window so the slider matches whatever value Preferences currently holds (e.g. a
-    // value migrated from an older build). No-op when already in sync (the didSet guard skips the write).
+    // Restoring a domain bypasses UI setters. Read all mirrors without persisting default values,
+    // then invalidate computed bindings even when only a boolean changed in the snapshot.
     func syncFromPreferences() {
         candidateFontSize = Double(Preferences.candidateFontSize)
+        cangjieVersion = Preferences.cangjieVersion
         zhuyinLayout = Preferences.zhuyinLayout
+        associationTrigger = Preferences.associationSelectionTrigger
+        preferencesRevision &+= 1
     }
 }

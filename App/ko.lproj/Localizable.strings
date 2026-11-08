@@ -57,10 +57,12 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2가 자신의 서명을 확인할 수 없습니다. 최신 릴리스로 다시 설치한 다음 다시 시도하십시오.";
 
 /* What's New pane (2.18.1) */
-"app.whatsNew.summary" = "Yahoo! KeyKey 2가 이제 공용 툴킷의 최신 버전을 사용합니다. 사용하시는 기능은 바뀌지 않았습니다.";
-"app.whatsNew.changed1" = "Yahoo! KeyKey 2가 이제 설정 창을 제공하는 공용 툴킷인 DragonKit 4.4.0으로 빌드됩니다. 입력, 후보 목록, 설정, 학습 데이터는 2.18.1과 똑같이 동작합니다.";
+"app.whatsNew.summary" = "설정을 복원한 뒤에도 계속 입력할 수 있습니다.";
+"app.whatsNew.changed1" = "입력기를 다시 시작하지 않고 복원한 설정을 적용하므로 같은 입력란에서 계속 입력할 수 있습니다. 공유 폴더의 백업을 앱별로 구분하고, 같은 초에 저장한 백업도 모두 보존하며, 삭제 오류를 표시합니다.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "입력 소스에서 Yahoo! KeyKey 2의 입력 방식 사용 중지";
 "keykey.uninstall.item.learningAndSettings" = "사용자 학습 데이터와 환경설정 삭제";
 "keykey.uninstall.item.trash" = "Yahoo! KeyKey 2를 휴지통으로 이동";
+
+"keykey.backup.restoreConfirmation" = "현재 설정을 이 백업으로 바꾸시겠습니까? 복원한 설정은 즉시 적용됩니다.";

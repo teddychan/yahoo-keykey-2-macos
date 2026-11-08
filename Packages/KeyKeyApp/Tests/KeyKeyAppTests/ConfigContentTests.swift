@@ -88,13 +88,9 @@ final class ConfigContentTests: XCTestCase {
         let short = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         XCTAssertEqual(content.displayVersion, DragonVersion.display(short ?? "1.0.0"))
         XCTAssertTrue(content.displayVersion.hasPrefix("v"))
-        XCTAssertEqual(content.date, "2026-11-07")
+        XCTAssertEqual(content.date, "2026-11-08")
     }
 
-    // 2.19.0 is [.changed] with one entry: the maintenance note (built with DragonKit 4.4.0, nothing
-    // else changed), the same keys as 2.18.1; the release gate's diff of every locale's .strings file
-    // is what shows the text moved on — see WhatsNewConfig.
-    //
     // Entry KEYS are pinned, not just kinds and counts, because kinds and counts had stopped
     // catching anything: 2.11.3, 2.11.4 and the 2.11.5 draft were all [.changed] with one entry —
     // three in a row — so a release that forgot to touch the notes would have passed unchanged
@@ -104,9 +100,9 @@ final class ConfigContentTests: XCTestCase {
     // text SAYS is the release gate's job — it diffs every locale's .strings file — so between
     // them a stale pane cannot ship.
     @MainActor
-    func testWhatsNewIsTheMaintenanceNote() {
+    func testWhatsNewDescribesBackupFixes() {
         let content = WhatsNewConfig.content
-        XCTAssertEqual(content.sections.map(\.kind), [.changed])
+        XCTAssertEqual(content.sections.map(\.kind), [.fixed])
         XCTAssertEqual(content.sections.map(\.entries.count), [1])
         XCTAssertEqual(content.sections.flatMap(\.entries), [
             L("app.whatsNew.changed1"),

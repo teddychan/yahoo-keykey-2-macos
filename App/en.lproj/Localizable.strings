@@ -57,10 +57,12 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 could not confirm its own signature. Reinstall it from the latest release and try again.";
 
 /* What's New pane (2.18.1) */
-"app.whatsNew.summary" = "Yahoo! KeyKey 2 now uses the latest version of its shared toolkit. Nothing you use has changed.";
-"app.whatsNew.changed1" = "Yahoo! KeyKey 2 is now built with DragonKit 4.4.0, the shared toolkit behind its Settings window. Typing, the candidate list, your settings and your learning data work exactly as they did in 2.18.1.";
+"app.whatsNew.summary" = "Restore settings and keep typing.";
+"app.whatsNew.changed1" = "Restored settings apply without restarting the input method, so you can keep typing in the same field. Backups in a shared folder stay separate, same-second saves are preserved, and deletion errors are shown.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Disable Yahoo! KeyKey 2's input methods from Input Sources";
 "keykey.uninstall.item.learningAndSettings" = "Delete user-learning data and preferences";
 "keykey.uninstall.item.trash" = "Move Yahoo! KeyKey 2 to the Trash";
+
+"keykey.backup.restoreConfirmation" = "Replace your current settings with this backup? The restored settings apply immediately.";

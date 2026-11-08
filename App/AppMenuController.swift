@@ -15,7 +15,9 @@ import DragonKitUpdates
 final class AppMenuController {
     static let shared = AppMenuController()
 
-    private let model = SettingsModel()
+    private let model = SettingsModel(
+        onCangjieVersionChange: { SharedResources.shared.reloadCangjieTables() }
+    )
     private let updater = DragonUpdater()
     private let selection = SettingsSelection()
 
@@ -60,7 +62,8 @@ final class AppMenuController {
             appName: AboutConfig.appName,
             suiteName: SettingsModel.suiteName,
             appVersion: AboutConfig.versionString,
-            relaunch: { [weak self] in self?.relaunch() }
+            restoreConfirmationMessage: L("keykey.backup.restoreConfirmation"),
+            relaunch: { [weak self] in self?.applyRestoredSettings() }
         )
     }
 
@@ -163,10 +166,9 @@ final class AppMenuController {
         updater.checkForUpdates()
     }
 
-    private func relaunch() {
-        // Deselect our input sources and quit; macOS relaunches the IME on next keystroke,
-        // picking up the restored settings. (An IME can't cleanly re-open itself as an app.)
-        NSApp.terminate(nil)
+    private func applyRestoredSettings() {
+        model.syncFromPreferences()
+        SharedResources.shared.reloadCangjieTables()
     }
 }
 
