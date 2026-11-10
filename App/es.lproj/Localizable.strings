@@ -60,10 +60,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 no ha podido comprobar su propia firma. Vuelve a instalarlo desde la última versión e inténtalo de nuevo.";
 
 /* What's New pane */
-"app.whatsNew.summary" = "注音 incorpora el teclado 許氏 y la entrada inteligente de frases.";
-"app.whatsNew.added1" = "Elige el teclado 許氏 (Hsu) para 注音 desde el menú de entrada o Ajustes.";
-"app.whatsNew.added2" = "智慧選字 permite que el modelo de lenguaje elija los caracteres mientras escribes una frase en 注音. Está desactivado de forma predeterminada.";
-"app.whatsNew.changed1" = "Las compilaciones locales sin Developer ID ahora se abren correctamente.";
+"app.whatsNew.summary" = "Se corrigieron los signos de interrogación en recuadros en los candidatos de Yahoo 速成.";
+"app.whatsNew.changed1" = "Con 三代倉頡 seleccionado, 速成 ya no muestra caracteres no compatibles que aparecían como signos de interrogación en recuadros.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Desactivar los métodos de entrada de Yahoo! KeyKey 2 en Fuentes de entrada";

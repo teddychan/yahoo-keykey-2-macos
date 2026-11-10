@@ -60,10 +60,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 は自身の署名を確認できませんでした。最新のリリースから再インストールして、もう一度お試しください。";
 
 /* What's New pane */
-"app.whatsNew.summary" = "注音で許氏キーボードと文単位のスマート入力が使えます。";
-"app.whatsNew.added1" = "入力メニューまたは設定から、注音の許氏（Hsu）キーボードを選べます。";
-"app.whatsNew.added2" = "智慧選字を使うと、注音で文を入力しながら言語モデルが漢字を選びます。初期状態ではオフです。";
-"app.whatsNew.changed1" = "Developer IDを使わずにローカルでビルドしたアプリも正常に起動します。";
+"app.whatsNew.summary" = "Yahoo 速成の候補に疑問符の四角が表示される問題を修正しました。";
+"app.whatsNew.changed1" = "三代倉頡を選択した際、速成の候補に疑問符の四角で表示される未対応の文字が出なくなりました。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "入力ソースから Yahoo! KeyKey 2 の入力方式を無効にする";

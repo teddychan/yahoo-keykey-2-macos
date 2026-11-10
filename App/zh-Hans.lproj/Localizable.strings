@@ -60,10 +60,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 无法确认自己的签名。请从最新版本重新安装后再试一次。";
 
 /* What's New pane */
-"app.whatsNew.summary" = "注音新增许氏键盘和整句智慧选字。";
-"app.whatsNew.added1" = "可从输入法菜单或设置选择注音的许氏（Hsu）键盘。";
-"app.whatsNew.added2" = "智慧选字让语言模型在整句输入注音时挑选用字。此功能默认关闭。";
-"app.whatsNew.changed1" = "未使用 Developer ID 签名的本地构建现在可正常启动。";
+"app.whatsNew.summary" = "修复 Yahoo 速成候选字显示问号方框的问题。";
+"app.whatsNew.changed1" = "选用三代仓颉时，速成不再列出会显示为问号方框的不支持字符。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "从输入源中停用 Yahoo! KeyKey 2 的输入方式";

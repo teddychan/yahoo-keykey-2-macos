@@ -39,7 +39,9 @@ public struct SimplexTable {
             guard parts.count >= 2 else { continue }
             let code = String(parts[0])
             guard !code.isEmpty else { continue }
-            add(String(parts[1]), to: code)
+            let char = String(parts[1])
+            guard let ch = char.first, char.count == 1, CangjieTable.isRenderableCJK(ch) else { continue }
+            add(char, to: code)
         }
     }
 
