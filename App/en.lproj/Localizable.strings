@@ -59,9 +59,11 @@
 "keykey.general.installOldCopyMessage" = "The old copy at %@ could not be removed. Move it to the Trash yourself, then log out and back in.";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 could not confirm its own signature. Reinstall it from the latest release and try again.";
 
-/* What's New pane (2.18.1) */
-"app.whatsNew.summary" = "Restore settings and keep typing.";
-"app.whatsNew.changed1" = "Restored settings apply without restarting the input method, so you can keep typing in the same field. Backups in a shared folder stay separate, same-second saves are preserved, and deletion errors are shown.";
+/* What's New pane */
+"app.whatsNew.summary" = "注音 now supports the 許氏 keyboard and smart sentence input.";
+"app.whatsNew.added1" = "Choose the 許氏 (Hsu) keyboard for 注音 from the input menu or Settings.";
+"app.whatsNew.added2" = "智慧選字 lets the language model choose characters as you compose a sentence in 注音. It is off by default.";
+"app.whatsNew.changed1" = "Local builds made without a Developer ID now launch successfully.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Disable Yahoo! KeyKey 2's input methods from Input Sources";

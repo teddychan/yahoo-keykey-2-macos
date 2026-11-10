@@ -59,9 +59,11 @@
 "keykey.general.installOldCopyMessage" = "%@ にある古いコピーを削除できませんでした。ご自分でゴミ箱に入れてから、ログアウトしてもう一度ログインしてください。";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 は自身の署名を確認できませんでした。最新のリリースから再インストールして、もう一度お試しください。";
 
-/* What's New pane (2.18.1) */
-"app.whatsNew.summary" = "設定を復元して、そのまま入力を続けられます。";
-"app.whatsNew.changed1" = "設定の復元で入力メソッドを再起動しないため、同じ入力欄でそのまま入力を続けられます。共有フォルダでも各アプリのバックアップは個別に管理され、同じ秒の保存も両方が残り、削除エラーが表示されます。";
+/* What's New pane */
+"app.whatsNew.summary" = "注音で許氏キーボードと文単位のスマート入力が使えます。";
+"app.whatsNew.added1" = "入力メニューまたは設定から、注音の許氏（Hsu）キーボードを選べます。";
+"app.whatsNew.added2" = "智慧選字を使うと、注音で文を入力しながら言語モデルが漢字を選びます。初期状態ではオフです。";
+"app.whatsNew.changed1" = "Developer IDを使わずにローカルでビルドしたアプリも正常に起動します。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "入力ソースから Yahoo! KeyKey 2 の入力方式を無効にする";

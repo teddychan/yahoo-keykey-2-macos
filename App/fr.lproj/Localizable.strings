@@ -59,9 +59,11 @@
 "keykey.general.installOldCopyMessage" = "L’ancienne copie située dans %@ n’a pas pu être supprimée. Placez-la vous-même dans la corbeille, puis fermez la session et rouvrez-la.";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 n’a pas pu vérifier sa propre signature. Réinstallez-le depuis la dernière version, puis réessayez.";
 
-/* What's New pane (2.18.1) */
-"app.whatsNew.summary" = "Restaurez vos réglages et continuez à saisir.";
-"app.whatsNew.changed1" = "Les réglages restaurés s’appliquent sans redémarrer la méthode de saisie : vous pouvez continuer dans le même champ. Les sauvegardes d’un dossier partagé restent séparées, celles créées dans la même seconde sont conservées et les erreurs de suppression sont affichées.";
+/* What's New pane */
+"app.whatsNew.summary" = "注音 propose le clavier 許氏 et la saisie intelligente de phrases.";
+"app.whatsNew.added1" = "Choisissez le clavier 許氏 (Hsu) pour 注音 dans le menu de saisie ou les Réglages.";
+"app.whatsNew.added2" = "智慧選字 laisse le modèle de langue choisir les caractères pendant la saisie d'une phrase en 注音. Cette option est désactivée par défaut.";
+"app.whatsNew.changed1" = "Les versions compilées localement sans Developer ID se lancent désormais correctement.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Désactiver les méthodes de saisie de Yahoo! KeyKey 2 dans les sources de saisie";
