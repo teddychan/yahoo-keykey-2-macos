@@ -87,6 +87,7 @@ final class SettingsModelRestoreTests: XCTestCase {
             (\.associatedPhrases, "associatedPhrasesEnabled", false),
             (\.associationContinuationOnly, "associationContinuationOnly", true),
             (\.codeHint, "codeHintEnabled", true),
+            (\.zhuyinSmart, "zhuyinSmartEnabled", true),
             (\.strokeConfirmation, "strokeConfirmationEnabled", true),
             (\.completions, "completionsEnabled", true),
             (\.adaptiveCandidateOrder, "adaptiveCandidateOrderEnabled", false),
@@ -114,6 +115,23 @@ final class SettingsModelRestoreTests: XCTestCase {
         XCTAssertEqual(model.zhuyinLayout, .dachen)
         XCTAssertEqual(model.associationTrigger, .number)
         XCTAssertEqual(defaults.persistentDomain(forName: domain)! as NSDictionary, restored as NSDictionary)
+    }
+
+    @MainActor
+    func testInputMenuSmartSelectionChangeInvalidatesTheSettingsBinding() async {
+        let model = SettingsModel(onCangjieVersionChange: {})
+        let invalidation = expectation(description: "smart selection changed in the input menu")
+        withObservationTracking {
+            _ = model.zhuyinSmart
+        } onChange: {
+            invalidation.fulfill()
+        }
+
+        Preferences.zhuyinSmartEnabled = true
+        NotificationCenter.default.post(name: .zhuyinLayoutChanged, object: nil)
+
+        await fulfillment(of: [invalidation], timeout: 1)
+        XCTAssertTrue(model.zhuyinSmart)
     }
 
     @MainActor
