@@ -498,7 +498,7 @@ final class InputController: IMKInputController {
             let selectionDigit = KeyEventPolicy.associationSelectionDigit(
                 trigger: KeyEventPolicy.effectiveAssociationTrigger(
                     configured: Preferences.associationSelectionTrigger,
-                    methodTypesWithNumberKeys: engine is ZhuyinEngine),
+                    methodTypesWithNumberKeys: engine is ZhuyinEngine || engine is SmartZhuyinEngine),
                 characters: event.characters,
                 modifierFlags: event.modifierFlags,
                 keyCode: event.keyCode)
@@ -622,12 +622,14 @@ final class InputController: IMKInputController {
             // Digit 1–9: select the candidate for the cursor node, then advance to the next node —
             // or commit the whole buffer if this was the last node. So a single syllable commits
             // immediately (like 倉頡/速成), while multi-syllable phrases can be picked syllable by
-            // syllable; Space still commits everything at once. (First page only in v1.)
+            // syllable; Space still commits everything at once.
             // (On 大千/倚天 the digits are 注音 keys, so they type instead — see zhuyinClaimsKey.)
             if let chars = event.characters, let d = Int(chars), (1...9).contains(d),
                !(chars.first.map(zhuyinClaimsKey) ?? false) {
-                guard d - 1 < engine.candidates.count else { return true } // ignore out-of-range digit
-                return pickCandidate(d - 1, phrase: phrase, client: client)
+                guard let index = KeyEventPolicy.candidateIndex(digit: d, page: candidatePage,
+                                                               pageSize: InputController.pageSize,
+                                                               count: engine.candidates.count) else { return true }
+                return pickCandidate(index, phrase: phrase, client: client)
             }
             // Letters / apostrophe extend the composition.
             if let ch = event.characters?.first, engine.handleKey(ch) {

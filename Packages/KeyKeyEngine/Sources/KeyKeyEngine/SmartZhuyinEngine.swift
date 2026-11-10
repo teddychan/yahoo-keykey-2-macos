@@ -262,7 +262,7 @@ public final class SmartZhuyinEngine {
         if singles.isEmpty { add(Pick(range: here, value: readings[cursor])) }
         for value in singles { add(Pick(range: here, value: value)) }
         // 3. Longer words through this syllable, shortest first.
-        if n > 1 {
+        if n > 1, index.maxSpanLength > 1 {
             for length in 2...min(index.maxSpanLength, n) {
                 for start in max(0, cursor - length + 1)...min(cursor, n - length) {
                     let range = start..<(start + length)
