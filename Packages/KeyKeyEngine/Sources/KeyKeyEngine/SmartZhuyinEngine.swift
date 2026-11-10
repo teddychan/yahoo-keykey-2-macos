@@ -46,6 +46,9 @@ public final class SmartZhuyinEngine {
     // True once the user has moved the cursor off the end to revisit a character. Only then is a
     // character marked: while typing at the end the cursor is the end, and marking is noise.
     private var browsing = false
+    // True while the last finished syllable is the one just completed, with nothing typed since.
+    // Only that one is taken back into 注音 by Backspace; the ones before it are deleted whole.
+    private var freshTail = false
 
     /// `index` must be built with `keepTones: true`: its keys are full readings (ㄋㄧˇ-ㄏㄠˇ).
     public init(index: TonelessLanguageModelIndex, layout: ZhuyinKeyboardLayout,
@@ -64,6 +67,7 @@ public final class SmartZhuyinEngine {
     public func handleKey(_ key: Character) -> Bool {
         guard let next = layout.combine(key, into: current) else { return false }
         browsing = false
+        freshTail = false
         // A syllable past the cap is refused, but the key is still ours: it must not leak to the app.
         if finished.count >= Self.maxComposingSyllables, next.isComplete { return true }
         current = next
@@ -86,12 +90,16 @@ public final class SmartZhuyinEngine {
         return true
     }
 
+    /// Takes back the last thing typed. The character just finished goes back into 注音 with its
+    /// tone off, so a wrong tone is one key to fix; after that, and for every character before it,
+    /// Backspace deletes the whole character — walking back through each one's 注音 would take
+    /// several keys apiece for something already settled.
     public func backspace() {
         browsing = false
         if current.isEmpty {
-            // Back into the last finished syllable, tone off, so it can be retyped.
             guard let last = finished.popLast() else { return }
-            current = layout.backspaced(last)
+            if freshTail { current = layout.backspaced(last) }
+            freshTail = false
         } else {
             current = layout.backspaced(current)
         }
@@ -193,7 +201,7 @@ public final class SmartZhuyinEngine {
     public func commit() -> String {
         let text = composingText
         finished = []; current = ZhuyinSyllable(); overrides = []; nodes = []
-        cursor = 0; browsing = false; cachedPicks = nil
+        cursor = 0; browsing = false; freshTail = false; cachedPicks = nil
         return text
     }
 
@@ -205,6 +213,7 @@ public final class SmartZhuyinEngine {
         if current.isComplete {
             finished.append(current)
             current = ZhuyinSyllable()
+            freshTail = true
         }
         // Typing always goes on at the end of the sentence.
         cursor = Int.max

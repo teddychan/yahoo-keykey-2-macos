@@ -183,4 +183,30 @@ final class SmartZhuyinEngineTests: XCTestCase {
         type("nefhwf", into: e)                    // 你好: a single word, nothing to reorder
         XCTAssertTrue(e.pendingUsage.isEmpty)
     }
+
+    func testOnlyTheCharacterJustFinishedGoesBackIntoZhuyin() {
+        let e = engine()
+        type("nefhwf", into: e)                    // 你好
+        e.backspace()                              // 好 back to its 注音, tone off
+        XCTAssertEqual(e.composingText, "你ㄏㄠ")
+        e.backspace()                              // peel its symbols (許氏 reads a lone `h` as ㄛ)
+        e.backspace()
+        XCTAssertEqual(e.composingText, "你")
+        e.backspace()                              // 你 is deleted whole, not reopened as ㄋㄧ
+        XCTAssertEqual(e.composingText, "")
+    }
+
+    func testEarlierCharactersAreDeletedOneKeyEach() {
+        let lm = "ㄋㄧˇ 你 -3.0\nㄏㄠˇ 好 -3.0\nㄨㄛˇ 我 -2.0"
+        let e = SmartZhuyinEngine(index: TonelessLanguageModelIndex(text: lm, keepTones: true), layout: .hsu)
+        type("xhfnefhwf", into: e)                 // 我你好
+        XCTAssertEqual(e.composingText, "我你好")
+        type("n", into: e)                         // start another syllable, so 好 is no longer fresh
+        e.backspace()
+        XCTAssertEqual(e.composingText, "我你好", "only the unfinished syllable went")
+        e.backspace()
+        XCTAssertEqual(e.composingText, "我你", "好 is deleted whole")
+        e.backspace()
+        XCTAssertEqual(e.composingText, "我")
+    }
 }

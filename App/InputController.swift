@@ -32,6 +32,9 @@ final class InputController: IMKInputController {
     private let candidateWindow = CandidateWindow()
     // Current candidate page (9 per page) for the active composition; reused for association paging.
     private var candidatePage = 0
+    // 智慧注音: the candidate the Up/Down arrows are on (an index into all candidates, not the page),
+    // or nil when none is highlighted. Space/Return pick it; anything else clears it.
+    private var candidateHighlight: Int?
     // Stroke confirmation for the active composition (issue #61). Only consulted when
     // Preferences.strokeConfirmationEnabled and the composition is auto-completed (速成, or 倉頡
     // with a `*` wildcard): until the user has pressed Space once, Space confirms the strokes
@@ -573,6 +576,31 @@ final class InputController: IMKInputController {
         // Space/Return commit the whole buffer; Backspace deletes; Esc discards.
         // Runs BEFORE the Cangjie/Simplex candidate block so those semantics don't apply.
         if let phrase = engine as? PhraseComposingEngine, !engine.composingText.isEmpty {
+            // 智慧注音: Up/Down walk a highlight through the candidates (paging as it goes) and Space or
+            // Return pick the highlighted one, exactly as its number would; Esc drops the highlight.
+            // Left/Right still move the cursor, and any other key clears the highlight.
+            if engine is SmartZhuyinEngine {
+                let count = engine.candidates.count
+                switch event.keyCode {
+                case 125, 126: // Down / Up
+                    guard count > 0 else { return true }
+                    let step = event.keyCode == 125 ? 1 : -1
+                    let next = (candidateHighlight ?? (step > 0 ? -1 : 0)) + step
+                    candidateHighlight = min(max(next, 0), count - 1)
+                    candidatePage = (candidateHighlight ?? 0) / InputController.pageSize
+                    refresh(client); return true
+                default:
+                    if let highlighted = candidateHighlight {
+                        if event.keyCode == 49 || event.keyCode == 36 { // Space / Return
+                            return pickCandidate(highlighted, phrase: phrase, client: client)
+                        }
+                        if event.keyCode == 53 { // Esc: drop the highlight, keep the composition
+                            candidateHighlight = nil; refresh(client); return true
+                        }
+                    }
+                    candidateHighlight = nil
+                }
+            }
             // 智慧注音: Space is the first-tone key while a syllable is unfinished; it commits the
             // sentence only once there is no syllable left to tone.
             if event.keyCode == 49, let smart = engine as? SmartZhuyinEngine, smart.applyFirstTone() {
@@ -599,13 +627,7 @@ final class InputController: IMKInputController {
             if let chars = event.characters, let d = Int(chars), (1...9).contains(d),
                !(chars.first.map(zhuyinClaimsKey) ?? false) {
                 guard d - 1 < engine.candidates.count else { return true } // ignore out-of-range digit
-                engine.selectCandidate(d - 1)
-                if phrase.moveCursorRight() {
-                    candidatePage = 0
-                    refresh(client)
-                    return true
-                }
-                return commitCurrent(to: client, offerAssociations: true)
+                return pickCandidate(d - 1, phrase: phrase, client: client)
             }
             // Letters / apostrophe extend the composition.
             if let ch = event.characters?.first, engine.handleKey(ch) {
@@ -778,6 +800,19 @@ final class InputController: IMKInputController {
         return consumed
     }
 
+    // Choose candidate `index` for the cursor's word, then move on to the next one — or commit the
+    // whole buffer when that was the last. Shared by the digit keys and 智慧注音's highlight.
+    private func pickCandidate(_ index: Int, phrase: PhraseComposingEngine, client: IMKTextInput) -> Bool {
+        engine.selectCandidate(index)
+        candidateHighlight = nil
+        if phrase.moveCursorRight() {
+            candidatePage = 0
+            refresh(client)
+            return true
+        }
+        return commitCurrent(to: client, offerAssociations: true)
+    }
+
     override func commitComposition(_ sender: Any!) {
         guard let client = sender as? IMKTextInput else { return }
         _ = commitCurrent(to: client)
@@ -891,6 +926,7 @@ final class InputController: IMKInputController {
     // engine swap) — NOT while merely paging, which must keep the confirmation.
     private func resetCompositionState() {
         candidatePage = 0
+        candidateHighlight = nil
         strokeConfirmed = false
     }
 
@@ -995,7 +1031,10 @@ final class InputController: IMKInputController {
             var rect = NSRect.zero
             client.attributes(forCharacterIndex: 0, lineHeightRectangle: &rect)
             candidateWindow.show(page, page: candidatePage, pageCount: pageCount,
-                                 fontSize: Preferences.candidateFontSize, hints: hints, near: rect)
+                                 fontSize: Preferences.candidateFontSize, hints: hints,
+                                 selected: associations.isEmpty
+                                     ? candidateHighlight.map { $0 - candidatePage * size } : nil,
+                                 near: rect)
         }
     }
 
