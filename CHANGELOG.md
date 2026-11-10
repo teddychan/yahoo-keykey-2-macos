@@ -2,6 +2,10 @@
 
 A plain-language list of changes in each version, newest first.
 
+## 2.20.1
+
+- Fixed boxed question marks in the Yahoo 速成 candidate list when using 三代倉頡.
+
 ## 2.20.0
 
 - Added optional 智慧選字 for whole-sentence 注音 input. It stays off until you enable it.

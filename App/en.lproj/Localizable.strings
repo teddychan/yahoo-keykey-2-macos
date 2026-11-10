@@ -60,10 +60,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 could not confirm its own signature. Reinstall it from the latest release and try again.";
 
 /* What's New pane */
-"app.whatsNew.summary" = "注音 now supports the 許氏 keyboard and smart sentence input.";
-"app.whatsNew.added1" = "Choose the 許氏 (Hsu) keyboard for 注音 from the input menu or Settings.";
-"app.whatsNew.added2" = "智慧選字 lets the language model choose characters as you compose a sentence in 注音. It is off by default.";
-"app.whatsNew.changed1" = "Local builds made without a Developer ID now launch successfully.";
+"app.whatsNew.summary" = "Fixed missing characters in Yahoo 速成 candidates.";
+"app.whatsNew.changed1" = "With 三代倉頡 selected, 速成 no longer lists unsupported characters that appear as boxed question marks.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Disable Yahoo! KeyKey 2's input methods from Input Sources";

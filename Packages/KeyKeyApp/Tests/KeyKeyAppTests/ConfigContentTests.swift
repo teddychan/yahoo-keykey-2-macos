@@ -100,13 +100,11 @@ final class ConfigContentTests: XCTestCase {
     // text SAYS is the release gate's job — it diffs every locale's .strings file — so between
     // them a stale pane cannot ship.
     @MainActor
-    func testWhatsNewDescribesZhuyinAdditionsAndLocalBuildFix() {
+    func testWhatsNewDescribesSimplexCandidateFix() {
         let content = WhatsNewConfig.content
-        XCTAssertEqual(content.sections.map(\.kind), [.added, .fixed])
-        XCTAssertEqual(content.sections.map(\.entries.count), [2, 1])
+        XCTAssertEqual(content.sections.map(\.kind), [.fixed])
+        XCTAssertEqual(content.sections.map(\.entries.count), [1])
         XCTAssertEqual(content.sections.flatMap(\.entries), [
-            L("app.whatsNew.added1"),
-            L("app.whatsNew.added2"),
             L("app.whatsNew.changed1"),
         ])
     }
