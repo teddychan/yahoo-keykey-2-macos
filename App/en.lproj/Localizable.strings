@@ -31,7 +31,7 @@
 "keykey.general.zhuyinLayoutEten" = "倚天 (ETen)";
 "keykey.general.zhuyinLayoutHsu" = "許氏 (Hsu)";
 "keykey.general.zhuyinSmart" = "Smart selection for 注音 (whole sentences)";
-"keykey.general.zhuyinSmartHint" = "Type a whole sentence of 注音 and the language model picks the characters, as in the original Yahoo! KeyKey. A tone key, or Space for the first tone, ends each syllable; arrows move between words and 1–9 swap a word for another candidate; Space or Return commits the sentence. Off, 注音 types one character at a time.";
+"keykey.general.zhuyinSmartHint" = "Type a sentence of 注音 and let the language model pick the characters. End each syllable with a tone key, or Space for the first tone. Left and Right move the cursor. Up and Down highlight a candidate; Space accepts it. With no candidate highlighted, Space or Return commits the sentence. When off, 注音 types one character at a time.";
 "keykey.general.zhuyinLayoutHint" = "Where the 注音 symbols sit on the keyboard, effective immediately. Standard (大千) is the layout printed on Taiwanese keyboards and the one the original Yahoo! KeyKey shipped. Space is the first tone; 1–9 pick a candidate once the window is up. In 注音, associated phrases are always picked with Shift + a number — whatever the setting above says — because the number keys type 注音 there.";
 "keykey.general.completions" = "Show characters that start with the typed radicals";
 "keykey.general.completionsHint" = "In 倉頡 and 速成, typing 竹 also lists 我 (竹手戈), as if you had typed 竹*. Characters whose code is exactly what you typed stay first, so Space still types them. Use the arrow keys or Page Down to reach the rest.";
