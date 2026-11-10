@@ -92,6 +92,21 @@ final class SimplexTableTests: XCTestCase {
         XCTAssertEqual(t.characters(forCode: ""), [])
     }
 
+    func testQuickCodeTextFiltersUnsupportedCharactersAndPreservesNativeOrder() {
+        let t = SimplexTable(quickCodeText: """
+        yl\t鄐
+        yl\t𨛖
+        yl\t\u{E474}
+        yl\t鄣
+        yl\t鄐
+        yl\t㢚
+        yl\t「
+        yl\t明昌
+        yl\tA
+        """)
+        XCTAssertEqual(t.characters(forCode: "yl"), ["鄐", "鄣", "㢚", "「"])
+    }
+
     func testInitFromQuickCodeContentsOfURL() throws {
         let dir = URL(fileURLWithPath: NSTemporaryDirectory())
             .appendingPathComponent("SimplexTableTests-\(UUID().uuidString)")
