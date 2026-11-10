@@ -80,7 +80,10 @@ final class SettingsModel {
     // 智慧選字. A computed forwarder (it drives a Toggle, not a menu Picker); the write also posts the
     // notification every live engine rebuilds on, the same one the input menu's toggle posts.
     var zhuyinSmart: Bool {
-        get { Preferences.zhuyinSmartEnabled }
+        get {
+            _ = preferencesRevision
+            return Preferences.zhuyinSmartEnabled
+        }
         set {
             guard newValue != Preferences.zhuyinSmartEnabled else { return }
             Preferences.zhuyinSmartEnabled = newValue
@@ -183,6 +186,7 @@ final class SettingsModel {
             MainActor.assumeIsolated {
                 let current = Preferences.zhuyinLayout
                 if self.zhuyinLayout != current { self.zhuyinLayout = current }
+                self.preferencesRevision &+= 1
             }
         }
     }
