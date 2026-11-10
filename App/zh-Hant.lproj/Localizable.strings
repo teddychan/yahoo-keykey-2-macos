@@ -59,9 +59,11 @@
 "keykey.general.installOldCopyMessage" = "無法移除位於 %@ 的舊拷貝。請自行將它移到垃圾桶，然後登出再重新登入。";
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 無法確認自己的簽署。請從最新版本重新安裝後再試一次。";
 
-/* What's New pane (2.18.1) */
-"app.whatsNew.summary" = "還原設定後，繼續輸入。";
-"app.whatsNew.changed1" = "還原設定時不再重新啟動輸入法，可在原來的輸入欄位中繼續輸入。共用檔案夾中的備份保持獨立，同一秒內儲存的備份都會保留，刪除失敗時會顯示錯誤。";
+/* What's New pane */
+"app.whatsNew.summary" = "注音新增許氏鍵盤和整句智慧選字。";
+"app.whatsNew.added1" = "可從輸入法選單或設定選擇注音的許氏（Hsu）鍵盤。";
+"app.whatsNew.added2" = "智慧選字讓語言模型在整句輸入注音時挑選用字。此功能預設關閉。";
+"app.whatsNew.changed1" = "未使用 Developer ID 簽署的本機建置現在可正常啟動。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "從輸入來源中停用 Yahoo! KeyKey 2 的輸入方式";
