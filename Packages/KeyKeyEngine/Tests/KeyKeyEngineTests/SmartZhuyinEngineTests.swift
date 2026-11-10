@@ -93,6 +93,25 @@ final class SmartZhuyinEngineTests: XCTestCase {
         XCTAssertEqual(e.composingText, "ㄅˋ")
     }
 
+    func testEmptyModelOffersTheReadingAfterMultipleSyllables() {
+        let e = SmartZhuyinEngine(index: TonelessLanguageModelIndex(text: "", keepTones: true),
+                                  layout: .hsu)
+        type("nefhwf", into: e)
+        XCTAssertEqual(e.composingText, "ㄋㄧˇㄏㄠˇ")
+        XCTAssertEqual(e.candidates, ["ㄏㄠˇ"])
+        XCTAssertEqual(e.commit(), "ㄋㄧˇㄏㄠˇ")
+    }
+
+    func testSingleSyllableModelOffersCandidatesAfterMultipleSyllables() {
+        let lm = "ㄋㄧˇ 你 -3.0\nㄏㄠˇ 好 -3.0"
+        let e = SmartZhuyinEngine(index: TonelessLanguageModelIndex(text: lm, keepTones: true),
+                                  layout: .hsu)
+        type("nefhwf", into: e)
+        XCTAssertEqual(e.composingText, "你好")
+        XCTAssertEqual(e.candidates, ["好"])
+        XCTAssertEqual(e.commit(), "你好")
+    }
+
     func testDachenWorksToo() {
         let e = engine(layout: .dachen)
         type("su3cl3", into: e)                    // ㄋㄧˇ ㄏㄠˇ → s u 3 / c l 3
