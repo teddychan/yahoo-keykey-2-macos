@@ -60,8 +60,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 n’a pas pu vérifier sa propre signature. Réinstallez-le depuis la dernière version, puis réessayez.";
 
 /* What's New pane */
-"app.whatsNew.summary" = "Correction des points d’interrogation encadrés dans les candidats Yahoo 速成.";
-"app.whatsNew.changed1" = "Avec 三代倉頡, 速成 ne propose plus les caractères non pris en charge qui apparaissaient comme des points d’interrogation encadrés.";
+"app.whatsNew.summary" = "Les candidats 倉頡 avec joker affichent d’abord les caractères courants.";
+"app.whatsNew.changed1" = "Un code 倉頡 avec *, comme 廿*木, affiche désormais d’abord les caractères les plus courants, en 三代倉頡 comme en 五代倉頡. En 三代倉頡, la liste suivait l’ordre des codes et 藥 se trouvait en page 8. Un code saisi en entier garde l’ordre de Yahoo! KeyKey.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Désactiver les méthodes de saisie de Yahoo! KeyKey 2 dans les sources de saisie";

@@ -67,11 +67,14 @@ public struct SimplexTable {
     public func characters(forCode code: String) -> [String] { table[code] ?? [] }
 
     /// Characters whose code starts with `code` and goes on past it (`h` gives `hi`'s 我), ordered
-    /// by code, then the table's order within each code.
+    /// by code, then the table's order within each code. A character under two of those codes (it
+    /// has two 倉頡 codes) is listed once, at its first.
     public func characters(extending code: String) -> [String] {
-        table.keys.filter { $0.count > code.count && $0.hasPrefix(code) }
+        var seen = Set<String>()
+        return table.keys.filter { $0.count > code.count && $0.hasPrefix(code) }
             .sorted()
             .flatMap { table[$0] ?? [] }
+            .filter { seen.insert($0).inserted }
     }
 
     private mutating func add(_ char: String, to simplex: String) {

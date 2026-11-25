@@ -76,21 +76,23 @@ final class InputController: IMKInputController {
         }
         self.userRank = userRank
 
-        // The input-method registry. Each module's makeEngine reads the shared tables and
-        // rank LIVE, so rebuilding an engine after a 倉頡版本 change picks up the new table
-        // (三代 uses an empty cangjieRank → the table's native order is preserved). The version
-        // is read the same way and becomes part of every list identity 倉頡/速成 report, so
-        // 三代 and 五代 counts stay in separate lists. 拼音 takes the per-character bonus instead:
-        // its ranking is out of scope for the per-list change.
+        // The input-method registry. Each module's makeEngine reads the shared tables LIVE, so
+        // rebuilding an engine after a 倉頡版本 change picks up the new table (三代 keeps its native
+        // order for exact codes, while its wildcard and completion lists are ranked like 五代's).
+        // The version is read the same way and becomes part of every list identity 倉頡/速成
+        // report, so 三代 and 五代 counts stay in separate lists. 拼音 takes the per-character
+        // bonus instead: its ranking is out of scope for the per-list change.
         // To add a method: append a module here and an Info.plist input mode — nothing else.
         let modules = [
             InputMethodModule(modeSuffix: "Cangjie", displayName: "倉頡") {
-                CangjieEngine(table: shared.cangjieTable, characterRank: shared.cangjieRank,
+                CangjieEngine(table: shared.cangjieTable, characterRank: shared.characterRank,
+                              keepsTableOrderForExactCodes: shared.cangjieKeepsTableOrder,
                               tableVersion: Preferences.cangjieVersion.rawValue, usageCount: usageCount,
                               showsCompletions: { Preferences.completionsEnabled })
             },
             InputMethodModule(modeSuffix: "Simplex", displayName: "速成") {
-                SimplexEngine(table: shared.simplexTable, characterRank: shared.cangjieRank,
+                SimplexEngine(table: shared.simplexTable, characterRank: shared.characterRank,
+                              keepsTableOrderForExactCodes: shared.cangjieKeepsTableOrder,
                               tableVersion: Preferences.cangjieVersion.rawValue, usageCount: usageCount,
                               showsCompletions: { Preferences.completionsEnabled })
             },

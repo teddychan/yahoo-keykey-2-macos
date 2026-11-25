@@ -15,6 +15,10 @@ public final class CangjieEngine {
 
     private let table: CangjieTable
     private let characterRank: [Character: Double]
+    // Whether a typed code's own list keeps the table's order instead of being ranked: 三代, whose
+    // table carries Yahoo! KeyKey's order for each code. Wildcard and completion lists are ranked
+    // either way, because they are gathered from many codes and have no such order of their own.
+    private let keepsTableOrderForExactCodes: Bool
     // Which 倉頡 table these candidates come from ("5"/"3"). Part of every list identity this
     // engine reports, because 三代 and 五代 answer the same code with different characters — the
     // same code is a different candidate list in each, and their counts must not mix.
@@ -35,11 +39,13 @@ public final class CangjieEngine {
     /// 三代 and 五代 counts in the same list by omitting an argument. `usageCount` does default,
     /// to the no-learning answer — zero everywhere leaves the built-in order untouched.
     public init(table: CangjieTable, characterRank: [Character: Double] = [:],
+                keepsTableOrderForExactCodes: Bool = false,
                 tableVersion: String,
                 usageCount: @escaping (CandidateListKey, String) -> Int = { _, _ in 0 },
                 showsCompletions: @escaping () -> Bool = { false }) {
         self.table = table
         self.characterRank = characterRank
+        self.keepsTableOrderForExactCodes = keepsTableOrderForExactCodes
         self.tableVersion = tableVersion
         self.usageCount = usageCount
         self.showsCompletions = showsCompletions
@@ -66,7 +72,8 @@ public final class CangjieEngine {
     /// Characters whose code matches the current radical sequence (supports `*`), then, with
     /// completions on, the characters `code*` matches. Each tier is ordered frequency-first over
     /// the built-in order (see `CandidateOrdering`); with no committed usage the table/rank order
-    /// is preserved unchanged.
+    /// is preserved unchanged. A wildcard and the completions are always ranked; an exact code's
+    /// list keeps the table's order when `keepsTableOrderForExactCodes` is set.
     public var candidates: [String] { tiers.all }
 
     /// How many leading `candidates` match the code exactly; the rest are completions.
@@ -81,7 +88,8 @@ public final class CangjieEngine {
 
     private func computeTiers() -> TieredCandidates {
         guard let list = candidateListKey else { return .none }
-        let exact = ordered(table.characters(matching: code), in: list)
+        let exact = ordered(table.characters(matching: code), in: list,
+                            keepingTableOrder: keepsTableOrderForExactCodes && !code.contains("*"))
         // A code that already carries `*` asked for its own wildcard, so it gets no completions.
         guard showsCompletions(), !code.contains("*") else {
             return TieredCandidates(exact: exact, in: list)
@@ -93,8 +101,10 @@ public final class CangjieEngine {
                                 in: completionList)
     }
 
-    private func ordered(_ matches: [String], in list: CandidateListKey) -> [String] {
-        CandidateOrdering.ordered(matches, rank: characterRank) { usageCount(list, $0) }
+    private func ordered(_ matches: [String], in list: CandidateListKey,
+                         keepingTableOrder: Bool = false) -> [String] {
+        CandidateOrdering.ordered(matches, rank: characterRank,
+                                  keepingTableOrder: keepingTableOrder) { usageCount(list, $0) }
     }
 
     /// Which candidate list the current code's exact matches form, or nil when nothing is being

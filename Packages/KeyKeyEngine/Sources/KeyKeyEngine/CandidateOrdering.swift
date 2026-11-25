@@ -10,15 +10,21 @@
 // The built-in baseline is the ordering this list had before any learning:
 //   - two candidates the language model ranks: the higher rank first;
 //   - a ranked candidate against an unranked one: the ranked one first;
-//   - two unranked candidates: the order the table gave them.
+//   - two unranked candidates: the more common first (see CommonnessTier), so a Hong Kong
+//     character comes before a Japanese or simplified form the model does not know either;
+//   - otherwise: the order the table gave them.
 // The ranks are compared AS OPTIONALS. An earlier version stood in a magic `-1e9` for "unranked"
 // so it could add a learned bonus to it, which meant the sort's correctness rested on that number
 // staying below every real log-probability and above what any bonus could climb. With counts
 // sorted first and separately there is nothing to add, so the absent rank can simply be absent.
 //
-// With a fresh store every count is zero, which leaves the baseline alone: the result is
-// byte-for-byte what the table and rank produced before adaptive ordering existed. 三代 supplies
-// an empty rank, so every candidate is unranked and the table's own order is what shows.
+// `keepingTableOrder` skips the rank and the tier and leaves the table's order as the whole
+// baseline. 三代 asks for it on an exact code's list, which is Yahoo! KeyKey's own order for that
+// code. It is never asked for on a wildcard or completion list: those are gathered from many
+// codes, and their "table order" is only the order of the codes themselves — shortest first, then
+// alphabetical — which is how 廿*木 came to show 藥 on page 8.
+//
+// With a fresh store every count is zero, which leaves the baseline alone.
 enum CandidateOrdering {
     /// `candidates` reordered frequency-first over their built-in order.
     ///
@@ -27,13 +33,19 @@ enum CandidateOrdering {
     /// been committed in the list being ordered — the caller has already fixed which list that is.
     static func ordered(_ candidates: [String],
                         rank: [Character: Double],
+                        keepingTableOrder: Bool = false,
                         usageCount: (String) -> Int) -> [String] {
-        // Score each candidate ONCE (usageCount reaches a locked store), then sort the tuples.
-        // The source offset is carried so the comparator can be a total order, which is what
-        // makes ties resolve to the built-in order rather than to sort implementation details.
+        // Score each candidate ONCE (usageCount reaches a locked store, and the tier an encoder),
+        // then sort the tuples. The source offset is carried so the comparator can be a total
+        // order, which is what makes ties resolve to the built-in order rather than to sort
+        // implementation details.
         return candidates.enumerated().map { offset, candidate in
-            (offset: offset, candidate: candidate,
-             count: usageCount(candidate), rank: candidate.first.flatMap { rank[$0] })
+            let character = candidate.first
+            let rank = keepingTableOrder ? nil : character.flatMap { rank[$0] }
+            // Looked up only where it can decide something: an unranked candidate in a ranked list.
+            let tier = keepingTableOrder || rank != nil ? nil : character.map(CommonnessTier.init)
+            return (offset: offset, candidate: candidate, count: usageCount(candidate),
+                    rank: rank, tier: tier)
         }.sorted { lhs, rhs in
             if lhs.count != rhs.count { return lhs.count > rhs.count }
             switch (lhs.rank, rhs.rank) {
@@ -42,6 +54,7 @@ enum CandidateOrdering {
             case (.none, .some): return false
             default: break                                     // equal ranks, or both unranked
             }
+            if let l = lhs.tier, let r = rhs.tier, l != r { return l < r }   // more common first
             return lhs.offset < rhs.offset                     // built-in order
         }.map(\.candidate)
     }

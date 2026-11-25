@@ -172,6 +172,19 @@ final class SimplexEngineTests: XCTestCase {
                                        candidate: "昌")])
     }
 
+    func testAnExactCodeKeepsTheTableOrderButCompletionsAreRanked() {
+        // 三代: the Yahoo 速成 table's order stands for a typed code; the completions of a shorter
+        // code are gathered from several codes, so they are ranked.
+        let e = SimplexEngine(table: Self.table, characterRank: ["昌": 0.0, "韻": -1.0],
+                              keepsTableOrderForExactCodes: true, tableVersion: "3",
+                              showsCompletions: { true })
+        _ = e.handleKey("a"); _ = e.handleKey("b")
+        XCTAssertEqual(e.candidates, ["明", "昌"])
+        e.backspace()
+        XCTAssertEqual(e.candidates, ["日", "昌", "韻", "明", "冒"])
+        XCTAssertEqual(e.exactCandidateCount, 1)
+    }
+
     func testAFullCodeHasNoCompletions() {
         let e = SimplexEngine(table: Self.table, tableVersion: "5", showsCompletions: { true })
         _ = e.handleKey("a"); _ = e.handleKey("b")

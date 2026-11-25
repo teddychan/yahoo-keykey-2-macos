@@ -60,8 +60,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2가 자신의 서명을 확인할 수 없습니다. 최신 릴리스로 다시 설치한 다음 다시 시도하십시오.";
 
 /* What's New pane */
-"app.whatsNew.summary" = "Yahoo 速成 후보에 물음표 상자가 표시되는 문제를 수정했습니다.";
-"app.whatsNew.changed1" = "三代倉頡을 선택하면 速成 후보에서 물음표 상자로 표시되던 지원하지 않는 문자를 제외합니다.";
+"app.whatsNew.summary" = "倉頡 와일드카드 후보가 자주 쓰는 문자부터 표시됩니다.";
+"app.whatsNew.changed1" = "廿*木처럼 *가 들어간 倉頡 코드는 三代倉頡과 五代倉頡 모두에서 자주 쓰는 문자가 먼저 표시됩니다. 三代倉頡에서는 지금까지 코드 순서로 표시되어 藥이 8페이지에 있었습니다. 코드를 모두 입력하면 지금처럼 Yahoo! KeyKey의 순서를 따릅니다.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "입력 소스에서 Yahoo! KeyKey 2의 입력 방식 사용 중지";

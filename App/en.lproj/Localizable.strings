@@ -60,8 +60,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 could not confirm its own signature. Reinstall it from the latest release and try again.";
 
 /* What's New pane */
-"app.whatsNew.summary" = "Fixed missing characters in Yahoo 速成 candidates.";
-"app.whatsNew.changed1" = "With 三代倉頡 selected, 速成 no longer lists unsupported characters that appear as boxed question marks.";
+"app.whatsNew.summary" = "倉頡 wildcard candidates now list common characters first.";
+"app.whatsNew.changed1" = "A 倉頡 code with *, such as 廿*木, now lists the most common characters first in both 三代倉頡 and 五代倉頡. With 三代倉頡 the list used to follow code order, which put 藥 on page 8. A code typed in full keeps Yahoo! KeyKey’s order.";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "Disable Yahoo! KeyKey 2's input methods from Input Sources";

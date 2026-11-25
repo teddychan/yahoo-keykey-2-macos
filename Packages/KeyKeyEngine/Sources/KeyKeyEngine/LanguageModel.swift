@@ -29,7 +29,8 @@ public struct LanguageModel {
     public func hasKey(_ key: String) -> Bool { table[key] != nil }
 
     /// Single-character max scores derived directly from already-split LM lines, WITHOUT
-    /// building the full `[String: [Unigram]]` table. Keeps only single-character values.
+    /// building the full `[String: [Unigram]]` table. Keeps only single-character values, and
+    /// skips control keys (see `isControlKey`).
     /// Callers that already have the file split into lines (e.g. to also build
     /// `AssociatedPhrases` from the same lines) should use this to avoid re-splitting.
     public static func characterScores(fromLines lines: [Substring]) -> [Character: Double] {
@@ -40,6 +41,7 @@ public struct LanguageModel {
             if line.isEmpty || line.hasPrefix("#") { continue }
             let parts = line.split(separator: " ")
             guard parts.count == 3, let score = Double(parts[2]) else { continue }
+            guard !Self.isControlKey(parts[0]) else { continue }
             let value = parts[1]
             guard value.count == 1, let ch = value.first else { continue }
             if let existing = scores[ch] { scores[ch] = max(existing, score) }
@@ -57,10 +59,10 @@ public struct LanguageModel {
     }
 
     /// Maps each single-character value to the MAX score seen for it across all
-    /// unigrams. Multi-character values are excluded. Higher score = more common.
+    /// unigrams. Multi-character values and control keys are excluded. Higher score = more common.
     public func characterScores() -> [Character: Double] {
         var scores: [Character: Double] = [:]
-        for grams in table.values {
+        for (key, grams) in table where !Self.isControlKey(key[...]) {
             for g in grams {
                 guard let ch = g.value.first, g.value.count == 1 else { continue }
                 if let existing = scores[ch] { scores[ch] = max(existing, g.score) }
@@ -69,4 +71,10 @@ public struct LanguageModel {
         }
         return scores
     }
+
+    /// McBopomofo's `_`-prefixed keys (`_punctuation_list`, `_kana_dou`, `_letter_A`…) map a key
+    /// to a character at a placeholder score of 0.0, which says nothing about how often the
+    /// character is used. Counted as a frequency, they put the rare 仝 above 的 and every other
+    /// real character, so the character scores read only real readings.
+    private static func isControlKey(_ key: Substring) -> Bool { key.hasPrefix("_") }
 }

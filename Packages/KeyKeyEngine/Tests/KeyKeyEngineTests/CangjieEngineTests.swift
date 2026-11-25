@@ -242,6 +242,44 @@ final class CangjieEngineTests: XCTestCase {
         XCTAssertEqual(e.pendingUsage, [])
     }
 
+    // MARK: 三代 — an exact code keeps the table's order, a gathered list is ranked
+
+    // 曰 and 漏 ranked highest, so a ranked list would move them up.
+    private func makeKeepingTableOrder(showsCompletions: Bool = false,
+                                       usageCount: @escaping (CandidateListKey, String) -> Int = { _, _ in 0 })
+        -> CangjieEngine {
+        CangjieEngine(table: Self.table, characterRank: ["曰": 0.0, "漏": -1.0],
+                      keepsTableOrderForExactCodes: true, tableVersion: "3",
+                      usageCount: usageCount, showsCompletions: { showsCompletions })
+    }
+
+    func testAnExactCodeKeepsTheTableOrderDespiteTheRank() {
+        let e = makeKeepingTableOrder()
+        _ = e.handleKey("a")
+        XCTAssertEqual(e.candidates, ["日", "曰"])
+    }
+
+    func testAWildcardIsRankedEvenWhenExactCodesKeepTheTableOrder() {
+        // 廿*木 showed 藥 on page 8 in 三代: a wildcard list is gathered from many codes, so its
+        // table order is only the order of those codes. It is ranked instead.
+        let e = makeKeepingTableOrder()
+        _ = e.handleKey("a"); _ = e.handleKey("*")
+        XCTAssertEqual(e.candidates, ["漏", "明", "冒", "韻"])
+    }
+
+    func testCompletionsAreRankedEvenWhenExactCodesKeepTheTableOrder() {
+        let e = makeKeepingTableOrder(showsCompletions: true)
+        _ = e.handleKey("a")
+        XCTAssertEqual(e.candidates, ["日", "曰", "漏", "明", "冒", "韻"])
+        XCTAssertEqual(e.exactCandidateCount, 2)
+    }
+
+    func testLearningStillLeadsAnExactCodeThatKeepsTheTableOrder() {
+        let e = makeKeepingTableOrder { _, c in c == "曰" ? 1 : 0 }
+        _ = e.handleKey("a")
+        XCTAssertEqual(e.candidates, ["曰", "日"])
+    }
+
     // MARK: completions (顯示字根開頭相同的字)
 
     private func makeWithCompletions(usageCount: @escaping (CandidateListKey, String) -> Int = { _, _ in 0 })

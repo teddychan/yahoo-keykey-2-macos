@@ -4,7 +4,7 @@ import XCTest
 // Verifies the bundled Yahoo! KeyKey 三代 tables (Resources/cangjie-yahoo.txt,
 // simplex-yahoo.txt) against the standard 五代 table (Resources/cangjie.txt): the
 // decompositions differ as documented in issue #30, and the Yahoo table's native line
-// order is preserved when the engine is given an empty rank.
+// order is preserved for an exact code when the engine keeps the table order, as 三代 does.
 final class YahooCangjieTableTests: XCTestCase {
     private func resourceURL(_ name: String) -> URL? {
         var dir = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
@@ -37,14 +37,14 @@ final class YahooCangjieTableTests: XCTestCase {
         XCTAssertFalse(v5.characters(forCode: "hi").contains("鬼"))
     }
 
-    // With an empty rank the engine preserves the Yahoo table's native line order (我 is the
-    // first candidate typed for hqi in the original Yahoo! KeyKey table).
-    func testYahooNativeOrderPreservedWithEmptyRank() throws {
+    // Keeping the table order, the engine shows an exact code in the Yahoo table's native line
+    // order (我 is the first candidate typed for hqi in the original Yahoo! KeyKey table).
+    func testYahooNativeOrderPreservedForAnExactCode() throws {
         guard let v3URL = resourceURL("cangjie-yahoo.txt") else {
             throw XCTSkip("cangjie-yahoo.txt not present")
         }
         let v3 = try CangjieTable(contentsOf: v3URL)
-        let engine = CangjieEngine(table: v3, characterRank: [:], tableVersion: "3")
+        let engine = CangjieEngine(table: v3, keepsTableOrderForExactCodes: true, tableVersion: "3")
         for key in "hqi" { _ = engine.handleKey(key) }
         XCTAssertEqual(engine.candidates.first, "我")
     }

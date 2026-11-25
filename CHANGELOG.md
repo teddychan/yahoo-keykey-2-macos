@@ -2,6 +2,14 @@
 
 A plain-language list of changes in each version, newest first.
 
+## 2.20.2
+
+- Fixed the order of 倉頡 wildcard candidates. With 三代倉頡 selected, a `*` list such as 廿*木 was
+  sorted by code rather than by how common each character is, so 藥 was on page 8. Wildcard lists
+  and 顯示字根開頭相同的字 now put common characters first in both 三代 and 五代; a code typed in
+  full keeps Yahoo! KeyKey's original order in 三代. A character with two matching codes is listed
+  once.
+
 ## 2.20.1
 
 - Fixed boxed question marks in the Yahoo 速成 candidate list when using 三代倉頡.

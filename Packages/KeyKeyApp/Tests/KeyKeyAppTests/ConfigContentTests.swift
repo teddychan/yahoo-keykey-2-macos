@@ -88,7 +88,7 @@ final class ConfigContentTests: XCTestCase {
         let short = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         XCTAssertEqual(content.displayVersion, DragonVersion.display(short ?? "1.0.0"))
         XCTAssertTrue(content.displayVersion.hasPrefix("v"))
-        XCTAssertEqual(content.date, "2026-11-10")
+        XCTAssertEqual(content.date, "2026-11-25")
     }
 
     // Entry KEYS are pinned, not just kinds and counts, because kinds and counts had stopped
@@ -100,7 +100,7 @@ final class ConfigContentTests: XCTestCase {
     // text SAYS is the release gate's job — it diffs every locale's .strings file — so between
     // them a stale pane cannot ship.
     @MainActor
-    func testWhatsNewDescribesSimplexCandidateFix() {
+    func testWhatsNewDescribesWildcardOrderFix() {
         let content = WhatsNewConfig.content
         XCTAssertEqual(content.sections.map(\.kind), [.fixed])
         XCTAssertEqual(content.sections.map(\.entries.count), [1])

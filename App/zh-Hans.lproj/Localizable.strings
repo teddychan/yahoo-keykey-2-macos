@@ -60,8 +60,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 无法确认自己的签名。请从最新版本重新安装后再试一次。";
 
 /* What's New pane */
-"app.whatsNew.summary" = "修复 Yahoo 速成候选字显示问号方框的问题。";
-"app.whatsNew.changed1" = "选用三代仓颉时，速成不再列出会显示为问号方框的不支持字符。";
+"app.whatsNew.summary" = "仓颉通配符候选字改为常用字优先。";
+"app.whatsNew.changed1" = "输入含通配符（*）的仓颉码（例如 廿*木）时，三代仓颉和五代仓颉都会先列出常用字。三代仓颉以往按字码排列，藥 要翻到第 8 页。完整输入的字码仍保持 Yahoo! KeyKey 原本的顺序。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "从输入源中停用 Yahoo! KeyKey 2 的输入方式";
