@@ -9,6 +9,9 @@ public final class SimplexEngine {
 
     private let table: SimplexTable
     private let characterRank: [Character: Double]
+    // Whether a typed code's own list keeps the table's order (三代: the Yahoo! KeyKey 速成 table's
+    // order); the completions are ranked either way. See `CangjieEngine`.
+    private let keepsTableOrderForExactCodes: Bool
     // Which 倉頡 table this 速成 table was derived from ("5"/"3"). Part of the list identity,
     // because the two tables answer the same code with different characters.
     private let tableVersion: String
@@ -25,11 +28,13 @@ public final class SimplexEngine {
 
     /// `tableVersion` has no default, for the reason on `CangjieEngine.init`.
     public init(table: SimplexTable, characterRank: [Character: Double] = [:],
+                keepsTableOrderForExactCodes: Bool = false,
                 tableVersion: String,
                 usageCount: @escaping (CandidateListKey, String) -> Int = { _, _ in 0 },
                 showsCompletions: @escaping () -> Bool = { false }) {
         self.table = table
         self.characterRank = characterRank
+        self.keepsTableOrderForExactCodes = keepsTableOrderForExactCodes
         self.tableVersion = tableVersion
         self.usageCount = usageCount
         self.showsCompletions = showsCompletions
@@ -84,7 +89,8 @@ public final class SimplexEngine {
 
     private func computeTiers() -> TieredCandidates {
         guard let list = candidateListKey else { return .none }
-        let exact = ordered(table.characters(forCode: code), in: list)
+        let exact = ordered(table.characters(forCode: code), in: list,
+                            keepingTableOrder: keepsTableOrderForExactCodes)
         guard showsCompletions() else { return TieredCandidates(exact: exact, in: list) }
         let completionList = CandidateListKey.simplexCompletion(tableVersion: tableVersion, code: code)
         return TieredCandidates(exact: exact, in: list,
@@ -92,8 +98,10 @@ public final class SimplexEngine {
                                 in: completionList)
     }
 
-    private func ordered(_ matches: [String], in list: CandidateListKey) -> [String] {
-        CandidateOrdering.ordered(matches, rank: characterRank) { usageCount(list, $0) }
+    private func ordered(_ matches: [String], in list: CandidateListKey,
+                         keepingTableOrder: Bool = false) -> [String] {
+        CandidateOrdering.ordered(matches, rank: characterRank,
+                                  keepingTableOrder: keepingTableOrder) { usageCount(list, $0) }
     }
 
     /// Which candidate list the current code's exact matches form, or nil when nothing is being

@@ -217,13 +217,15 @@ final class RealAdaptiveOrderingTests: XCTestCase {
 
     func testAFreshStoreLeavesTheRealYahooTableOrderUnchanged() throws {
         let f = try load()
-        // 三代 supplies an EMPTY rank, so every candidate is unranked and the table's own line
-        // order is what must show — with or without an (empty) usage store.
+        // 三代 keeps the table's order for an exact code even though it now receives the real
+        // rank (for its wildcard and completion lists), so the table's own line order is what must
+        // show — with or without an (empty) usage store.
         var codes: [String] = []
         f.yahoo.forEachEntry { code, chars in if chars.count > 1 { codes.append(code) } }
         XCTAssertGreaterThan(codes.count, 1000)
         for code in codes.sorted().prefix(2000) {
-            let e = CangjieEngine(table: f.yahoo, characterRank: [:], tableVersion: "3",
+            let e = CangjieEngine(table: f.yahoo, characterRank: f.rank,
+                                  keepsTableOrderForExactCodes: true, tableVersion: "3",
                                   usageCount: { _, _ in 0 })
             for k in code { _ = e.handleKey(k) }
             XCTAssertEqual(e.candidates, f.yahoo.characters(forCode: code), "code \(code) reordered")

@@ -63,7 +63,12 @@ public struct CangjieTable {
     /// Returns characters whose code matches `pattern`. `*` matches one-or-more
     /// letters (a–z); other characters match literally. With no `*`, behaves like
     /// an exact `characters(forCode:)`. Results are ordered by matched code length
-    /// then the table's character order for that code (deterministic).
+    /// then the table's character order for that code (deterministic). That order only
+    /// makes the list reproducible — it says nothing about which character is wanted, so
+    /// the engines always rank a wildcard list (see CandidateOrdering).
+    ///
+    /// A character with more than one matching code is listed once, at its first: 風 has two
+    /// 五代 codes that both match `h*i`, and used to take two rows of the same list.
     public func characters(matching pattern: String) -> [String] {
         guard pattern.contains("*") else { return characters(forCode: pattern) }
         let regex = "^" + pattern.split(separator: "*", omittingEmptySubsequences: false)
@@ -73,7 +78,9 @@ public struct CangjieTable {
         let matched = table.keys.filter {
             re.firstMatch(in: $0, range: NSRange($0.startIndex..., in: $0)) != nil
         }
+        var seen = Set<String>()
         return matched.sorted { ($0.count, $0) < ($1.count, $1) }
             .flatMap { table[$0] ?? [] }
+            .filter { seen.insert($0).inserted }
     }
 }

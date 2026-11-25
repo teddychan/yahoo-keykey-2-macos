@@ -60,8 +60,8 @@
 "keykey.general.installSignatureUnreadable" = "Yahoo! KeyKey 2 は自身の署名を確認できませんでした。最新のリリースから再インストールして、もう一度お試しください。";
 
 /* What's New pane */
-"app.whatsNew.summary" = "Yahoo 速成の候補に疑問符の四角が表示される問題を修正しました。";
-"app.whatsNew.changed1" = "三代倉頡を選択した際、速成の候補に疑問符の四角で表示される未対応の文字が出なくなりました。";
+"app.whatsNew.summary" = "倉頡のワイルドカード候補が、よく使う文字から並ぶようになりました。";
+"app.whatsNew.changed1" = "廿*木 のように * を含む倉頡コードでは、三代倉頡・五代倉頡のどちらでも、よく使う文字が先に並ぶようになりました。三代倉頡ではこれまでコード順に並んでいたため、藥 は 8 ページ目にありました。コードをすべて入力した場合は、これまでどおり Yahoo! KeyKey の順序です。";
 
 /* Uninstall pane checklist */
 "keykey.uninstall.item.inputSources" = "入力ソースから Yahoo! KeyKey 2 の入力方式を無効にする";

@@ -60,6 +60,19 @@ final class CandidateOrderingTests: XCTestCase {
         XCTAssertEqual(order(["〖", "〗", "【", "】"]), ["〖", "〗", "【", "】"])
     }
 
+    func testKeepingTheTableOrderIgnoresRankAndTier() {
+        // 三代's exact codes: Yahoo! KeyKey's own order for the code stands.
+        let ordered = CandidateOrdering.ordered(["薬", "嘅", "我"], rank: ["我": -1.0],
+                                                keepingTableOrder: true) { _ in 0 }
+        XCTAssertEqual(ordered, ["薬", "嘅", "我"])
+    }
+
+    func testKeepingTheTableOrderStillLetsLearningLead() {
+        let ordered = CandidateOrdering.ordered(["甲", "乙"], rank: [:],
+                                                keepingTableOrder: true) { $0 == "乙" ? 1 : 0 }
+        XCTAssertEqual(ordered, ["乙", "甲"])
+    }
+
     func testEvenAVeryLowRankStillBeatsUnranked() {
         // A real log-probability can be large and negative; "unranked" is not a number, so no
         // magnitude of rank can accidentally fall below it.

@@ -20,8 +20,8 @@ final class SharedResources {
         named: DragonAbout.isDebugBuild() ? "YahooKeyKey2 Debug" : "YahooKeyKey2"
     )
 
-    // Single-character LM ranking (higher = more common), used so Cangjie/Simplex
-    // wildcard matches surface common characters first. Computed once.
+    // Single-character LM ranking (higher = more common) the 倉頡/速成 engines sort by, in both
+    // 倉頡版本: wildcard and completion lists always, and an exact code's list in 五代. Computed once.
     let characterRank: [Character: Double]
     let associatedPhrases: AssociatedPhrases
     let hanConvertFilter: HanConvertFilter
@@ -46,11 +46,11 @@ final class SharedResources {
     private let zhuyinLock = NSLock()
     private var cachedZhuyinTable: ZhuyinTable?
 
-    // The selected 倉頡版本, the table it loads, the sort rank that goes with it, and the two
-    // indexes derived from them are ONE piece of state that has to change together, so a single
-    // lock guards the whole set and loadCangjieTables() publishes it in one step. Previously the
-    // two caches were each locked but the table and rank they derive from were not — the mixed
-    // discipline left a version change observable half-applied (new table, old rank).
+    // The selected 倉頡版本, the table it loads, and the two indexes derived from them are ONE
+    // piece of state that has to change together, so a single lock guards the whole set and
+    // loadCangjieTables() publishes it in one step. Previously the two caches were each locked but
+    // the table they derive from was not — the mixed discipline left a version change observable
+    // half-applied.
     //
     // SharedResources is prewarmed off the main thread and read from every input controller, so
     // the lock is what makes that safe. NSLock is NOT recursive: code holding `tablesLock` must
@@ -58,7 +58,6 @@ final class SharedResources {
     private let tablesLock = NSLock()
     private var loadedVersion: CangjieVersion
     private var loadedCangjieTable: CangjieTable
-    private var loadedCangjieRank: [Character: Double]
     // Both are built lazily on first access rather than at launch: the 速成 table arrays + sorts
     // every Cangjie entry, and the reverse (char → 倉頡 code) index is only read when 反查提示 is
     // on (off by default). Cleared — not rebuilt — by loadCangjieTables() on a version change;
@@ -73,12 +72,14 @@ final class SharedResources {
         return loadedCangjieTable
     }
 
-    // Single-char rank the engines sort by: the LM `characterRank` for 五代, or empty for
-    // 三代 so the Yahoo table's native line order is preserved. User-learning applies on top.
-    var cangjieRank: [Character: Double] {
+    // Whether an exact code's candidate list keeps the table's own order: true for 三代, whose
+    // Yahoo! KeyKey table (and 速成 table) carries Yahoo's order for each code. A wildcard or
+    // completion list has no such order — it is gathered from many codes — so the engines rank it
+    // by `characterRank` in both versions. User-learning applies on top either way.
+    var cangjieKeepsTableOrder: Bool {
         tablesLock.lock()
         defer { tablesLock.unlock() }
-        return loadedCangjieRank
+        return loadedVersion == .v3
     }
 
     private init() {
@@ -111,7 +112,6 @@ final class SharedResources {
         // stored property is set, so an instance method may be called).
         loadedVersion = .v5
         loadedCangjieTable = CangjieTable(text: "")
-        loadedCangjieRank = characterRank
 
         // Load the bundled TC→SC table for the "輸出簡體字" toggle; fail safe to an empty
         // (pass-through) table if missing, so the toggle simply leaves text unchanged.
@@ -167,20 +167,17 @@ final class SharedResources {
         loadCangjieTables(version: Preferences.cangjieVersion)
     }
 
-    // Load the Cangjie table and set the effective sort rank for the given version. 五代 uses
-    // the bundled ibus table + LM ranking; 三代 uses the Yahoo! KeyKey table (cj-ext) with its
-    // native line order (empty rank → the engines' stable sort preserves it).
+    // Load the Cangjie table for the given version. 五代 uses the bundled ibus table; 三代 uses
+    // the Yahoo! KeyKey table (cj-ext), whose exact codes keep its native line order (see
+    // cangjieKeepsTableOrder).
     private func loadCangjieTables(version: CangjieVersion) {
         // Read the file OUTSIDE the lock — no reason to hold readers off during disk I/O.
         let table: CangjieTable
-        let rank: [Character: Double]
         switch version {
         case .v5:
             table = Self.loadCangjie(resource: "cangjie")
-            rank = characterRank
         case .v3:
             table = Self.loadCangjie(resource: "cangjie-yahoo")
-            rank = [:]   // native table order
         }
         // Publish the whole set in one step, dropping the derived caches along with it: both
         // are built from this table and version, so they must rebuild against what was just
@@ -188,7 +185,6 @@ final class SharedResources {
         tablesLock.lock()
         loadedVersion = version
         loadedCangjieTable = table
-        loadedCangjieRank = rank
         cachedSimplexTable = nil
         cachedCodeIndex = nil
         tablesLock.unlock()
@@ -286,7 +282,7 @@ final class SharedResources {
         return CangjieTable(text: "")
     }
 
-    // Rebuild the table/rank for the currently-selected version and notify controllers to
+    // Rebuild the table for the currently-selected version and notify controllers to
     // rebuild their live engines. Called when the user changes 倉頡版本 in Settings.
     func reloadCangjieTables() {
         loadCangjieTables(version: Preferences.cangjieVersion)

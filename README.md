@@ -168,14 +168,20 @@ immediately.
 | Mode | Based on | Candidate order | Example codes |
 |---|---|---|---|
 | **五代倉頡** (default) | ibus `cangjie5` | corpus frequency | 面 `一田尸中`, 鬼 `竹山戈` |
-| **三代倉頡** (Yahoo! KeyKey compatible) | original Yahoo! KeyKey tables | Yahoo's original order | 面 `一田卜中`, 鬼 `竹戈` |
+| **三代倉頡** (Yahoo! KeyKey compatible) | original Yahoo! KeyKey tables | Yahoo's original order for each code | 面 `一田卜中`, 鬼 `竹戈` |
+
+A `*` wildcard list, and the characters **顯示字根開頭相同的字** adds, are gathered from many codes,
+so in both versions they are ordered by how common each character is: corpus frequency first,
+then, for characters the corpus does not know, Big5 常用字, 次常用字 and Hong Kong (HKSCS)
+characters ahead of everything else. In 三代 that puts 藥 third for 廿*木, where it used to be on
+page 8, and a character with two matching codes is listed once.
 
 **五代** is the default, so existing users are unaffected until they opt in. Both orders are
 fixed, and in 倉頡/速成 each is the tie-breaker rather than a score the learning layer adjusts:
 with **依選字習慣調整候選字順序** on, every candidate list is ordered by how often you have
 committed each candidate *in that list*, and the table order decides between candidates you have
-committed equally often. Turning it off shows the table order alone — so 三代 with learning off is
-the original Yahoo! KeyKey order and nothing else. Usage is counted per candidate list, so a 倉頡
+committed equally often. Turning it off shows the table order alone — so a code typed in full in
+三代 with learning off shows the original Yahoo! KeyKey order and nothing else. Usage is counted per candidate list, so a 倉頡
 code, a 倉頡 wildcard pattern and a 速成 code each learn separately, while 倉頡 and 速成 share
 what they learn about 聯想字詞. 拼音 is outside that scheme: it ranks candidates as it always has,
 and the same setting turns its learning on and off.
