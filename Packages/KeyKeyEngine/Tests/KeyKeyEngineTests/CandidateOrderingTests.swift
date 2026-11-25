@@ -40,6 +40,26 @@ final class CandidateOrderingTests: XCTestCase {
         XCTAssertEqual(order(["丙", "甲", "乙"]), ["丙", "甲", "乙"])
     }
 
+    // MARK: - Candidates the language model has no rank for
+
+    func testUnrankedCandidatesOrderByHowCommonTheyAre() {
+        // 我 is Big5 常用, 淼 次常用, 嘅 a Hong Kong (HKSCS) character, 薬 the Japanese form of 藥.
+        // None is ranked here, so how common each one is decides, whatever order they came in.
+        XCTAssertEqual(order(["薬", "嘅", "淼", "我"]), ["我", "淼", "嘅", "薬"])
+        XCTAssertEqual(order(["淼", "我", "薬", "嘅"]), ["我", "淼", "嘅", "薬"])
+    }
+
+    func testARankedCandidateStillBeatsAMoreCommonUnrankedOne() {
+        // The commonness tier only orders the unranked tail; it never lifts a character over one
+        // the language model actually ranks.
+        XCTAssertEqual(order(["我", "嘅"], rank: ["嘅": -9.0]), ["嘅", "我"])
+    }
+
+    func testPunctuationKeepsItsSourceOrder() {
+        // Big5 levels say nothing about punctuation, so z-code marks stay in the table's order.
+        XCTAssertEqual(order(["〖", "〗", "【", "】"]), ["〖", "〗", "【", "】"])
+    }
+
     func testEvenAVeryLowRankStillBeatsUnranked() {
         // A real log-probability can be large and negative; "unranked" is not a number, so no
         // magnitude of rank can accidentally fall below it.

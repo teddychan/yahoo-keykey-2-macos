@@ -27,6 +27,12 @@ final class CangjieTableTests: XCTestCase {
         XCTAssertTrue(Self.table.hasCode("abc"))
     }
 
+    func testWildcardListsACharacterWithTwoMatchingCodesOnce() {
+        // 風 has two 五代 codes that both match 竹*戈, and used to show up twice in that list.
+        let t = CangjieTable(text: "hni\t風\nhnhi\t風\nhqi\t我\n")
+        XCTAssertEqual(t.characters(matching: "h*i"), ["風", "我"])
+    }
+
     func testCommentsAndBlankLinesIgnored() {
         let t = CangjieTable(text: "# comment\n\nm\t一\n")
         XCTAssertEqual(t.characters(forCode: "m"), ["一"])

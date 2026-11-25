@@ -52,6 +52,23 @@ final class LanguageModelTests: XCTestCase {
         XCTAssertEqual(lm.characterScores()["我"] ?? 0, -3.00000000, accuracy: 1e-6)
     }
 
+    func testControlKeyEntriesAreNotAFrequency() {
+        // McBopomofo maps keys such as `_punctuation_list` and `_kana_dou` to characters at a
+        // placeholder 0.0. That is not how often the character is used: counted, it put the rare
+        // 仝 at the very top of the scale. Only the real readings may score a character.
+        let text = """
+        _punctuation_list 十 0.0
+        ㄕˊ 十 -3.50000000
+        _kana_dou 仝 0.0
+        _punctuation_list ， 0.0
+        """
+        for scores in [LanguageModel(text: text).characterScores(),
+                       LanguageModel.characterScores(fromText: text)] {
+            XCTAssertEqual(Set(scores.keys), ["十"])
+            XCTAssertEqual(scores["十"] ?? 0, -3.50000000, accuracy: 1e-6)
+        }
+    }
+
     func testStreamingCharacterScoresMatchesFullBuild() {
         // The streaming launch path must produce exactly the same ranking as building the full
         // LM and calling characterScores(); it just skips the transient full table.

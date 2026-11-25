@@ -33,6 +33,12 @@ final class SimplexTableTests: XCTestCase {
         XCTAssertEqual(make().characters(extending: "ab"), [])
     }
 
+    func testCharactersExtendingACodeListEachCharacterOnce() {
+        // 明 has two 倉頡 codes, so it sits under two 速成 codes (ac, ad) that both extend `a`.
+        let t = SimplexTable(text: "abc\t明\nabd\t明\nabe\t冒\n")
+        XCTAssertEqual(t.characters(extending: "a"), ["明", "冒"])
+    }
+
     func testMultipleCharsGroupedUnderSameSimplexCode() {
         // "ab" -> "ab" (明), "amb" -> "ab" (昌)
         XCTAssertEqual(make().characters(forCode: "ab"), ["明", "昌"])
