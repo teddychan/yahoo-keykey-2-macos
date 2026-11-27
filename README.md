@@ -1,23 +1,78 @@
 <div align="center">
   <img src="App/AppIcon.png" width="160" height="160" alt="Yahoo! KeyKey 2 app icon">
-  <h1>Yahoo! KeyKey 2</h1>
-  <p><strong>Four Traditional-Chinese input methods for macOS: Cangjie (倉頡), Simplex (速成), Zhuyin (注音) &amp; Pinyin (拼音)</strong></p>
+  <h1>Yahoo! KeyKey 2 — 倉頡 adjusted</h1>
+  <p><strong>A fork of Yahoo! KeyKey 2 with adjusted Cangjie (倉頡) result logic and a template mode icon</strong></p>
 </div>
 
-**Yahoo! KeyKey 2** is an independent, open-source rebuild — in Swift — of the classic
-**Yahoo! KeyKey (Yahoo!奇摩輸入法)** Traditional-Chinese input method that many Mac users
-loved. It brings that typing experience back to modern macOS with four input methods — **倉頡**
-(Cangjie), **速成** (Simplex), **注音** (Zhuyin, ㄅ半) and **拼音** (Pinyin) — native, fast, and
-free.
+This fork is built on the previous work of **Teddy Chan**
+([teddychan/yahoo-keykey-2-macos](https://github.com/teddychan/yahoo-keykey-2-macos)): the
+independent, open-source Swift rebuild of the classic **Yahoo! KeyKey (Yahoo!奇摩輸入法)**
+Traditional-Chinese input method for macOS. All credit for the app, its four input methods —
+**倉頡** (Cangjie), **速成** (Simplex), **注音** (Zhuyin, ㄅ半) and **拼音** (Pinyin) — and its
+tooling goes to that project, which in turn credits the original Yahoo! KeyKey and its data
+sources; see [CREDITS.md](CREDITS.md). This fork starts from upstream **v2.20.1**, and the fork's
+author only adjusted the **倉頡**-related logic and display described under
+[What this fork changes](#what-this-fork-changes) (the one setting that reaches past 倉頡 is
+noted there). Everything else behaves as upstream does.
 
-[![Download](https://img.shields.io/badge/download-latest-brightgreen?style=flat-square)](https://github.com/teddychan/yahoo-keykey-2-macos/releases/latest)
+[![Upstream](https://img.shields.io/badge/upstream-teddychan%2Fyahoo--keykey--2--macos-blue?style=flat-square)](https://github.com/teddychan/yahoo-keykey-2-macos)
 ![Platform](https://img.shields.io/badge/platform-macOS-blue?style=flat-square)
 ![Requirements](https://img.shields.io/badge/requirements-macOS%2026%2B-fa4e49?style=flat-square)
-[![Website](https://img.shields.io/badge/Website-dragonapp.com-015FBA?style=flat-square)](https://www.dragonapp.com/yahoo-keykey-2/)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+
+## What this fork changes
+
+### 倉頡 result logic
+
+Only **倉頡** is affected; 速成, 注音 and 拼音 keep their upstream Space behaviour.
+
+- **`戈土心` types 應 in 五代.** `igp` is added to `Resources/cangjie.txt`. The classical 五代 code
+  `戈人土心` still works, and 三代 already had `戈土心`.
+- **Space opens the choices instead of committing the first result.** When a code has more than
+  one *exact* match — `大月` gives 有 and 冇 — the first Space shows the list and commits nothing.
+  Then `1–9` picks; Space again or Return accepts the first; any other printable character accepts
+  the first and is then processed normally (a letter starts the next code, punctuation follows the
+  committed character). A code with a single exact match still commits on the first Space, even
+  with **顯示字根開頭相同的字** on. A radical typed *before* Space still extends the code.
+- **Space no longer pages the 倉頡 list.** Use the arrow keys or Page Up / Page Down. Space still
+  pages in 速成 and 注音.
+- **Candidate order is stable by default.** **依選字習慣調整候選字順序** is now off out of the box,
+  so picking 冇 with `2` does not move it above 有 next time. It is one global setting, so 速成,
+  注音, 拼音 and 聯想字詞 also keep their built-in order. Turn it on in **設定… ▸ 一般** to get
+  upstream's learning back; counts already saved are kept and used again.
+
+The logic lives in `App/InputController.swift` and `App/KeyEventPolicy.swift`
+(`cangjieSpaceAction`, `isCandidateAcceptCharacter`), with the default in `App/Preferences.swift`.
+Details and the manual test sequence are in
+[docs/handoff-cangjie-result-logic.md](docs/handoff-cangjie-result-logic.md).
+
+### Icon and display
+
+- **The 倉頡 mode icon is a template.** It is a single gray-and-alpha 倉 glyph
+  (`App/CangjieGlyphTemplate.tiff`, drawn by `tools/render-cangjie-icons.swift`) that macOS
+  tints the way it does for ABC's "A" and Japanese "あ": black on the light input switcher, white
+  on the dark switcher, white on the blue selection and white on a dark menu bar. 速成, 注音 and
+  拼音 keep the full-colour purple Y on its white tile (`App/YahooKeyKey.tiff`). The reasons and
+  the Info.plist keys involved are in
+  [docs/adr/0001-cangjie-mode-template-icon.md](docs/adr/0001-cangjie-mode-template-icon.md) and
+  [docs/handoff-cangjie-icon.md](docs/handoff-cangjie-icon.md).
+- **Input-method icon.** `App/Info.plist` now names `YahooKeyKey.tiff` as the input method's own
+  icon (`tsInputMethodIconFileKey`).
+- **Debug builds keep plain mode names.** `./tools/run-debug.sh` still installs a separate
+  `.debug` input method, but its modes are listed as 倉頡 / 速成 / 注音 / 拼音 with no
+  "(Debug)" suffix.
+- `tools/make-icon.sh` and `tools/build-app.sh` generate and bundle the new glyph.
+
+> [!IMPORTANT]
+> This fork does not publish releases or its own update feed. The upstream download, Homebrew cask
+> and **檢查更新…** all deliver **upstream** builds, which do not include the changes above — and
+> checking for updates in a build of this fork would replace it with upstream's. To use the fork,
+> [build it from source](#building-from-source) and install the resulting app as described under
+> [Install](#install).
 
 ## Contents
 
+- [What this fork changes](#what-this-fork-changes)
 - [Requirements](#requirements)
 - [Install](#install)
 - [Features](#features)
@@ -33,39 +88,28 @@ free.
 
 - **macOS 26 Tahoe** or later
 - A Mac with **Apple Silicon** — there is no Intel version
-- Signed with a Developer ID and notarized by Apple, so it opens without warnings
+- To build this fork: the **Xcode 26 toolchain** (see [Building from source](#building-from-source)).
+  A local build is ad-hoc signed, not notarized.
 
 ## Install
 
 > [!IMPORTANT]
-> Whichever way you install, **log out and back in afterwards**. macOS only looks for new input
-> methods when you log in — this is the most common reason KeyKey seems not to work.
+> **Log out and back in after installing.** macOS only looks for new input methods when you log
+> in — this is the most common reason KeyKey seems not to work.
 
-### Homebrew
-
-```sh
-brew install --cask teddychan/tap/yahoo-keykey-2
-```
-
-The cask lives in [teddychan/homebrew-tap](https://github.com/teddychan/homebrew-tap) and is
-updated automatically on every release. It installs for all users, in `/Library/Input Methods`, so
-Homebrew asks for your password — that is what keeps Yahoo! KeyKey 2 working when another app turns
-on secure input (see [known issue #2](known_issues.md#2-倉頡-is-greyed-out-and-will-not-turn-on)).
-
-### Manual
-
-1. Download the `.zip` from the
-   [latest release](https://github.com/teddychan/yahoo-keykey-2-macos/releases/latest) and unzip it.
-   There is no installer, so no admin password is needed to get started.
+1. [Build the app](#building-from-source) to get `build/YahooKeyKey2.app`.
 2. Move `YahooKeyKey2.app` into `~/Library/Input Methods/` — create the folder if it is not
-   there.
+   there. (For quick testing, `./tools/run-debug.sh` installs a separate **Yahoo! KeyKey 2 Debug**
+   input method instead.)
 3. **Log out and back in.**
 4. Add the input source: **System Settings ▸ Keyboard**, then **Edit…** beside **Input Sources**
    (the `+` is inside that sheet, not on the settings page), **+ ▸ Chinese, Traditional** →
    **倉頡**, **速成**, **注音** and/or **拼音**.
-5. Press **⌃Space** to switch to Yahoo! KeyKey 2 and start typing. Space or `1–9` picks a
-   candidate; the arrow keys page through them.
-6. **Recommended:** open **設定… ▸ 一般** and choose **為所有使用者安裝…** (*Install for All
+5. Press **⌃Space** to switch to Yahoo! KeyKey 2 and start typing. In **倉頡**, Space shows the
+   choices when a code has several characters (`1–9` picks), or commits when it has one; typing
+   another character takes the first candidate and carries on. The arrow keys page through the
+   list.
+6. **Optional:** open **設定… ▸ 一般** and choose **為所有使用者安裝…** (*Install for All
    Users…*). After asking for an administrator password it moves itself to
    `/Library/Input Methods`, so it keeps working when another app, such as 1Password, turns on
    secure input — see [known issue #2](known_issues.md#2-倉頡-is-greyed-out-and-will-not-turn-on).
@@ -75,23 +119,17 @@ Not showing up? See
 
 ### Update
 
-- **In-app:** open the input menu from the menu bar and choose **檢查更新…**
-- **Homebrew:** `brew upgrade --cask yahoo-keykey-2`. A copy Homebrew installed before 2.16.0
-  stays in `~/Library/Input Methods` until you run `brew reinstall --cask yahoo-keykey-2` once,
-  which moves it to `/Library/Input Methods`.
-- **Manual:** download the newest `.zip` and replace the app in `~/Library/Input Methods`.
-  Installed for all users? Update with **檢查更新…** instead — copying the zip's app into
-  `~/Library/Input Methods`, as its `Install.txt` says, would leave a second copy.
-
-Log out and back in afterwards, so macOS reloads the input method. Installed for all users, each
-update asks for an administrator password.
+Rebuild from this checkout and replace the app in the folder you installed it to, then log out
+and back in. Do not use **檢查更新…** (it follows upstream's appcast and installs an upstream
+build), and do not install this fork over the upstream Homebrew cask: both use the same bundle id.
 
 ### Uninstall
 
 1. **Remove the input source first:** **System Settings ▸ Keyboard ▸ Input Sources**, select
    Yahoo! KeyKey 2 and remove it. The app's own Uninstall pane cannot do this part for you.
-2. **Then remove the app** — Homebrew: `brew uninstall --cask teddychan/tap/yahoo-keykey-2`.
-   Otherwise, for a copy in `~/Library/Input Methods`, open **設定… ▸ 解除安裝** or drag
+2. **Then remove the app** — Homebrew (if you installed upstream's cask):
+   `brew uninstall --cask teddychan/tap/yahoo-keykey-2`. Otherwise, for a copy in
+   `~/Library/Input Methods`, open **設定… ▸ 解除安裝** or drag
    `~/Library/Input Methods/YahooKeyKey2.app` to the Trash. Installed for all users, drag
    `/Library/Input Methods/YahooKeyKey2.app` to the Trash in Finder, which asks for an
    administrator password. **解除安裝** cannot remove such a copy: it stops before removing
@@ -119,14 +157,14 @@ rm -rf ~/Library/HTTPStorages/com.dragonapp.inputmethod.yahoo-keykey
     倚天 and 許氏 (Hsu) keyboards. **智慧選字** types a whole sentence and lets the language model
     pick the characters; it is off until you turn it on.
   - **拼音 (Pinyin)** — builds whole phrases from pinyin without tones.
-- **Candidates that learn, or stay put** — by default the characters you pick move up the list.
-  Turn **依選字習慣調整候選字順序** off in Settings and the built-in order stands, in all four
-  input methods and 聯想字詞 alike.
+- **Candidates that stay put, unless you ask** — the list keeps its built-in order by default, so
+  picking a candidate never reshuffles it. Turn **依選字習慣調整候選字順序** on in Settings if you
+  want the characters you pick to move up, in all four input methods and 聯想字詞 alike.
 - **Associated words (聯想字詞)** — after you commit a character, KeyKey suggests the words that
   usually follow, pickable with `1–9` or `Shift + 1–9`.
 - **繁 → 簡 and full-width punctuation** — toggle both straight from the input menu.
 - **Candidate window that follows your cursor** — never clipped off-screen, paged with the arrow
-  keys, Space or Page Up / Page Down, at whatever size you set.
+  keys or Page Up / Page Down (Space also pages in 速成 and 注音), at whatever size you set.
 - **See the code (反查／拆碼提示)** — show each candidate's 倉頡 code, or its pinyin reading — so
   in 注音 you can look up how to type the same character in 倉頡.
 - **臨時英數** — hold **Shift** and press a letter to type that one English letter without
@@ -170,15 +208,27 @@ immediately.
 | **五代倉頡** (default) | ibus `cangjie5` | corpus frequency | 面 `一田尸中`, 鬼 `竹山戈` |
 | **三代倉頡** (Yahoo! KeyKey compatible) | original Yahoo! KeyKey tables | Yahoo's original order | 面 `一田卜中`, 鬼 `竹戈` |
 
+Yahoo! KeyKey 2 also accepts `戈土心` for 應 in 五代 (its classical 五代 code is `戈人土心`,
+which still works). 三代 already spelled it `戈土心`.
+
+When a 倉頡 code matches more than one character — `大月` gives 有 and 冇 — the first Space
+**opens the candidate list and waits**. Press `1–9` to pick (press `2` for 冇), or type any other
+character: 有 is committed and that character is then processed normally. A letter starts the
+next character, a punctuation mark is inserted after 有, and a second Space simply accepts 有.
+Return accepts 有 too. A code with only one matching character commits on Space directly.
+The list keeps its built-in order: picking 冇 with `2` does not move it to the top. If you want
+that learning behaviour, turn **依選字習慣調整候選字順序** on in Settings.
+
 **五代** is the default, so existing users are unaffected until they opt in. Both orders are
 fixed, and in 倉頡/速成 each is the tie-breaker rather than a score the learning layer adjusts:
-with **依選字習慣調整候選字順序** on, every candidate list is ordered by how often you have
-committed each candidate *in that list*, and the table order decides between candidates you have
-committed equally often. Turning it off shows the table order alone — so 三代 with learning off is
-the original Yahoo! KeyKey order and nothing else. Usage is counted per candidate list, so a 倉頡
-code, a 倉頡 wildcard pattern and a 速成 code each learn separately, while 倉頡 and 速成 share
-what they learn about 聯想字詞. 拼音 is outside that scheme: it ranks candidates as it always has,
-and the same setting turns its learning on and off.
+**依選字習慣調整候選字順序** is off by default, so every list keeps the order above. Turn it on
+and each candidate list is ordered by how often you have committed each candidate *in that list*,
+with the table order deciding between candidates you have committed equally often. Turning it off
+again shows the table order alone — so 三代 with learning off is the original Yahoo! KeyKey order
+and nothing else. Usage is counted per candidate list, so a 倉頡 code, a 倉頡 wildcard pattern and
+a 速成 code each learn separately, while 倉頡 and 速成 share what they learn about 聯想字詞. 拼音
+is outside that scheme: it ranks candidates as it always has, and the same setting turns its
+learning on and off.
 
 Yahoo! KeyKey's *associated-phrase* ranking cannot be reproduced — that data was never
 open-sourced — so associations use Yahoo! KeyKey 2's own ordering in both modes.
@@ -255,7 +305,8 @@ Common problems, and what each one turns out to be, are collected in
 
 That file also lists what has **[already been fixed](known_issues.md#8-already-fixed-in-earlier-versions)**,
 so check your version before reporting a bug. Anything else —
-[open an issue](https://github.com/teddychan/yahoo-keykey-2-macos/issues).
+[open an issue](https://github.com/machingclee/yahoo-keykey-2-macos-cangjie-adjusted/issues)
+(or upstream's [tracker](https://github.com/teddychan/yahoo-keykey-2-macos/issues) if it is not specific to this fork).
 
 ## Building from source
 
@@ -263,8 +314,8 @@ There is no Xcode project: the app is assembled by shell scripts around `swiftc`
 suites are SwiftPM packages. Requires the **Xcode 26 toolchain** on Apple Silicon.
 
 ```sh
-git clone https://github.com/teddychan/yahoo-keykey-2-macos.git
-cd yahoo-keykey-2
+git clone https://github.com/machingclee/yahoo-keykey-2-macos-cangjie-adjusted.git
+cd yahoo-keykey-2-macos-cangjie-adjusted
 ./tools/build-lm.sh    # build the language model into Resources/data.txt (first time only)
 ./tools/build-app.sh   # assemble + ad-hoc sign build/YahooKeyKey2.app
 ```
@@ -307,7 +358,7 @@ dependency.
 ## Contributing
 
 Bug reports and pull requests are welcome on the
-[issue tracker](https://github.com/teddychan/yahoo-keykey-2-macos/issues). Before opening a pull
+[issue tracker](https://github.com/machingclee/yahoo-keykey-2-macos-cangjie-adjusted/issues). Before opening a pull
 request, run both test suites (see [Building from source](#building-from-source)) and add a
 plain-language entry to [CHANGELOG.md](CHANGELOG.md) describing the user-visible change.
 Release mechanics are documented in [docs/RELEASE.md](docs/RELEASE.md).
