@@ -28,10 +28,15 @@
 		<dict>
 			<key>com.dragonapp.inputmethod.yahoo-keykey.Cangjie</key>
 			<dict>
+				<key>TISIconIsTemplate</key>
+				<true/>
+				<key>TISIconLabels</key>
+				<dict>
+					<key>Primary</key>
+					<string>倉</string>
+				</dict>
 				<key>TISIntendedLanguage</key>
 				<string>zh-Hant</string>
-				<key>tsInputModeAlternateMenuIconFileKey</key>
-				<string>YahooKeyKey.tiff</string>
 				<key>tsInputModeCharacterRepertoireKey</key>
 				<array>
 					<string>Hant</string>
@@ -39,14 +44,16 @@
 				<key>tsInputModeIsVisibleKey</key>
 				<true/>
 				<key>tsInputModeMenuIconFileKey</key>
-				<string>YahooKeyKey.tiff</string>
+				<string>CangjieGlyphTemplate.tiff</string>
 				<key>tsInputModePaletteIconFileKey</key>
-				<string>YahooKeyKey.tiff</string>
+				<string>CangjieGlyphTemplate.tiff</string>
 				<key>tsInputModeScriptKey</key>
 				<string>smTradChinese</string>
 			</dict>
 			<key>com.dragonapp.inputmethod.yahoo-keykey.Pinyin</key>
 			<dict>
+				<key>TISIconIsTemplate</key>
+				<false/>
 				<key>TISIntendedLanguage</key>
 				<string>zh-Hant</string>
 				<key>tsInputModeAlternateMenuIconFileKey</key>
@@ -66,6 +73,8 @@
 			</dict>
 			<key>com.dragonapp.inputmethod.yahoo-keykey.Simplex</key>
 			<dict>
+				<key>TISIconIsTemplate</key>
+				<false/>
 				<key>TISIntendedLanguage</key>
 				<string>zh-Hant</string>
 				<key>tsInputModeAlternateMenuIconFileKey</key>
@@ -85,6 +94,8 @@
 			</dict>
 			<key>com.dragonapp.inputmethod.yahoo-keykey.Zhuyin</key>
 			<dict>
+				<key>TISIconIsTemplate</key>
+				<false/>
 				<key>TISIntendedLanguage</key>
 				<string>zh-Hant</string>
 				<key>tsInputModeAlternateMenuIconFileKey</key>
@@ -135,6 +146,8 @@
 	<integer>86400</integer>
 	<key>TISInputSourceID</key>
 	<string>com.dragonapp.inputmethod.yahoo-keykey</string>
+	<key>tsInputMethodIconFileKey</key>
+	<string>YahooKeyKey.tiff</string>
 	<key>TISIntendedLanguage</key>
 	<string>zh-Hant</string>
 	<key>tsInputMethodCharacterRepertoireKey</key>

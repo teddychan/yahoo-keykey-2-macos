@@ -2,6 +2,25 @@
 
 A plain-language list of changes in each version, newest first.
 
+## Unreleased
+
+- **Fixed: `戈土心` now types 應 in 五代倉頡.** 五代's classical code is `戈人土心`, and 三代
+  already had `戈土心`; 五代 now accepts both, so the shorter code many typists use is no longer
+  dead.
+- **Changed: in 倉頡, Space opens the candidate list instead of committing the first result.**
+  With `大月` showing 有 and 冇, Space now presents the choice. Press `1–9` to pick (press `2`
+  for 冇); type any other character and 有 is committed first, then that character is processed
+  normally — a letter starts the next character, punctuation follows 有. A second Space or
+  Return simply accepts 有, and a code with only one matching character still commits on Space
+  directly.
+- **Changed: candidate order is stable by default.** **依選字習慣調整候選字順序** is now off out
+  of the box, so picking 2 for 冇 no longer pushes 冇 to the top and reshuffles `大月`'s list.
+  Turn the setting on in **設定… ▸ 一般** if you want per-list learning back; while it is off,
+  nothing is counted either, and what was already learned is kept but ignored.
+- **倉頡’s icon matches ABC and Japanese.** The 倉頡 mode alone is a template icon, so 倉
+  is black on the light inline switcher, white on the dark switcher, white on the blue
+  selection, and white on a dark menu bar. 速成, 注音 and 拼音 keep the full-colour purple Y.
+
 ## 2.20.1
 
 - Fixed boxed question marks in the Yahoo 速成 candidate list when using 三代倉頡.

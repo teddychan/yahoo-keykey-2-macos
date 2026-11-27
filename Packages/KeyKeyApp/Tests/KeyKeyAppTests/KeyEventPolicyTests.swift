@@ -273,6 +273,59 @@ final class KeyEventPolicyTests: XCTestCase {
         XCTAssertFalse(AdaptiveCandidateOrder.recordsLearning(enabled: false, secureEventInput: true))
     }
 
+    // MARK: 倉頡 Space is a two-step key
+
+    func testFirstSpaceOpensTheChoicesWhenThereAreSeveralExactMatches() {
+        // 大月 → 有 / 冇: the first Space presents the choice; it must not take 有.
+        XCTAssertEqual(KeyEventPolicy.cangjieSpaceAction(optionsShown: false,
+                                                         exactCandidateCount: 2),
+                       .openChoices)
+        XCTAssertEqual(KeyEventPolicy.cangjieSpaceAction(optionsShown: false,
+                                                         exactCandidateCount: 9),
+                       .openChoices)
+    }
+
+    func testSecondSpaceTakesTheFirstCandidate() {
+        XCTAssertEqual(KeyEventPolicy.cangjieSpaceAction(optionsShown: true,
+                                                         exactCandidateCount: 2),
+                       .acceptFirst)
+        XCTAssertEqual(KeyEventPolicy.cangjieSpaceAction(optionsShown: true,
+                                                         exactCandidateCount: 9),
+                       .acceptFirst)
+    }
+
+    func testOneExactMatchIsAcceptedOnTheFirstSpace() {
+        // 戈土心 → 應: nothing to choose, so the usual code-then-Space rhythm still works.
+        XCTAssertEqual(KeyEventPolicy.cangjieSpaceAction(optionsShown: false,
+                                                         exactCandidateCount: 1),
+                       .acceptFirst)
+        XCTAssertEqual(KeyEventPolicy.cangjieSpaceAction(optionsShown: false,
+                                                         exactCandidateCount: 0),
+                       .acceptFirst)
+    }
+
+    // MARK: accepting the first 倉頡 candidate with a non-number key
+
+    func testALetterPunctuationOrSymbolAcceptsTheFirstCandidate() {
+        // After 大月 + Space, typing any of these means "not choosing": take 有, then process
+        // the key as the start of whatever comes next.
+        for characters in ["k", "b", ",", "，", ".", "*", "0"] {
+            XCTAssertTrue(KeyEventPolicy.isCandidateAcceptCharacter(characters),
+                          "\(characters) should accept the first candidate")
+        }
+    }
+
+    func testSpaceAndEditingKeysDoNotAcceptTheFirstCandidate() {
+        // Space is handled separately (first Space opens, second accepts); Return commits in its
+        // own branch; Backspace/Esc/Tab/arrows keep their editing and navigation meanings.
+        for characters in [" ", "\r", "\t", "\u{1b}", "\u{7f}"] {
+            XCTAssertFalse(KeyEventPolicy.isCandidateAcceptCharacter(characters),
+                           "\(characters.debugDescription) must not take the first candidate")
+        }
+        XCTAssertFalse(KeyEventPolicy.isCandidateAcceptCharacter(nil))
+        XCTAssertFalse(KeyEventPolicy.isCandidateAcceptCharacter(""))
+    }
+
     // MARK: effectiveAssociationTrigger (注音 types with the number row)
 
     // In 注音 the digits ARE 注音 keys — ㄅ ㄉ ㄓ ㄚ ㄞ ㄢ and all four tones on 大千 — so a bare

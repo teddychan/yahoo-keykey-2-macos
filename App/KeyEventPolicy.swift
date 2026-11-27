@@ -21,10 +21,11 @@ enum KeyEventPolicy {
     /// candidate window or committing (issue #61).
     ///
     /// 速成 and 倉頡-with-`*` resolve to candidates before the code is finished, so the Space a
-    /// 倉頡 typist presses out of muscle memory ("type strokes → Space") lands in the candidate
-    /// window and flips to page 2. With the stroke-confirmation option on, the FIRST Space of
-    /// such a composition is swallowed as that confirmation; every later Space — and every plain
-    /// 倉頡 or 拼音 composition — behaves exactly as before.
+    /// 倉頡 typist presses out of muscle memory ("type strokes → Space") would commit or open the
+    /// choice before the strokes are confirmed (and in 速成 it pages instead). With the
+    /// stroke-confirmation option on, the FIRST Space of such a composition is swallowed as that
+    /// confirmation; every later Space — and every plain 倉頡 or 拼音 composition — behaves
+    /// exactly as before.
     ///
     /// Callers apply this only while candidates are on screen; with none there is no page to
     /// flip and no character to pick, so Space keeps its existing commit/pass-through meaning.
@@ -48,6 +49,31 @@ enum KeyEventPolicy {
     }
 
     // MARK: - The numbered candidate window (candidates and 聯想 page identically)
+
+    /// What the first (or a later) Space does while a 倉頡 code has candidates on screen.
+    enum CangjieSpaceAction: Equatable {
+        /// Several exact matches and no choice shown yet: present the list and wait.
+        case openChoices
+        /// One exact match, or the list is already open: accept the first candidate.
+        case acceptFirst
+    }
+
+    /// 倉頡 Space is a two-step key: the first press on a code with several exact matches opens
+    /// the choice, and the next Space (or any other character) accepts the first candidate. A
+    /// code with one exact match has nothing to choose, so its first Space accepts it directly.
+    static func cangjieSpaceAction(optionsShown: Bool,
+                                   exactCandidateCount: Int) -> CangjieSpaceAction {
+        optionsShown || exactCandidateCount <= 1 ? .acceptFirst : .openChoices
+    }
+
+    /// Whether this key is a printable character that, while a 倉頡 choice window is open, means
+    /// "I am not picking a numbered candidate": the first candidate is accepted and the character
+    /// is then processed normally. Letters, punctuation, symbols and `0` qualify; Space, Return,
+    /// Tab and the editing/navigation keys do not, because they keep their own meanings.
+    static func isCandidateAcceptCharacter(_ characters: String?) -> Bool {
+        guard let ch = characters?.first, ch != " " else { return false }
+        return ch.isLetter || ch.isNumber || ch.isPunctuation || ch.isSymbol
+    }
 
     /// The 1–9 selection digit a key event's `characters` denotes, or nil for anything else. Reads
     /// `characters`, so a SHIFTED number key — which reports its symbol (7 → &) — is deliberately
@@ -157,7 +183,11 @@ enum KeyEventPolicy {
     /// is nothing to page and Space keeps its other meaning (dismiss the 聯想 suggestions and
     /// insert a literal space; with candidates up, commit the first one). Nil too past `lastPage`:
     /// the caller passes the last page of exact matches, and on a page of completions beyond it
-    /// Space commits.
+    /// Space takes that other meaning.
+    ///
+    /// 倉頡 never reaches this for Space: its Space opens the choice (or commits the first
+    /// candidate when there is only one) before the paging branch, so only 速成 and 注音 page
+    /// with Space here.
     static func spacePage(page: Int, lastPage: Int) -> Int? {
         guard lastPage > 0, page <= lastPage else { return nil }
         return (page + 1) % (lastPage + 1)

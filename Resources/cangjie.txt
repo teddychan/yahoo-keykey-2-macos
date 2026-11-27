@@ -22756,6 +22756,7 @@ ignl	鄽
 igow	廧
 igow	𢋦
 igow	𢋾
+igp	應
 igsk	廒
 igti	廚
 igur	𢉈

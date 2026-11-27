@@ -49,7 +49,7 @@ open -n "$DST"
 # source id and does not notice a bundle whose InfoPlist.strings changed underneath it, so the
 # ⌃Space menu and the menu-bar item kept listing this build as a plain "倉頡" — pixel-identical to
 # the installed release's row — while System Settings ▸ Input Sources, which reads TIS live,
-# correctly showed "倉頡 (Debug)". The agent on the machine where this was found had been running
+# correctly showed the mode name. The agent on the machine where this was found had been running
 # for five days, since before the debug bundle id first existed.
 #
 # That is the whole point of the labels: an IME's mode name is the only place its identity is ever
@@ -65,7 +65,6 @@ cat <<EOF
 Debug IME installed: $DST
 Add it in System Settings -> Keyboard -> "Edit..." beside Input Sources (the + is inside that
 sheet, not on the settings page) -> + -> Chinese, Traditional ->
-"倉頡 (Debug)" / "速成 (Debug)" / "注音 (Debug)" / "拼音 (Debug)" — the suffix is how you tell
-this build's modes apart from the installed release's, which are named plainly. If they don't appear at all, log
+倉頡 / 速成 / 注音 / 拼音. If they don't appear at all, log
 out/in once (this registers separately from the release IME).
 EOF
