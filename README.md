@@ -106,22 +106,36 @@ Details and the manual test sequence are in
 > **Log out and back in after installing.** macOS only looks for new input methods when you log
 > in — this is the most common reason KeyKey seems not to work.
 
-1. [Build the app](#building-from-source) to get `build/YahooKeyKey2.app`.
-2. Move `YahooKeyKey2.app` into `~/Library/Input Methods/` — create the folder if it is not
-   there. (For quick testing, `./tools/run-debug.sh` installs a separate **Yahoo! KeyKey 2 Debug**
-   input method instead.)
-3. **Log out and back in.**
-4. Add the input source: **System Settings ▸ Keyboard**, then **Edit…** beside **Input Sources**
+Build the input method, then copy it into `~/Library/Input Methods`. This needs the **Xcode 26
+toolchain** on Apple Silicon. `./tools/build-lm.sh` is only needed once: `Resources/data.txt` is
+not in the checkout.
+
+```sh
+git clone https://github.com/machingclee/yahoo-keykey-2-macos-cangjie-adjusted.git
+cd yahoo-keykey-2-macos-cangjie-adjusted
+./tools/build-lm.sh
+./tools/build-app.sh
+mkdir -p ~/Library/Input\ Methods
+cp -R build/YahooKeyKey2.app ~/Library/Input\ Methods/
+```
+
+1. **Log out and back in.**
+2. Add the input source: **System Settings ▸ Keyboard**, then **Edit…** beside **Input Sources**
    (the `+` is inside that sheet, not on the settings page), **+ ▸ Chinese, Traditional** →
    **倉頡**, **速成**, **注音** and/or **拼音**.
-5. Press **⌃Space** to switch to Yahoo! KeyKey 2 and start typing. In **倉頡**, Space shows the
+3. Press **⌃Space** to switch to Yahoo! KeyKey 2 and start typing. In **倉頡**, Space shows the
    choices when a code has several characters (`1–9` picks), or commits when it has one; typing
    another character takes the first candidate and carries on. The arrow keys page through the
    list.
-6. **Optional:** open **設定… ▸ 一般** and choose **為所有使用者安裝…** (*Install for All
+4. **Optional:** open **設定… ▸ 一般** and choose **為所有使用者安裝…** (*Install for All
    Users…*). After asking for an administrator password it moves itself to
    `/Library/Input Methods`, so it keeps working when another app, such as 1Password, turns on
    secure input — see [known issue #2](known_issues.md#2-倉頡-is-greyed-out-and-will-not-turn-on).
+
+To try a build without replacing an installed release copy, run `./tools/run-debug.sh` from this
+checkout. It builds and installs `~/Library/Input Methods/Yahoo KeyKey 2 Debug.app` and launches
+it. That is a separate input method. Log out and back in if **倉頡**, **速成**, **注音** and
+**拼音** do not appear. The mode names stay in Chinese; the app name is **Yahoo! KeyKey 2 Debug**.
 
 Not showing up? See
 [known issues](known_issues.md#1-yahoo-keykey-2-does-not-show-up-after-installing).
@@ -327,7 +341,12 @@ git clone https://github.com/machingclee/yahoo-keykey-2-macos-cangjie-adjusted.g
 cd yahoo-keykey-2-macos-cangjie-adjusted
 ./tools/build-lm.sh    # build the language model into Resources/data.txt (first time only)
 ./tools/build-app.sh   # assemble + ad-hoc sign build/YahooKeyKey2.app
+mkdir -p ~/Library/Input\ Methods
+cp -R build/YahooKeyKey2.app ~/Library/Input\ Methods/
 ```
+
+Log out and back in, then add **倉頡**, **速成**, **注音** and **拼音** as described under
+[Install](#install).
 
 For hands-on testing, `./tools/run-debug.sh` builds and installs a separate
 **Yahoo! KeyKey 2 Debug** input method with its own bundle id, so it never collides with an
