@@ -40,6 +40,11 @@ final class InputController: IMKInputController {
     // with a `*` wildcard): until the user has pressed Space once, Space confirms the strokes
     // rather than paging. Reset alongside candidatePage whenever the composition itself changes.
     private var strokeConfirmed = false
+    // 倉頡: Space opened the candidate list on a code with more than one exact match, so the
+    // window is waiting for a choice. The next number picks a candidate; the next printable
+    // non-number accepts the first one and is then processed as a fresh key. Reset alongside
+    // candidatePage whenever the composition changes.
+    private var cangjieOptionsShown = false
     // Associated phrases (聯想) offered after committing a single character; empty when not in
     // association mode. Paged with `candidatePage`, shown in the same numbered candidate window.
     private var associations: [String] = []
@@ -689,12 +694,33 @@ final class InputController: IMKInputController {
                 strokeConfirmed = true
                 return true
             }
+            // 倉頡 Space has two jobs. With several exact matches (`大月` → 有 / 冇) the first
+            // Space only OPENS the choice — the window stays up, and `1–9` picks. With one
+            // candidate, or once the list is already open, Space accepts the first candidate and
+            // carries on; a second Space is the "not choosing" key, not a literal space.
+            if event.keyCode == 49, engine is CangjieEngine {
+                let wasOpen = cangjieOptionsShown
+                switch KeyEventPolicy.cangjieSpaceAction(
+                    optionsShown: wasOpen,
+                    exactCandidateCount: engine.exactCandidateCount
+                ) {
+                case .acceptFirst:
+                    engine.selectCandidate(candidatePage * InputController.pageSize)
+                    // A second Space is just "take the first": do not open 聯想 over the
+                    // character the user is about to type next.
+                    return commitCurrent(to: client, offerAssociations: !wasOpen)
+                case .openChoices:
+                    cangjieOptionsShown = true
+                    refresh(client)
+                    return true
+                }
+            }
+            let exactLastPage = (engine.exactCandidateCount - 1) / InputController.pageSize
             // SPACE pages to the next candidate page (wrapping last → first). On a
             // single page there is nothing to page, so fall through to the
             // commit-first-candidate-on-space behaviour below. It pages only through the exact
             // matches, so turning completions on leaves Space doing what it did: 竹 + Space still
             // types 竹. The completions after them are reached with the arrows and Page Down.
-            let exactLastPage = (engine.exactCandidateCount - 1) / InputController.pageSize
             if event.keyCode == 49,
                let page = KeyEventPolicy.spacePage(page: candidatePage, lastPage: exactLastPage) {
                 candidatePage = page
@@ -715,6 +741,16 @@ final class InputController: IMKInputController {
                 case .type:
                     break // 注音: on to the run-on rule below, as any other 注音 key
                 }
+            }
+            // 倉頡: after Space has opened the choice, the next printable key that is not a
+            // number accepts the first candidate and is then processed as a fresh key. So
+            // `大月` Space `k` gives 有 and starts 大, and `大月` Space `,` gives 有，. Editing
+            // keys (Backspace, Esc) and Return keep their own meanings below.
+            if cangjieOptionsShown,
+               KeyEventPolicy.isCandidateAcceptCharacter(event.characters) {
+                engine.selectCandidate(candidatePage * InputController.pageSize)
+                _ = commitCurrent(to: client)
+                return handle(event, client: sender)
             }
         }
 
@@ -930,6 +966,7 @@ final class InputController: IMKInputController {
         candidatePage = 0
         candidateHighlight = nil
         strokeConfirmed = false
+        cangjieOptionsShown = false
     }
 
     // Whether the active composition resolves to candidates before its code is complete: 速成

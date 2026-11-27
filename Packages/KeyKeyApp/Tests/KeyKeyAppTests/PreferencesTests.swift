@@ -120,11 +120,10 @@ final class PreferencesTests: XCTestCase {
         XCTAssertFalse(Preferences.shiftSpaceFullWidthSpaceEnabled)
     }
 
-    // Issue #85: this is the one new toggle that defaults ON, so the registered default is what
-    // an existing install relies on. Written explicitly rather than removing the key and reading,
-    // because `bool(forKey:)` on a truly absent key with no registration returns false — the
-    // opposite of the intended default. testRegisterDefaultsSuppliesSensibleFirstLaunchValues
-    // covers the registration itself.
+    // Issue #85: this toggle is off by default now, and an explicit value still wins. Written
+    // explicitly rather than removing the key and reading, because `bool(forKey:)` on a truly
+    // absent key with no registration returns false — which now is the intended default.
+    // testRegisterDefaultsSuppliesSensibleFirstLaunchValues covers the registration itself.
     func testAdaptiveCandidateOrderRoundTripsBothWays() {
         defaults.set(false, forKey: "adaptiveCandidateOrderEnabled")
         XCTAssertFalse(Preferences.adaptiveCandidateOrderEnabled)
@@ -204,11 +203,11 @@ final class PreferencesTests: XCTestCase {
         XCTAssertFalse(Preferences.associationContinuationOnly)
         XCTAssertFalse(Preferences.codeHintEnabled)
         XCTAssertFalse(Preferences.strokeConfirmationEnabled)
-        // ON by default (issue #85): 2.13.0 must not change how an existing install ranks
-        // candidates. Asserted HERE and not only via tearDown, because a registered default
-        // outlives removeObject — a key missing from the removal list above could otherwise pass
-        // on a value some earlier test left behind.
-        XCTAssertTrue(Preferences.adaptiveCandidateOrderEnabled)
+        // OFF by default: a candidate list keeps the order the table and the language model gave
+        // it, so picking 2 for 冇 does not push it to the top. Asserted HERE and not only via
+        // tearDown, because a registered default outlives removeObject — a key missing from the
+        // removal list above could otherwise pass on a value some earlier test left behind.
+        XCTAssertFalse(Preferences.adaptiveCandidateOrderEnabled)
         XCTAssertFalse(Preferences.shiftSpaceFullWidthSpaceEnabled)
         XCTAssertFalse(Preferences.completionsEnabled)
         XCTAssertEqual(Preferences.cangjieVersion, .v5)
