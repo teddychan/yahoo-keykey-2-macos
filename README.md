@@ -56,6 +56,15 @@ Details and the manual test sequence are in
   the Info.plist keys involved are in
   [docs/adr/0001-cangjie-mode-template-icon.md](docs/adr/0001-cangjie-mode-template-icon.md) and
   [docs/handoff-cangjie-icon.md](docs/handoff-cangjie-icon.md).
+
+  White 倉 on a dark menu bar, and the same glyph in the input menu:
+
+  ![倉 on the menu bar and in the input menu](docs/images/cangjie-menu-bar.png)
+
+  White 倉 on the blue selection in the inline switcher, beside ABC’s A and Japanese あ:
+
+  ![倉 selected in the inline switcher](docs/images/cangjie-inline-switcher.png)
+
 - **Input-method icon.** `App/Info.plist` now names `YahooKeyKey.tiff` as the input method's own
   icon (`tsInputMethodIconFileKey`).
 - **Debug builds keep plain mode names.** `./tools/run-debug.sh` still installs a separate
