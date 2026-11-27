@@ -1,114 +1,75 @@
 <div align="center">
-  <img src="App/AppIcon.png" width="160" height="160" alt="Yahoo! KeyKey 2 app icon">
-  <h1>Yahoo! KeyKey 2 — 倉頡 adjusted</h1>
-  <p><strong>A fork of Yahoo! KeyKey 2 with adjusted Cangjie (倉頡) result logic and a template mode icon</strong></p>
+  <img src="App/AppIcon.png" width="160" height="160" alt="Yahoo! KeyKey 2 應用程式圖示">
+  <h1>Yahoo! KeyKey 2 — 倉頡調整版</h1>
+  <p><strong>Yahoo! KeyKey 2 的分支：調整倉頡的選字，並改用範本模式圖示</strong></p>
 </div>
 
-This fork is built on the previous work of **Teddy Chan**
-([teddychan/yahoo-keykey-2-macos](https://github.com/teddychan/yahoo-keykey-2-macos)): the
-independent, open-source Swift rebuild of the classic **Yahoo! KeyKey (Yahoo!奇摩輸入法)**
-Traditional-Chinese input method for macOS. All credit for the app, its four input methods —
-**倉頡** (Cangjie), **速成** (Simplex), **注音** (Zhuyin, ㄅ半) and **拼音** (Pinyin) — and its
-tooling goes to that project, which in turn credits the original Yahoo! KeyKey and its data
-sources; see [CREDITS.md](CREDITS.md). This fork starts from upstream **v2.20.1**, and the fork's
-author only adjusted the **倉頡**-related logic and display described under
-[What this fork changes](#what-this-fork-changes) (the one setting that reaches past 倉頡 is
-noted there). Everything else behaves as upstream does.
+本分支建立在 **Teddy Chan**
+（[teddychan/yahoo-keykey-2-macos](https://github.com/teddychan/yahoo-keykey-2-macos)）先前的工作上：那是經典 **Yahoo! KeyKey（Yahoo!奇摩輸入法）** 的獨立、開放原始碼 Swift 重寫，把這套繁體中文輸入法帶回現代 macOS。應用程式本身、四種輸入法——**倉頡**、**速成**、**注音**（ㄅ半）與**拼音**——以及相關工具，功勞都屬於那個專案；該專案也註明了原始 Yahoo! KeyKey 與其資料來源，見 [CREDITS.md](CREDITS.md)。本分支從上游 **v2.20.1** 開始，只調整了 [這個分支改了什麼](#這個分支改了什麼) 裡說明的倉頡選字與顯示（其中有一項設定會一併影響倉頡以外的輸入法，該處有註明）。其餘行為與上游相同。
 
-[![Upstream](https://img.shields.io/badge/upstream-teddychan%2Fyahoo--keykey--2--macos-blue?style=flat-square)](https://github.com/teddychan/yahoo-keykey-2-macos)
-![Platform](https://img.shields.io/badge/platform-macOS-blue?style=flat-square)
-![Requirements](https://img.shields.io/badge/requirements-macOS%2026%2B-fa4e49?style=flat-square)
-[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+[![上游](https://img.shields.io/badge/上游-teddychan%2Fyahoo--keykey--2--macos-blue?style=flat-square)](https://github.com/teddychan/yahoo-keykey-2-macos)
+![平台](https://img.shields.io/badge/平台-macOS-blue?style=flat-square)
+![系統需求](https://img.shields.io/badge/系統需求-macOS%2026%2B-fa4e49?style=flat-square)
+[![授權](https://img.shields.io/badge/授權-MIT-blue?style=flat-square)](LICENSE)
 
-## What this fork changes
+## 這個分支改了什麼
 
-### 倉頡 result logic
+### 倉頡選字
 
-Only **倉頡** is affected; 速成, 注音 and 拼音 keep their upstream Space behaviour.
+只有**倉頡**改變；速成、注音和拼音的空白鍵仍與上游相同。
 
-- **`戈土心` types 應 in 五代.** `igp` is added to `Resources/cangjie.txt`. The classical 五代 code
-  `戈人土心` still works, and 三代 already had `戈土心`.
-- **Space opens the choices instead of committing the first result.** When a code has more than
-  one *exact* match — `大月` gives 有 and 冇 — the first Space shows the list and commits nothing.
-  Then `1–9` picks; Space again or Return accepts the first; any other printable character accepts
-  the first and is then processed normally (a letter starts the next code, punctuation follows the
-  committed character). A code with a single exact match still commits on the first Space, even
-  with **顯示字根開頭相同的字** on. A radical typed *before* Space still extends the code.
-- **Space no longer pages the 倉頡 list.** Use the arrow keys or Page Up / Page Down. Space still
-  pages in 速成 and 注音.
-- **Candidate order is stable by default.** **依選字習慣調整候選字順序** is now off out of the box,
-  so picking 冇 with `2` does not move it above 有 next time. It is one global setting, so 速成,
-  注音, 拼音 and 聯想字詞 also keep their built-in order. Turn it on in **設定… ▸ 一般** to get
-  upstream's learning back; counts already saved are kept and used again.
+- **五代可以用 `戈土心` 打出應。** `igp` 加進 `Resources/cangjie.txt`。五代原本的 `戈人土心` 仍然有效，三代本來就有 `戈土心`。
+- **空白鍵打開候選，而不是直接送出第一個字。** 一個碼有多個*完全符合*的字時——`大月` 有 有 和 冇——第一次按空白鍵只顯示清單，不會送出。接著 `1–9` 選字；再按一次空白鍵或 Return 接受第一個；其他可列印字元會先接受第一個，再照常處理（字母開始下一個碼，標點接在送出的字後面）。只有一個完全符合的字時，第一次按空白鍵仍然直接送出，就算開了**顯示字根開頭相同的字**也一樣。空白鍵之前再打的字根仍會加長這個碼。
+- **空白鍵不再用來翻倉頡的候選頁。** 請用方向鍵或 Page Up／Page Down。速成和注音的空白鍵仍然翻頁。
+- **候選順序預設固定。** **依選字習慣調整候選字順序** 現在預設關閉，所以用 `2` 選了冇，下次不會排到有的前面。這是全域設定，因此速成、注音、拼音和聯想字詞也維持內建順序。到 **設定… ▸ 一般** 打開，就恢復上游的學習；已經記下來的次數會保留，打開後再度使用。
 
-The logic lives in `App/InputController.swift` and `App/KeyEventPolicy.swift`
-(`cangjieSpaceAction`, `isCandidateAcceptCharacter`), with the default in `App/Preferences.swift`.
-Details and the manual test sequence are in
-[docs/handoff-cangjie-result-logic.md](docs/handoff-cangjie-result-logic.md).
+這段邏輯在 `App/InputController.swift` 和 `App/KeyEventPolicy.swift`（`cangjieSpaceAction`、`isCandidateAcceptCharacter`），預設值在 `App/Preferences.swift`。細節和手動測試步驟見 [docs/handoff-cangjie-result-logic.md](docs/handoff-cangjie-result-logic.md)。
 
-### Icon and display
+### 圖示
 
-- **The 倉頡 mode icon is a template.** It is a single gray-and-alpha 倉 glyph
-  (`App/CangjieGlyphTemplate.tiff`, drawn by `tools/render-cangjie-icons.swift`) that macOS
-  tints the way it does for ABC's "A" and Japanese "あ": black on the light input switcher, white
-  on the dark switcher, white on the blue selection and white on a dark menu bar. 速成, 注音 and
-  拼音 keep the full-colour purple Y on its white tile (`App/YahooKeyKey.tiff`). The reasons and
-  the Info.plist keys involved are in
-  [docs/adr/0001-cangjie-mode-template-icon.md](docs/adr/0001-cangjie-mode-template-icon.md) and
-  [docs/handoff-cangjie-icon.md](docs/handoff-cangjie-icon.md).
+- **倉頡的模式圖示是範本圖示。** 它是一張灰階加透明的倉字（`App/CangjieGlyphTemplate.tiff`，由 `tools/render-cangjie-icons.swift` 繪製）。macOS 著色的方式和 ABC 的「A」、日文的「あ」一樣：淺色切換列是黑字，深色切換列是白字，藍色選取圓是白字，深色選單列也是白字。速成、注音和拼音仍用白底上的全彩紫色 Y（`App/YahooKeyKey.tiff`）。原因和 Info.plist 的鍵見 [docs/adr/0001-cangjie-mode-template-icon.md](docs/adr/0001-cangjie-mode-template-icon.md) 與 [docs/handoff-cangjie-icon.md](docs/handoff-cangjie-icon.md)。
 
-  White 倉 on a dark menu bar, and the same glyph in the input menu:
+  深色選單列上的白色倉，以及輸入選單裡的同一個字：
 
-  ![倉 on the menu bar and in the input menu](docs/images/cangjie-menu-bar.png)
+  ![深色選單列與輸入選單上的白色倉](docs/images/cangjie-menu-bar.png)
 
-  White 倉 on the blue selection in the inline switcher, beside ABC’s A and Japanese あ:
+  游標旁的切換列裡，藍色選取圓上的白色倉，旁邊是 ABC 的 A 和日文的あ：
 
-  ![倉 selected in the inline switcher](docs/images/cangjie-inline-switcher.png)
+  ![內嵌切換列選取時，藍色圓圈上的白色倉](docs/images/cangjie-inline-switcher.png)
 
-- **Input-method icon.** `App/Info.plist` now names `YahooKeyKey.tiff` as the input method's own
-  icon (`tsInputMethodIconFileKey`).
-- **Debug builds keep plain mode names.** `./tools/run-debug.sh` still installs a separate
-  `.debug` input method, but its modes are listed as 倉頡 / 速成 / 注音 / 拼音 with no
-  "(Debug)" suffix.
-- `tools/make-icon.sh` and `tools/build-app.sh` generate and bundle the new glyph.
+- **輸入法本身的圖示。** `App/Info.plist` 以 `YahooKeyKey.tiff` 作為輸入法自己的圖示（`tsInputMethodIconFileKey`）。
+- **除錯版的模式名稱不加後綴。** `./tools/run-debug.sh` 仍會安裝另一個 `.debug` 輸入法，但模式名稱是倉頡／速成／注音／拼音，沒有「(Debug)」。
+- `tools/make-icon.sh` 和 `tools/build-app.sh` 會產生並打包這個新字圖。
 
 > [!IMPORTANT]
-> This fork does not publish releases or its own update feed. The upstream download, Homebrew cask
-> and **檢查更新…** all deliver **upstream** builds, which do not include the changes above — and
-> checking for updates in a build of this fork would replace it with upstream's. To use the fork,
-> [build it from source](#building-from-source) and install the resulting app as described under
-> [Install](#install).
+> 本分支不發布版本，也沒有自己的更新來源。上游的下載、Homebrew cask 和 **檢查更新…** 裝的都是**上游**版本，不含上面的改動；在本分支的建置裡檢查更新，會把它換成上游的版本。要用本分支，請 [從原始碼建置](#從原始碼建置)，再依 [安裝](#安裝) 的步驟裝上。
 
-## Contents
+## 目錄
 
-- [What this fork changes](#what-this-fork-changes)
-- [Requirements](#requirements)
-- [Install](#install)
-- [Features](#features)
-- [Input methods](#input-methods)
-- [Troubleshooting](#troubleshooting)
-- [Building from source](#building-from-source)
-- [Tests](#tests)
-- [Contributing](#contributing)
-- [Credits](#credits)
-- [License](#license)
+- [這個分支改了什麼](#這個分支改了什麼)
+- [系統需求](#系統需求)
+- [安裝](#安裝)
+- [功能](#功能)
+- [輸入法](#輸入法)
+- [疑難排解](#疑難排解)
+- [從原始碼建置](#從原始碼建置)
+- [測試](#測試)
+- [參與貢獻](#參與貢獻)
+- [致謝](#致謝)
+- [授權條款](#授權條款)
 
-## Requirements
+## 系統需求
 
-- **macOS 26 Tahoe** or later
-- A Mac with **Apple Silicon** — there is no Intel version
-- To build this fork: the **Xcode 26 toolchain** (see [Building from source](#building-from-source)).
-  A local build is ad-hoc signed, not notarized.
+- **macOS 26 Tahoe** 或更新版本
+- **Apple 晶片** 的 Mac——沒有 Intel 版本
+- 建置本分支需要 **Xcode 26 工具鏈**（見 [從原始碼建置](#從原始碼建置)）。本機建置是 ad-hoc 簽署，沒有經過公證。
 
-## Install
+## 安裝
 
 > [!IMPORTANT]
-> **Log out and back in after installing.** macOS only looks for new input methods when you log
-> in — this is the most common reason KeyKey seems not to work.
+> **安裝後請登出再登入。** macOS 只在登入時尋找新的輸入法——這是 KeyKey 裝好卻不能用時最常見的原因。
 
-Build the input method, then copy it into `~/Library/Input Methods`. This needs the **Xcode 26
-toolchain** on Apple Silicon. `./tools/build-lm.sh` is only needed once: `Resources/data.txt` is
-not in the checkout.
+先建置輸入法，再複製到 `~/Library/Input Methods`。需要 Apple 晶片上的 **Xcode 26 工具鏈**。`./tools/build-lm.sh` 只需要跑一次：原始碼裡沒有 `Resources/data.txt`。
 
 ```sh
 git clone https://github.com/machingclee/yahoo-keykey-2-macos-cangjie-adjusted.git
@@ -119,48 +80,26 @@ mkdir -p ~/Library/Input\ Methods
 cp -R build/YahooKeyKey2.app ~/Library/Input\ Methods/
 ```
 
-1. **Log out and back in.**
-2. Add the input source: **System Settings ▸ Keyboard**, then **Edit…** beside **Input Sources**
-   (the `+` is inside that sheet, not on the settings page), **+ ▸ Chinese, Traditional** →
-   **倉頡**, **速成**, **注音** and/or **拼音**.
-3. Press **⌃Space** to switch to Yahoo! KeyKey 2 and start typing. In **倉頡**, Space shows the
-   choices when a code has several characters (`1–9` picks), or commits when it has one; typing
-   another character takes the first candidate and carries on. The arrow keys page through the
-   list.
-4. **Optional:** open **設定… ▸ 一般** and choose **為所有使用者安裝…** (*Install for All
-   Users…*). After asking for an administrator password it moves itself to
-   `/Library/Input Methods`, so it keeps working when another app, such as 1Password, turns on
-   secure input — see [known issue #2](known_issues.md#2-倉頡-is-greyed-out-and-will-not-turn-on).
+1. **登出再登入。**
+2. 加入輸入來源：**系統設定 ▸ 鍵盤**，在 **輸入來源** 旁按 **編輯…**（`+` 在那個視窗裡，不在設定頁本身），**+ ▸ 繁體中文** → **倉頡**、**速成**、**注音** 及／或 **拼音**。
+3. 按 **⌃Space** 切到 Yahoo! KeyKey 2 開始打字。在**倉頡**裡，一個碼有好幾個字時，空白鍵會列出選擇（`1–9` 選字）；只有一個字時則直接送出。接著打別的字元會先接受第一個候選再繼續。方向鍵用來翻頁。
+4. **可選：** 打開 **設定… ▸ 一般**，選 **為所有使用者安裝…**。輸入管理者密碼後，它會把自己移到 `/Library/Input Methods`，這樣其他應用程式（例如 1Password）開啟安全輸入時，輸入法仍可使用。見 [已知問題 #2](known_issues.md#2-倉頡-is-greyed-out-and-will-not-turn-on)。
 
-To try a build without replacing an installed release copy, run `./tools/run-debug.sh` from this
-checkout. It builds and installs `~/Library/Input Methods/Yahoo KeyKey 2 Debug.app` and launches
-it. That is a separate input method. Log out and back in if **倉頡**, **速成**, **注音** and
-**拼音** do not appear. The mode names stay in Chinese; the app name is **Yahoo! KeyKey 2 Debug**.
+若不想蓋掉已經安裝的正式版，在這個目錄執行 `./tools/run-debug.sh`。它會建置並安裝 `~/Library/Input Methods/Yahoo KeyKey 2 Debug.app`，然後啟動。這是另一個輸入法。若 **倉頡**、**速成**、**注音**、**拼音** 沒有出現，請登出再登入。模式名稱維持中文；應用程式名稱是 **Yahoo! KeyKey 2 Debug**。
 
-Not showing up? See
-[known issues](known_issues.md#1-yahoo-keykey-2-does-not-show-up-after-installing).
+沒有出現？見 [已知問題](known_issues.md#1-yahoo-keykey-2-does-not-show-up-after-installing)。
 
-### Update
+### 更新
 
-Rebuild from this checkout and replace the app in the folder you installed it to, then log out
-and back in. Do not use **檢查更新…** (it follows upstream's appcast and installs an upstream
-build), and do not install this fork over the upstream Homebrew cask: both use the same bundle id.
+在這個目錄重新建置，替換你當初安裝的那個資料夾裡的 app，然後登出再登入。不要用 **檢查更新…**（它跟著上游的 appcast，會裝上上游版本），也不要把本分支裝到上游 Homebrew cask 的位置上：兩者的 bundle id 相同。
 
-### Uninstall
+### 解除安裝
 
-1. **Remove the input source first:** **System Settings ▸ Keyboard ▸ Input Sources**, select
-   Yahoo! KeyKey 2 and remove it. The app's own Uninstall pane cannot do this part for you.
-2. **Then remove the app** — Homebrew (if you installed upstream's cask):
-   `brew uninstall --cask teddychan/tap/yahoo-keykey-2`. Otherwise, for a copy in
-   `~/Library/Input Methods`, open **設定… ▸ 解除安裝** or drag
-   `~/Library/Input Methods/YahooKeyKey2.app` to the Trash. Installed for all users, drag
-   `/Library/Input Methods/YahooKeyKey2.app` to the Trash in Finder, which asks for an
-   administrator password. **解除安裝** cannot remove such a copy: it stops before removing
-   anything and tells you the same.
-3. **Log out and back in.**
+1. **先移除輸入來源：** **系統設定 ▸ 鍵盤 ▸ 輸入來源**，選取 Yahoo! KeyKey 2 並移除。應用程式自己的解除安裝畫面無法代勞這一步。
+2. **再移除應用程式。** 若裝的是上游的 Homebrew cask：`brew uninstall --cask teddychan/tap/yahoo-keykey-2`。否則，在 `~/Library/Input Methods` 的副本可打開 **設定… ▸ 解除安裝**，或把 `~/Library/Input Methods/YahooKeyKey2.app` 拖到垃圾桶。為所有使用者安裝的副本，請在 Finder 把 `/Library/Input Methods/YahooKeyKey2.app` 拖到垃圾桶，系統會要求管理者密碼。**解除安裝** 無法移除這種副本：它會在刪除任何東西之前停下來，並告訴你同樣的做法。
+3. **登出再登入。**
 
-The **解除安裝** pane also clears your settings, learning data and cache. If you deleted the app
-by hand — which is the only way for a copy installed for all users — and want those gone too:
+**解除安裝** 也會清掉設定、學習資料和快取。若你是自己刪掉應用程式（為所有使用者安裝的副本只能這樣刪），還想一併清掉那些資料：
 
 ```sh
 rm -rf ~/Library/Application\ Support/YahooKeyKey2
@@ -169,236 +108,146 @@ rm -rf ~/Library/Caches/com.dragonapp.inputmethod.yahoo-keykey
 rm -rf ~/Library/HTTPStorages/com.dragonapp.inputmethod.yahoo-keykey
 ```
 
-## Features
+## 功能
 
-- **Four input methods** — add the ones you use under Input Sources and switch with ⌃Space.
-  See [Input methods](#input-methods) for how each one types.
-  - **倉頡 (Cangjie)** — the classic radical method, with `*` as a wildcard for when you cannot
-    remember every radical.
-  - **速成 (Simplex)** — 倉頡's shorthand: just the first and last radical.
-  - **注音 (Zhuyin)** — the classic phonetic method, one character at a time (ㄅ半). 標準 (大千),
-    倚天 and 許氏 (Hsu) keyboards. **智慧選字** types a whole sentence and lets the language model
-    pick the characters; it is off until you turn it on.
-  - **拼音 (Pinyin)** — builds whole phrases from pinyin without tones.
-- **Candidates that stay put, unless you ask** — the list keeps its built-in order by default, so
-  picking a candidate never reshuffles it. Turn **依選字習慣調整候選字順序** on in Settings if you
-  want the characters you pick to move up, in all four input methods and 聯想字詞 alike.
-- **Associated words (聯想字詞)** — after you commit a character, KeyKey suggests the words that
-  usually follow, pickable with `1–9` or `Shift + 1–9`.
-- **繁 → 簡 and full-width punctuation** — toggle both straight from the input menu.
-- **Candidate window that follows your cursor** — never clipped off-screen, paged with the arrow
-  keys or Page Up / Page Down (Space also pages in 速成 and 注音), at whatever size you set.
-- **See the code (反查／拆碼提示)** — show each candidate's 倉頡 code, or its pinyin reading — so
-  in 注音 you can look up how to type the same character in 倉頡.
-- **臨時英數** — hold **Shift** and press a letter to type that one English letter without
-  switching input source.
-- **字根開頭相同的字** — turn on **顯示字根開頭相同的字** in Settings and typing 竹 in 倉頡 or
-  速成 also offers 我 (竹手戈), as `竹*` would. The characters whose code is exactly what you
-  typed stay first.
-- **全形空白** — turn on **Shift + 空白鍵輸入全形空白** in Settings and **Shift + Space** types a
-  full-width space (　) in all four input methods.
-- **Backup and restore** — save your settings to a folder from **設定…** and bring them back
-  later, handy when setting up a new Mac.
-- **Free and open source** — MIT licensed, signed and notarized, with in-app updates.
+- **四種輸入法** — 在輸入來源裡加入要用的，再用 ⌃Space 切換。每種怎麼打，見 [輸入法](#輸入法)。
+  - **倉頡** — 傳統字根輸入法；想不起某個字根時可用 `*` 當萬用字元。
+  - **速成** — 倉頡的簡快打法：只打一個字的首尾字根。
+  - **注音** — 傳統注音，一次一個字（ㄅ半）。鍵盤有標準（大千）、倚天和許氏。**智慧選字** 可以打一整句，由語言模型選字；預設關閉，要自己打開。
+  - **拼音** — 用不標聲調的拼音組出整個詞。
+- **候選字預設留在原位** — 清單維持內建順序，選了某個字也不會重排。若希望選過的字往上排，到設定打開 **依選字習慣調整候選字順序**；四種輸入法和聯想字詞都受這項設定影響。
+- **聯想字詞** — 送出一個字之後，KeyKey 建議常接在後面的詞，可用 `1–9` 或 `Shift + 1–9` 選。
+- **繁轉簡與全形標點** — 兩者都可直接在輸入選單切換。
+- **候選視窗跟著游標** — 不會被螢幕邊緣切掉。可用方向鍵或 Page Up／Page Down 翻頁（速成和注音的空白鍵也會翻頁），字級可自訂。
+- **反查／拆碼提示** — 在候選字旁顯示倉頡碼，或拼音讀音。在注音裡可以順便查同一個字的倉頡怎麼打。
+- **臨時英數** — 按住 **Shift** 再按一個字母，打出那一個英文字，不必切換輸入來源。
+- **字根開頭相同的字** — 在設定打開 **顯示字根開頭相同的字** 後，倉頡或速成打「竹」也會出現「我」（竹手戈），就像打了 `竹*`。碼完全符合的字仍排在前面。
+- **全形空白** — 在設定打開 **Shift + 空白鍵輸入全形空白** 後，四種輸入法裡 **Shift + Space** 都會打出全形空白（　）。
+- **備份與還原** — 在 **設定…** 把設定存到一個資料夾，以後可以還原，換電腦時方便。
+- **免費、開放原始碼** — MIT 授權。本分支的本機建置只做 ad-hoc 簽署、沒有公證；請不要用 **檢查更新…**，那會裝回上游版本。
 
 > [!NOTE]
-> Yahoo! KeyKey 2 is not affiliated with, or endorsed by, Yahoo. It is an independent project
-> that exists to honor the original work and keep a KeyKey-style experience alive on modern
-> macOS.
+> Yahoo! KeyKey 2 與 Yahoo 沒有從屬或背書關係。它是獨立專案，為了向原來的作品致敬，並讓 KeyKey 式的打字體驗留在現代 macOS 上。
 
-## Input methods
+## 輸入法
 
-Yahoo! KeyKey 2 installs **four input methods**. Each one is a separate entry under **Input
-Sources** (Chinese, Traditional), so add only the ones you use and switch between them with
-**⌃Space**.
+Yahoo! KeyKey 2 會安裝**四種輸入法**。每一種在 **輸入來源**（繁體中文）裡都是獨立的一項，所以只加入要用的，再用 **⌃Space** 切換。
 
-| Input method | How you type | Its own setting (設定… ▸ 輸入方式) |
+| 輸入法 | 怎麼打 | 自己的設定（設定… ▸ 輸入方式） |
 |---|---|---|
-| **倉頡** (Cangjie) | 倉頡 radicals on the letter keys; `*` is a wildcard | **倉頡版本** — 五代 or 三代 |
-| **速成** (Simplex) | the first and last radical of a character's 倉頡 code | follows **倉頡版本** |
-| **注音** (Zhuyin) | 注音 symbols, then a tone — one character at a time (ㄅ半), or a whole sentence when **智慧選字** is on | **注音鍵盤** — 大千, 倚天 or 許氏 · **智慧選字** (off by default) |
-| **拼音** (Pinyin) | pinyin without tones — whole phrases at once | — |
+| **倉頡** | 字母鍵打倉頡字根；`*` 是萬用字元 | **倉頡版本** — 五代或三代 |
+| **速成** | 一個字的倉頡碼的首尾字根 | 跟著 **倉頡版本** |
+| **注音** | 注音符號再加聲調，一次一個字（ㄅ半）；打開 **智慧選字** 時可打整句 | **注音鍵盤** — 大千、倚天或許氏 · **智慧選字**（預設關閉） |
+| **拼音** | 不標聲調的拼音，一次組出整個詞 | — |
 
-繁 → 簡, full-width punctuation, 反查提示 and **依選字習慣調整候選字順序** apply to all four.
+繁轉簡、全形標點、反查提示和 **依選字習慣調整候選字順序** 對四種輸入法都有效。
 
-### 倉頡 and 速成: 倉頡版本
+### 倉頡與速成
 
-Choose the decomposition table in **設定… ▸ 輸入方式**. It drives both 倉頡 and 速成, and applies
-immediately.
+在 **設定… ▸ 輸入方式** 選擇拆字表。倉頡和速成一起使用，而且立刻生效。
 
-| Mode | Based on | Candidate order | Example codes |
+| 模式 | 依據 | 候選順序 | 例子 |
 |---|---|---|---|
-| **五代倉頡** (default) | ibus `cangjie5` | corpus frequency | 面 `一田尸中`, 鬼 `竹山戈` |
-| **三代倉頡** (Yahoo! KeyKey compatible) | original Yahoo! KeyKey tables | Yahoo's original order | 面 `一田卜中`, 鬼 `竹戈` |
+| **五代倉頡**（預設） | ibus `cangjie5` | 語料頻率 | 面 `一田尸中`、鬼 `竹山戈` |
+| **三代倉頡**（相容 Yahoo! KeyKey） | 原始 Yahoo! KeyKey 字碼表 | Yahoo 原本的順序 | 面 `一田卜中`、鬼 `竹戈` |
 
-Yahoo! KeyKey 2 also accepts `戈土心` for 應 in 五代 (its classical 五代 code is `戈人土心`,
-which still works). 三代 already spelled it `戈土心`.
+五代也接受用 `戈土心` 打應（五代原本的碼是 `戈人土心`，仍然有效）。三代本來就是 `戈土心`。
 
-When a 倉頡 code matches more than one character — `大月` gives 有 and 冇 — the first Space
-**opens the candidate list and waits**. Press `1–9` to pick (press `2` for 冇), or type any other
-character: 有 is committed and that character is then processed normally. A letter starts the
-next character, a punctuation mark is inserted after 有, and a second Space simply accepts 有.
-Return accepts 有 too. A code with only one matching character commits on Space directly.
-The list keeps its built-in order: picking 冇 with `2` does not move it to the top. If you want
-that learning behaviour, turn **依選字習慣調整候選字順序** on in Settings.
+一個倉頡碼對到多個字時——`大月` 有 有 和 冇——第一次按空白鍵**打開候選清單並等候**。按 `1–9` 選字（冇按 `2`），或打任何其他字元：先送出有，再照常處理那個字元。字母開始下一個字，標點接在有的後面，再按一次空白鍵則直接接受有。Return 也接受有。只有一個符合的字時，空白鍵直接送出。清單維持內建順序：用 `2` 選了冇，不會把它排到最上面。若要那種學習，請在設定打開 **依選字習慣調整候選字順序**。
 
-**五代** is the default, so existing users are unaffected until they opt in. Both orders are
-fixed, and in 倉頡/速成 each is the tie-breaker rather than a score the learning layer adjusts:
-**依選字習慣調整候選字順序** is off by default, so every list keeps the order above. Turn it on
-and each candidate list is ordered by how often you have committed each candidate *in that list*,
-with the table order deciding between candidates you have committed equally often. Turning it off
-again shows the table order alone — so 三代 with learning off is the original Yahoo! KeyKey order
-and nothing else. Usage is counted per candidate list, so a 倉頡 code, a 倉頡 wildcard pattern and
-a 速成 code each learn separately, while 倉頡 and 速成 share what they learn about 聯想字詞. 拼音
-is outside that scheme: it ranks candidates as it always has, and the same setting turns its
-learning on and off.
+**五代** 是預設，所以現有使用者在自己改之前不受影響。兩種順序都是固定的；在倉頡／速成裡，字碼表的順序是同分時的先後，而不是學習層去改的分數。**依選字習慣調整候選字順序** 預設關閉，所以每份清單都維持上表的順序。打開之後，每一份候選清單按你在*那一份清單*裡送出各字的次數排序，次數相同時才用字碼表的順序。再關掉就只剩字碼表的順序——三代且關閉學習時，就是原始 Yahoo! KeyKey 的順序，沒有別的。次數按每一份候選清單分開計算，所以一個倉頡碼、一個倉頡萬用字元組合、一個速成碼各自學習；倉頡和速成對聯想字詞的學習則是共用的。拼音不在這套裡：它仍用自己的排序，而同一項設定也開關它的學習。
 
-Yahoo! KeyKey's *associated-phrase* ranking cannot be reproduced — that data was never
-open-sourced — so associations use Yahoo! KeyKey 2's own ordering in both modes.
+Yahoo! KeyKey 的*聯想詞*排序無法重現——那些資料從未開放——所以兩種模式的聯想都用 Yahoo! KeyKey 2 自己的順序。
 
-### 注音 (ㄅ半)
+### 注音
 
-The **ㄅ半** method, as it has always worked: one syllable, one character. Type the 注音 symbols,
-finish the syllable with a tone, and the candidate window opens — unless the reading has only one
-character, which is typed straight away. `1–9` picks, Space and the arrow keys page, and typing the
-next character's first symbol commits the one on screen so you can run on without pressing Enter.
-聯想字詞 follows every commit, exactly as in 倉頡 and 速成.
+**ㄅ半** 的打法和過去一樣：一個音節一個字。打完注音符號，用聲調結束這個音節，候選視窗就會打開；若這個讀音只有一個字，則直接送出。`1–9` 選字，空白鍵和方向鍵翻頁。接著打下一個字的第一個符號時，畫面上的字會先送出，不必按 Enter 也能繼續。聯想字詞在每次送出之後出現，和倉頡、速成一樣。
 
 | | |
 |---|---|
-| **First tone** | **Space** — the one tone with no key of its own |
-| **Other tones** | 大千 `6` ˊ · `3` ˇ · `4` ˋ · `7` ˙  ·  倚天 `2` ˊ · `3` ˇ · `4` ˋ · `1` ˙  ·  許氏 `d` ˊ · `f` ˇ · `j` ˋ · `s` ˙ |
-| **Pick a candidate** | `1–9` (a number with no candidate on its row types 注音 instead) · **Return** takes the first on the page · Space pages (and takes the first when there is only one page) |
-| **Fix a wrong tone** | **Backspace** removes the tone and leaves the symbols |
-| **聯想字詞** | **Shift + 1–9** (a bare number types 注音, so it cannot also pick) |
-| **，。** | On 大千 and 倚天, **Shift + `,`** and **Shift + `.`** — `,` and `.` themselves type ㄝ and ㄡ. On 許氏 those keys stay punctuation |
+| **一聲** | **空白鍵** — 唯一沒有專用鍵的聲調 |
+| **其他聲調** | 大千 `6` ˊ · `3` ˇ · `4` ˋ · `7` ˙　·　倚天 `2` ˊ · `3` ˇ · `4` ˋ · `1` ˙　·　許氏 `d` ˊ · `f` ˇ · `j` ˋ · `s` ˙ |
+| **選候選字** | `1–9`（該列沒有候選字時，數字鍵改打注音）· **Return** 取這一頁的第一個 · 空白鍵翻頁（只有一頁時則取第一個） |
+| **改錯聲調** | **Backspace** 去掉聲調，留下注音符號 |
+| **聯想字詞** | **Shift + 1–9**（單獨的數字鍵是打注音，不能同時拿來選字） |
+| **，。** | 大千和倚天用 **Shift + `,`** 與 **Shift + `.`** — `,` 和 `.` 本身打的是 ㄝ 和 ㄡ。許氏這兩個鍵仍是標點 |
 
-Choose the keyboard in **設定… ▸ 輸入方式 ▸ 注音鍵盤**, or straight from the input menu while 注音
-is active. **標準（大千）** is the default: the layout printed on Taiwanese keyboards, and the one
-the original Yahoo! KeyKey shipped. **倚天** puts the symbols on the letters that spell them.
-**許氏** puts two or three symbols on a key and reads them from the keys around it — see
-[許氏 (Hsu)](#許氏-hsu). The other 26-key layouts (倚天 26 鍵, IBM) are not offered.
+鍵盤在 **設定… ▸ 輸入方式 ▸ 注音鍵盤** 選擇，也可以在注音使用中直接從輸入選單選。**標準（大千）** 是預設：台灣鍵盤上印的排列，也是原始 Yahoo! KeyKey 附的那一套。**倚天** 把符號放在拼出它們的字母上。**許氏** 一個鍵上有兩個或三個符號，再依周圍的鍵決定是哪一個，見 [許氏](#許氏)。其他 26 鍵排列（倚天 26 鍵、IBM）沒有提供。
 
-Candidates come from the original Yahoo! KeyKey ㄅ半 table (`bpmf-ext.cin`), in its own order —
-the everyday character for a reading leads it, and there is no dictionary re-ranking on top. What
-you pick is then learned per reading, the same way 倉頡 learns per code.
+候選字來自原始 Yahoo! KeyKey ㄅ半字碼表（`bpmf-ext.cin`），沿用它自己的順序——一個讀音最常用的字排在前面，上面不再用字典重排。你選過的字會按讀音記住，和倉頡按碼學習的方式相同。
 
-### 許氏 (Hsu)
+### 許氏
 
-**許氏** is the 26-letter 注音 keyboard: one key stands for several symbols (`m` is ㄇ or ㄢ, `j` is
-ㄐ, ㄓ or the fourth tone) and the symbol is decided by the keys around it. Space is the first tone;
-the other tones are `d` ˊ · `f` ˇ · `j` ˋ · `s` ˙. With 智慧選字 off (the default) it still types one
-character at a time, the same ㄅ半 as 大千 and 倚天 — `nef` is ㄋㄧˇ (你), `hwf` is ㄏㄠˇ (好). The number keys and the punctuation
-keys are not 注音 keys here, so `1–9` pick a candidate directly and ， and 。 stay on `,` and `.`.
-The reading rules are a port of McBopomofo's Hsu table (`Mandarin.h` / `Mandarin.cpp`, MIT).
+**許氏** 是 26 個英文字母的注音鍵盤：一個鍵代表好幾個符號（`m` 是 ㄇ 或 ㄢ，`j` 是 ㄐ、ㄓ 或四聲），實際符號由周圍的鍵決定。空白鍵是一聲；其他聲調是 `d` ˊ · `f` ˇ · `j` ˋ · `s` ˙。智慧選字關閉時（預設），它仍一次打一個字，和大千、倚天一樣是ㄅ半——`nef` 是 ㄋㄧˇ（你），`hwf` 是 ㄏㄠˇ（好）。這裡的數字鍵和標點鍵不是注音鍵，所以 `1–9` 直接選候選字，，和 。仍在 `,` 和 `.`。讀音規則移植自 McBopomofo 的許氏表（`Mandarin.h`／`Mandarin.cpp`，MIT）。
 
 ### 智慧選字
 
-**智慧選字** is off by default, in 設定… ▸ 一般 and in the input menu while 注音 is active. Turn it
-on and a tone ends each syllable, so you can type a whole sentence — on 許氏, `jen tem tem vej hnf
-hwf` (Space is the first tone) becomes 今天天氣很好 — and the language model chooses the characters.
-It works on 大千, 倚天 and 許氏. ← → move one character at a time (the one under the cursor is
-underlined). The list offers the word the model chose, then every single character for that
-syllable, then longer words, so one character of a word can be changed on its own (太長 → 太常).
-`1–9` swaps it for another candidate, and Space or Return commits the sentence. Characters you
-pick or accept are remembered and lead next time. A syllable without a tone stays as 注音. On 大千
-and 倚天 the number keys are 注音 keys, so candidates there are picked with the arrows and Space
-instead. Off, 注音 stays the one-character-at-a-time ㄅ半.
+**智慧選字** 預設關閉，可在 設定… ▸ 一般，或注音使用中的輸入選單裡打開。打開後，聲調結束每個音節，因此可以打一整句——許氏上 `jen tem tem vej hnf hwf`（空白鍵是一聲）會成為今天天氣很好——再由語言模型選字。大千、倚天和許氏都可以。← → 一次移動一個字（游標下的字會加底線）。清單先給模型選的詞，再給該音節的每一個單字，然後是更長的詞，所以一個詞裡的單字可以單獨改（太長 → 太常）。`1–9` 換成另一個候選，空白鍵或 Return 送出整句。選過或接受過的字會被記住，下次排在前面。沒有聲調的音節仍顯示為注音。大千和倚天的數字鍵是注音鍵，所以那裡的候選要用方向鍵和空白鍵來選。關閉時，注音回到一次一個字的ㄅ半。
 
-### 拼音 (Pinyin)
+### 拼音
 
-Type pinyin without tones and 拼音 builds the whole phrase; `'` splits an ambiguous spot, so
-`xi'an` gives 西安. The arrow keys move between syllables, `1–9` picks the candidate for the
-syllable under the cursor and moves on to the next, and Space or Return commits the whole phrase.
+打不標聲調的拼音，拼音會組出整個詞；`'` 用來切開含糊的地方，所以 `xi'an` 是西安。方向鍵在音節之間移動，`1–9` 選游標所在音節的候選並移到下一個，空白鍵或 Return 送出整個詞。
 
-## Troubleshooting
+## 疑難排解
 
-Common problems, and what each one turns out to be, are collected in
-**[known_issues.md](known_issues.md)**:
+常見問題和各自的原因集中在 **[known_issues.md](known_issues.md)**：
 
-| Problem | |
+| 問題 | |
 |---|---|
-| It does not show up after installing | [#1](known_issues.md#1-yahoo-keykey-2-does-not-show-up-after-installing) |
-| 倉頡 is greyed out and will not turn on | [#2](known_issues.md#2-倉頡-is-greyed-out-and-will-not-turn-on) |
-| A character's code is not what you expect | [#3](known_issues.md#3-a-characters-code-is-not-what-i-expect) |
-| Space pages instead of accepting your code | [#4](known_issues.md#4-space-pages-instead-of-accepting-my-code) |
-| Typing a number inserts a word | [#5](known_issues.md#5-typing-a-number-inserts-a-word-instead) |
-| In 注音, `,` and `.` type ㄝ and ㄡ | [#6](known_issues.md#6-in-注音-the-comma-and-period-keys-type-ㄝ-and-ㄡ) |
-| In 注音, a tone key picks a candidate | [#7](known_issues.md#7-in-注音-my-tone-key-picks-a-candidate) |
+| 安裝後沒有出現 | [#1](known_issues.md#1-yahoo-keykey-2-does-not-show-up-after-installing) |
+| 倉頡是灰色的，無法開啟 | [#2](known_issues.md#2-倉頡-is-greyed-out-and-will-not-turn-on) |
+| 某個字的碼和你預期的不同 | [#3](known_issues.md#3-a-characters-code-is-not-what-i-expect) |
+| 空白鍵在翻頁，而不是接受你打的碼 | [#4](known_issues.md#4-space-pages-instead-of-accepting-my-code) |
+| 打數字卻插入一個詞 | [#5](known_issues.md#5-typing-a-number-inserts-a-word-instead) |
+| 注音裡 `,` 和 `.` 打出 ㄝ 和 ㄡ | [#6](known_issues.md#6-in-注音-the-comma-and-period-keys-type-ㄝ-and-ㄡ) |
+| 注音裡聲調鍵選了候選字 | [#7](known_issues.md#7-in-注音-my-tone-key-picks-a-candidate) |
 
-That file also lists what has **[already been fixed](known_issues.md#8-already-fixed-in-earlier-versions)**,
-so check your version before reporting a bug. Anything else —
-[open an issue](https://github.com/machingclee/yahoo-keykey-2-macos-cangjie-adjusted/issues)
-(or upstream's [tracker](https://github.com/teddychan/yahoo-keykey-2-macos/issues) if it is not specific to this fork).
+該檔也列出 **[先前版本已修好的項目](known_issues.md#8-already-fixed-in-earlier-versions)**，回報問題前請先對一下版本。其他問題請 [開一個 issue](https://github.com/machingclee/yahoo-keykey-2-macos-cangjie-adjusted/issues)（若與本分支無關，可改到上游的 [問題追蹤](https://github.com/teddychan/yahoo-keykey-2-macos/issues)）。
 
-## Building from source
+## 從原始碼建置
 
-There is no Xcode project: the app is assembled by shell scripts around `swiftc`, and the test
-suites are SwiftPM packages. Requires the **Xcode 26 toolchain** on Apple Silicon.
+沒有 Xcode 專案：應用程式由圍繞 `swiftc` 的 shell 腳本組裝，測試則是 SwiftPM 套件。需要 Apple 晶片上的 **Xcode 26 工具鏈**。
 
 ```sh
 git clone https://github.com/machingclee/yahoo-keykey-2-macos-cangjie-adjusted.git
 cd yahoo-keykey-2-macos-cangjie-adjusted
-./tools/build-lm.sh    # build the language model into Resources/data.txt (first time only)
-./tools/build-app.sh   # assemble + ad-hoc sign build/YahooKeyKey2.app
+./tools/build-lm.sh    # 第一次才需要：把語言模型寫進 Resources/data.txt
+./tools/build-app.sh   # 組裝並 ad-hoc 簽署，產出 build/YahooKeyKey2.app
 mkdir -p ~/Library/Input\ Methods
 cp -R build/YahooKeyKey2.app ~/Library/Input\ Methods/
 ```
 
-Log out and back in, then add **倉頡**, **速成**, **注音** and **拼音** as described under
-[Install](#install).
+登出再登入，然後依 [安裝](#安裝) 加入 **倉頡**、**速成**、**注音** 和 **拼音**。
 
-For hands-on testing, `./tools/run-debug.sh` builds and installs a separate
-**Yahoo! KeyKey 2 Debug** input method with its own bundle id, so it never collides with an
-installed release copy. It reports the **target version** — the release being developed toward —
-so a fix for 2.13.0 builds as `v2.13.1 Debug` and no modified code ever wears a released number.
-See [Versioning convention](docs/RELEASE.md#versioning-convention). Signed release builds come
-from [`.github/workflows/release.yml`](.github/workflows/release.yml) on a `v*` tag — see
-[docs/RELEASE.md](docs/RELEASE.md).
+實際試打時，`./tools/run-debug.sh` 會建置並安裝另一個 **Yahoo! KeyKey 2 Debug** 輸入法，bundle id 不同，因此不會和已安裝的正式版撞在一起。它顯示的是**目標版本**——正在開發、準備發布的那個版本——所以為 2.13.0 做的修正會建成 `v2.13.1 Debug`，改過的程式不會掛上已經發布的版號。見 [版本慣例](docs/RELEASE.md#versioning-convention)。有簽署的正式建置來自 `v*` 標籤上的 [`.github/workflows/release.yml`](.github/workflows/release.yml)，見 [docs/RELEASE.md](docs/RELEASE.md)。
 
-## Tests
+## 測試
 
-The suite spans two SwiftPM packages. **KeyKeyEngine** covers the 倉頡 and 速成 tables (both 五代
-and 三代), code lookup and wildcard matching, frequency ranking and the adaptive walker,
-associated phrases (聯想字詞), 注音 keyboards / syllable building / the ㄅ半 table, 拼音
-segmentation, and 繁 → 簡 conversion. **KeyKeyApp** covers preferences, key-event policy, and
-input-engine conformance across all four modes. CI runs both
-on every push and pull request to `main`.
+測試分成兩個 SwiftPM 套件。**KeyKeyEngine** 涵蓋倉頡和速成字碼表（五代與三代）、查碼與萬用字元、頻率排序與調適走訪、聯想字詞、注音鍵盤／組音／ㄅ半字碼表、拼音斷詞，以及繁轉簡。**KeyKeyApp** 涵蓋偏好設定、按鍵策略，以及四種模式的輸入引擎一致性。對 `main` 的每次 push 和 pull request，CI 都會跑這兩套。
 
-[![Tests](https://github.com/teddychan/yahoo-keykey-2-macos/actions/workflows/tests.yml/badge.svg)](https://github.com/teddychan/yahoo-keykey-2-macos/actions/workflows/tests.yml)
+[![測試](https://github.com/teddychan/yahoo-keykey-2-macos/actions/workflows/tests.yml/badge.svg)](https://github.com/teddychan/yahoo-keykey-2-macos/actions/workflows/tests.yml)
 
 ```bash
 swift test --package-path Packages/KeyKeyEngine
 swift test --package-path Packages/KeyKeyApp
 ```
 
-| Metric | Value |
+| 項目 | 數值 |
 |---|---|
-| Test cases | 459 passing (334 engine, 125 app) |
-| Line coverage | 97.8% of `KeyKeyEngine`, 95.8% of `KeyKeyApp` |
-| Measured on | v2.16.0, Swift 6.4 |
+| 測試案例 | 459 個通過（引擎 334、應用程式 125） |
+| 行覆蓋率 | `KeyKeyEngine` 97.8%，`KeyKeyApp` 95.8% |
+| 測量於 | v2.16.0、Swift 6.4 |
 
-One further engine test (`RealPinyinWalkerTests`) skips itself unless `Resources/data.txt` has
-been generated by `./tools/build-lm.sh`. Coverage is measured with `--enable-code-coverage` over
-each package's own `Sources/`, excluding the test files themselves and the vendored DragonKit
-dependency.
+另有一個引擎測試（`RealPinyinWalkerTests`）在 `./tools/build-lm.sh` 尚未產生 `Resources/data.txt` 時會自己跳過。覆蓋率用 `--enable-code-coverage` 測量各套件自己的 `Sources/`，不含測試檔和內含的 DragonKit。
 
-## Contributing
+## 參與貢獻
 
-Bug reports and pull requests are welcome on the
-[issue tracker](https://github.com/machingclee/yahoo-keykey-2-macos-cangjie-adjusted/issues). Before opening a pull
-request, run both test suites (see [Building from source](#building-from-source)) and add a
-plain-language entry to [CHANGELOG.md](CHANGELOG.md) describing the user-visible change.
-Release mechanics are documented in [docs/RELEASE.md](docs/RELEASE.md).
+歡迎在 [問題追蹤](https://github.com/machingclee/yahoo-keykey-2-macos-cangjie-adjusted/issues) 回報問題或開 pull request。開 pull request 之前，請先跑兩套測試（見 [從原始碼建置](#從原始碼建置)），並在 [CHANGELOG.md](CHANGELOG.md) 用白話加一則使用者看得到的變更。發布方式寫在 [docs/RELEASE.md](docs/RELEASE.md)。
 
-## Credits
+## 致謝
 
-Yahoo! KeyKey 2 is built in tribute to the original **Yahoo! KeyKey (Yahoo!奇摩輸入法)**.
-See [CREDITS.md](CREDITS.md) for the original projects, data sources, and engine
-attributions, and [docs/THIRD-PARTY-NOTICES.md](docs/THIRD-PARTY-NOTICES.md) for full
-third-party license details.
+Yahoo! KeyKey 2 是向原始的 **Yahoo! KeyKey（Yahoo!奇摩輸入法）** 致敬而做的。原始專案、資料來源和引擎的出處見 [CREDITS.md](CREDITS.md)，第三方授權全文見 [docs/THIRD-PARTY-NOTICES.md](docs/THIRD-PARTY-NOTICES.md)。
 
-## License
+## 授權條款
 
-Yahoo! KeyKey 2 is released under the [MIT License](LICENSE). Bundled third-party data keeps
-its own permissive license — see [docs/THIRD-PARTY-NOTICES.md](docs/THIRD-PARTY-NOTICES.md).
+Yahoo! KeyKey 2 以 [MIT 授權](LICENSE) 釋出。內含的第三方資料保留各自的寬鬆授權，見 [docs/THIRD-PARTY-NOTICES.md](docs/THIRD-PARTY-NOTICES.md)。
